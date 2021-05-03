@@ -24,3 +24,13 @@ hs_err_pid*
 
 # sim isso ai
 .idea
+
+# KDE
+.directory
+
+# netbeans IDE
+build/
+build.xml
+dist/
+manifest.mf
+nbproject
