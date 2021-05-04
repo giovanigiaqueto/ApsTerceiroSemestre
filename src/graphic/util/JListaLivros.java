@@ -29,18 +29,23 @@ public class JListaLivros extends javax.swing.JPanel {
 
         jScrollPaneLivros = new javax.swing.JScrollPane();
         jPanelLivros = new javax.swing.JPanel();
+        jBarraPesquisa1 = new graphic.util.JBarraPesquisa();
 
-        jPanelLivros.setPreferredSize(new java.awt.Dimension(800, 506));
+        setPreferredSize(new java.awt.Dimension(600, 600));
+
+        jScrollPaneLivros.setPreferredSize(new java.awt.Dimension(576, 533));
+
+        jPanelLivros.setPreferredSize(new java.awt.Dimension(573, 530));
 
         javax.swing.GroupLayout jPanelLivrosLayout = new javax.swing.GroupLayout(jPanelLivros);
         jPanelLivros.setLayout(jPanelLivrosLayout);
         jPanelLivrosLayout.setHorizontalGroup(
             jPanelLivrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGap(0, 573, Short.MAX_VALUE)
         );
         jPanelLivrosLayout.setVerticalGroup(
             jPanelLivrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 506, Short.MAX_VALUE)
+            .addGap(0, 530, Short.MAX_VALUE)
         );
 
         jScrollPaneLivros.setViewportView(jPanelLivros);
@@ -51,20 +56,27 @@ public class JListaLivros extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPaneLivros)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneLivros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jBarraPesquisa1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPaneLivros)
+                .addComponent(jBarraPesquisa1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPaneLivros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private graphic.util.JBarraPesquisa jBarraPesquisa1;
     private javax.swing.JPanel jPanelLivros;
     private javax.swing.JScrollPane jScrollPaneLivros;
     // End of variables declaration//GEN-END:variables

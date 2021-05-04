@@ -33,7 +33,11 @@ public class JBarraPesquisa extends javax.swing.JPanel {
 
         jButtonPesquisar.setText("?");
 
-        jTextFieldPesquisa.setText("jTextField1");
+        jTextFieldPesquisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldPesquisaActionPerformed(evt);
+            }
+        });
 
         jComboBoxTipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Livro", "Categoria" }));
         jComboBoxTipoPesquisa.addActionListener(new java.awt.event.ActionListener() {
@@ -65,6 +69,10 @@ public class JBarraPesquisa extends javax.swing.JPanel {
     private void jComboBoxTipoPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTipoPesquisaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxTipoPesquisaActionPerformed
+
+    private void jTextFieldPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPesquisaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldPesquisaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
