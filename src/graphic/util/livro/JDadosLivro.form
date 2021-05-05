@@ -26,8 +26,8 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jHeaderLivro2" pref="830" max="32767" attributes="0"/>
-                  <Component id="jLivroRetraido2" max="32767" attributes="0"/>
+                  <Component id="jHeaderLivro" pref="830" max="32767" attributes="0"/>
+                  <Component id="jLivroRetraido" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -37,18 +37,18 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jHeaderLivro2" min="-2" max="-2" attributes="0"/>
+              <Component id="jHeaderLivro" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLivroRetraido2" min="-2" max="-2" attributes="0"/>
+              <Component id="jLivroRetraido" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="graphic.util.livro.JHeaderLivro" name="jHeaderLivro2">
+    <Component class="graphic.util.livro.JHeaderLivro" name="jHeaderLivro">
     </Component>
-    <Component class="graphic.util.livro.JLivroRetraido" name="jLivroRetraido2">
+    <Component class="graphic.util.livro.JLivroRetraido" name="jLivroRetraido">
     </Component>
   </SubComponents>
 </Form>
