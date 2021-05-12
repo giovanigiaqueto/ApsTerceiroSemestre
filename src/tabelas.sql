@@ -1,39 +1,41 @@
 CREATE TABLE Usuario(
                         idUsuario SERIAL PRIMARY KEY,
-                        nomeUsuario text NOT NULL,
-                        CPFUsuario text NOT NULL UNIQUE,
-                        telefoneUsuario text NOT NULL,
-                        sexoUsuario text NOT NULL,
-                        enderecoUsuario text NOT NULL,
-                        emailUsuario text NOT NULL,
-                        senhaUsuario text
+                        nomeUsuario varchar(40) NOT NULL,
+                        CPFUsuario char(11) NOT NULL UNIQUE,
+                        telefoneUsuario char(13) NOT NULL,
+                        sexoUsuario varchar(12) NOT NULL,
+                        enderecoUsuario varchar(60) NOT NULL,
+                        emailUsuario varchar(256) NOT NULL,
+                        senhaUsuario varchar(128)
 );
 
 CREATE TABLE Cliente(
                         idCliente SERIAL PRIMARY KEY,
-                        nomeCliente text NOT NULL,
-                        CPFCliente text NOT NULL UNIQUE,
-                        telefoneCliente text NOT NULL,
-                        sexoCliente text NOT NULL,
-                        enderecoCliente text NOT NULL,
-                        emailCliente text NOT NULL
+                        nomeCliente varchar(40) NOT NULL,
+                        CPFCliente char(11) NOT NULL UNIQUE,
+                        telefoneCliente char(13) NOT NULL,
+                        sexoCliente varchar(12) NOT NULL,
+                        enderecoCliente varchar(60) NOT NULL,
+                        emailCliente varchar(256) NOT NULL
 );
 
 CREATE TABLE Categoria(
                           idCategoria SERIAL PRIMARY KEY,
-                          nomeCategoria text not null,
-                          descricaoCategoria text not null
+                          nomeCategoria varchar(30) not null,
+                          descricaoCategoria varchar(255) not null
 );
 
 CREATE TABLE Livro(
                       idLivro SERIAL PRIMARY KEY,
-                      nomeLivro text not null,
-                      ISBNLivro text not null,
-                      autorLivro text not null default 'Autor Desconhecido',
-                      edicaoLivro text not null,
+                      nomeLivro varchar(40) not null,
+                      ISBNLivro char(13) not null,
+                      autorLivro varchar(40) not null default 'Autor Desconhecido',
+                      edicaoLivro varchar(40) not null,
                       dataLancamentoLivro date,
                       idLivroCategoria integer not null REFERENCES Categoria(idCategoria),
-                      estoqueLivro integer
+                      estoqueLivro integer,
+                      locacaoLivro integer,
+                      sinopseLivro varchar(2048)
 );
 
 CREATE TABLE Emprestimo(
@@ -49,6 +51,6 @@ CREATE TABLE Multa (
                        idMulta SERIAL PRIMARY KEY,
                        idMultaCliente INTEGER REFERENCES Cliente(idCliente),
                        idMultaEmprestimo INTEGER not null references Emprestimo(idEmprestimo),
-                       descricaoMulta text,
+                       descricaoMulta varchar(255),
                        valorMulta numeric
 );
