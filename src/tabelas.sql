@@ -35,6 +35,7 @@ CREATE TABLE Livro(
                       idLivroCategoria integer not null REFERENCES Categoria(idCategoria),
                       estoqueLivro integer,
                       locacaoLivro integer,
+                      precoLivro numeric,
                       sinopseLivro varchar(2048)
 );
 
