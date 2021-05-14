@@ -5,6 +5,9 @@
  */
 package graphic;
 
+import java.util.List;
+import model.Livro;
+
 /**
  *
  * @author giovani
@@ -112,6 +115,9 @@ public class MainJPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public void inserirLivros(List<Livro> lista) {
+        jListaLivros.inserirLivros(lista);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler fillerNE;

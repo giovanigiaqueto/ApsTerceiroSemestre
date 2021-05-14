@@ -6,6 +6,8 @@
 package graphic.util.livro;
 
 import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import model.Livro;
 
@@ -17,6 +19,7 @@ public class JDadosLivro extends javax.swing.JPanel {
 
     private Livro livro;
     private boolean dropdownEstendido;
+    private ActionListener actionListenerDropdown;
     
     /**
      * Creates new form JLivro
@@ -41,10 +44,23 @@ public class JDadosLivro extends javax.swing.JPanel {
         
         // configura se o dropdown está estendido
         if (dropdownEstendido) {
-            innerEstender();
+            estenderDropdown();
         } else {
-            innerRetrair();
+            retrairDropdown();
         }
+        
+        actionListenerDropdown = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                if (getDropdownEstendido()) {
+                    retrairDropdown();
+                } else {
+                    estenderDropdown();
+                }
+            }
+        };
+        
+        jHeaderLivro.addActionListenerDropdown(actionListenerDropdown);
     }
     
     public void atualizarConteudo() {
@@ -53,14 +69,22 @@ public class JDadosLivro extends javax.swing.JPanel {
         jLivroRetraido.atualizarConteudo();
     }
     
-    public void innerEstender() {
+    public void estenderDropdown() {
         CardLayout layout = (CardLayout) jPanelDropdown.getLayout();
         layout.last(jPanelDropdown);
+        jPanelDropdown.setPreferredSize(jLivroExtendido.getPreferredSize());
+        jPanelDropdown.setMinimumSize(jLivroExtendido.getMinimumSize());
+        jPanelDropdown.setMaximumSize(jLivroExtendido.getPreferredSize());
+        dropdownEstendido = true;
     }
     
-    public void innerRetrair() {
+    public void retrairDropdown() {
         CardLayout layout = (CardLayout) jPanelDropdown.getLayout();
         layout.first(jPanelDropdown);
+        jPanelDropdown.setPreferredSize(jLivroRetraido.getPreferredSize());
+        jPanelDropdown.setMinimumSize(jLivroRetraido.getMinimumSize());
+        jPanelDropdown.setMaximumSize(jLivroRetraido.getPreferredSize());
+        dropdownEstendido = false;
     }
     
     // ========== setters ==========
@@ -70,15 +94,11 @@ public class JDadosLivro extends javax.swing.JPanel {
     }
     
     public void setDropdownEstendido(boolean valor) {
-        if (valor == dropdownEstendido) return;
-        
         if (valor) {
-            this.innerEstender();
+            this.estenderDropdown();
         } else {
-            this.innerRetrair();
+            this.retrairDropdown();
         }
-        
-        dropdownEstendido = valor;
     }
     
     // ========== getters ==========
@@ -129,7 +149,6 @@ public class JDadosLivro extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private graphic.util.livro.JHeaderLivro jHeaderLivro;

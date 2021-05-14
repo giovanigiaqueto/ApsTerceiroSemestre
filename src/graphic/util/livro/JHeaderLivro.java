@@ -5,6 +5,7 @@
  */
 package graphic.util.livro;
 
+import java.awt.event.ActionListener;
 import model.Livro;
 
 /**
@@ -99,6 +100,15 @@ public class JHeaderLivro extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public void addActionListenerDropdown(ActionListener l) {
+        jButtonDropdown.addActionListener(l);
+    }
+    public void removeActionListenerDropdown(ActionListener l) {
+        jButtonDropdown.removeActionListener(l);
+    }
+    public ActionListener[] getActionListenersDropdown() {
+        return jButtonDropdown.getActionListeners();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAdicionar;

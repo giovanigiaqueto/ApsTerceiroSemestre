@@ -5,6 +5,12 @@
  */
 package graphic.util;
 
+import java.util.List;
+
+import model.Livro;
+
+import graphic.util.livro.JDadosLivro;
+
 /**
  *
  * @author giovani
@@ -16,6 +22,24 @@ public class JListaLivros extends javax.swing.JPanel {
      */
     public JListaLivros() {
         initComponents();
+        init();
+    }
+    
+    private void init() {
+        var dim = jPanelLivros.getPreferredSize();
+        dim.height = 0;
+        jPanelLivros.setPreferredSize(dim);
+    }
+    
+    public void inserirLivros(List<Livro> livros) {
+        var dim = jPanelLivros.getPreferredSize();
+        for (Livro p : livros) {
+            JDadosLivro livro = new JDadosLivro(p);
+            jPanelLivros.add(livro);
+            dim.height += livro.getPreferredSize().height;
+        }
+        jPanelLivros.setPreferredSize(dim);
+        jPanelLivros.revalidate();
     }
 
     /**
@@ -36,18 +60,7 @@ public class JListaLivros extends javax.swing.JPanel {
         jScrollPaneLivros.setPreferredSize(new java.awt.Dimension(576, 533));
 
         jPanelLivros.setPreferredSize(new java.awt.Dimension(573, 530));
-
-        javax.swing.GroupLayout jPanelLivrosLayout = new javax.swing.GroupLayout(jPanelLivros);
-        jPanelLivros.setLayout(jPanelLivrosLayout);
-        jPanelLivrosLayout.setHorizontalGroup(
-            jPanelLivrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 573, Short.MAX_VALUE)
-        );
-        jPanelLivrosLayout.setVerticalGroup(
-            jPanelLivrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 530, Short.MAX_VALUE)
-        );
-
+        jPanelLivros.setLayout(new javax.swing.BoxLayout(jPanelLivros, javax.swing.BoxLayout.Y_AXIS));
         jScrollPaneLivros.setViewportView(jPanelLivros);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
