@@ -5,17 +5,43 @@
  */
 package graphic.util.livro;
 
+import model.Livro;
+
 /**
  *
  * @author giovani
  */
 public class JHeaderLivro extends javax.swing.JPanel {
 
+    private JDadosLivro mestre;
+    
     /**
      * Creates new form DadosLivro
      */
     public JHeaderLivro() {
         initComponents();
+    }
+    
+    public void atualizarConteudo() {
+        if (mestre == null) return;
+        
+        Livro livro = mestre.getLivro();
+        if (livro == null) return;
+        
+        jLabelTitulo.setText(livro.getNomeLivro());
+        jLabelISBN.setText(livro.getISBNLivro());
+    }
+    
+    // ========== setters ==========
+    
+    public void setMestre(JDadosLivro mestre) {
+        this.mestre = mestre;
+    }
+    
+    // ========== getters ==========
+    
+    public JDadosLivro getMestre() {
+        return this.mestre;
     }
 
     /**
@@ -27,13 +53,19 @@ public class JHeaderLivro extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabelTitulo = new javax.swing.JLabel();
         jLabelISBN = new javax.swing.JLabel();
         jPanelButtons = new javax.swing.JPanel();
         jButtonAdicionar = new javax.swing.JButton();
         jButtonDropdown = new javax.swing.JButton();
 
-        jLabelISBN.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
-        jLabelISBN.setText("ISBN");
+        setMinimumSize(new java.awt.Dimension(500, 0));
+
+        jLabelTitulo.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabelTitulo.setText("Titulo do Livro");
+
+        jLabelISBN.setFont(new java.awt.Font("Dialog", 0, 22)); // NOI18N
+        jLabelISBN.setText("ISBN: 123-456789ABCD");
 
         jButtonAdicionar.setText("+");
         jPanelButtons.add(jButtonAdicionar);
@@ -47,18 +79,22 @@ public class JHeaderLivro extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelISBN, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 361, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelISBN, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                    .addComponent(jLabelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelISBN)
-                    .addComponent(jPanelButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanelButtons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelISBN, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -68,6 +104,7 @@ public class JHeaderLivro extends javax.swing.JPanel {
     private javax.swing.JButton jButtonAdicionar;
     private javax.swing.JButton jButtonDropdown;
     private javax.swing.JLabel jLabelISBN;
+    private javax.swing.JLabel jLabelTitulo;
     private javax.swing.JPanel jPanelButtons;
     // End of variables declaration//GEN-END:variables
 }

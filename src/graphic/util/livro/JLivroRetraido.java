@@ -5,17 +5,42 @@
  */
 package graphic.util.livro;
 
+import model.Livro;
+
 /**
  *
  * @author giovani
  */
 public class JLivroRetraido extends javax.swing.JPanel {
 
+    private JDadosLivro mestre;
+    
     /**
      * Creates new form DadosLivro
      */
     public JLivroRetraido() {
         initComponents();
+    }
+    
+    public void atualizarConteudo() {
+        if (mestre == null) return;
+        
+        Livro livro = mestre.getLivro();
+        if (livro == null) return;
+        
+        jLabelCategoria.setText(livro.getNomeLivroCategoria());
+    }
+    
+    // ========== setters ==========
+    
+    public void setMestre(JDadosLivro mestre) {
+        this.mestre = mestre;
+    }
+    
+    // ========== getters ==========
+    
+    public JDadosLivro getMestre() {
+        return this.mestre;
     }
 
     /**
@@ -27,15 +52,17 @@ public class JLivroRetraido extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabelCategoria = new javax.swing.JLabel();
+        jLabelVerSinopse = new javax.swing.JLabel();
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel1.setText("Categoria");
+        setMinimumSize(new java.awt.Dimension(500, 0));
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Sinopse");
+        jLabelCategoria.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabelCategoria.setText("Categoria");
+
+        jLabelVerSinopse.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
+        jLabelVerSinopse.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelVerSinopse.setText("Sinopse");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -43,9 +70,9 @@ public class JLivroRetraido extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 476, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabelCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 276, Short.MAX_VALUE)
+                .addComponent(jLabelVerSinopse, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -53,15 +80,15 @@ public class JLivroRetraido extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabelCategoria)
+                    .addComponent(jLabelVerSinopse))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabelCategoria;
+    private javax.swing.JLabel jLabelVerSinopse;
     // End of variables declaration//GEN-END:variables
 }
