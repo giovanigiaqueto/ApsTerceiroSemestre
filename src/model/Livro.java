@@ -6,54 +6,90 @@ public class Livro {
     private String nomeLivro;
     private String ISBNLivro;
     private String autorLivro;
+    private String editoraLivro;
     private int edicaoLivro;
     private String dataLancamentoLivro;
-    private int idLivroCategoria;
+    private String nomeLivroCategoria;
     private int estoqueLivro;
+    private int locacaoLivro;
+    private int paginasLivro;
+    private double precoLivro;
+    private String sinopseLivro;
 
-    public Livro(int idLivro, String nomeLivro, String ISBNLivro, String autorLivro, int edicaoLivro, String dataLancamentoLivro, int idLivroCategoria, int estoqueLivro) {
+    public Livro(int idLivro, String nomeLivro, String ISBNLivro, String autorLivro,
+        String editoraLivro, int edicaoLivro, String dataLancamentoLivro,
+        String nomeLivroCategoria, int estoqueLivro, int locacaoLivro, int paginasLivro,
+        double precoLivro, String sinopseLivro) {
         this.idLivro = idLivro;
         this.nomeLivro = nomeLivro;
         this.ISBNLivro = ISBNLivro;
         this.autorLivro = autorLivro;
+        this.editoraLivro = editoraLivro;
         this.edicaoLivro = edicaoLivro;
         this.dataLancamentoLivro = dataLancamentoLivro;
-        this.idLivroCategoria = idLivroCategoria;
+        this.nomeLivroCategoria = nomeLivroCategoria;
+        this.locacaoLivro = locacaoLivro;
         this.estoqueLivro = estoqueLivro;
+        this.paginasLivro = paginasLivro;
+        this.precoLivro = precoLivro;
+        this.sinopseLivro = sinopseLivro;
     }
 
     public Livro() {}
-
-
+    
+    // ==================== GETTERS ====================
+    
     public String getISBNLivro() { return ISBNLivro; }
+    
+    public int getIdLivro() { return idLivro; }
+    
+    public String getNomeLivro() { return nomeLivro; }
+    
+    public String getAutorLivro() { return autorLivro; }
+    
+    public String getEditoraLivro() { return editoraLivro; }
+    
+    public int getEdicaoLivro() { return edicaoLivro; }
+    
+    public String getDataLancamentoLivro() { return dataLancamentoLivro; }
+    
+    public String getNomeLivroCategoria() { return nomeLivroCategoria; }
+    
+    public int getEstoqueLivro() { return estoqueLivro; }
+    
+    public int getLocacaoLivro() { return locacaoLivro; }
+    
+    public int getPaginasLivro() { return paginasLivro; }
+    
+    public double getPrecoLivro() { return precoLivro; }
+    
+    public String getSinopseLivro() { return sinopseLivro; }
+    
+    // ==================== SETTERS ====================
 
     public void setISBNLivro(String ISBNLivro) { this.ISBNLivro = ISBNLivro; }
 
-    public int getIdLivro() { return idLivro; }
-
     public void setIdLivro(int idLivro) { this.idLivro = idLivro; }
-
-    public String getNomeLivro() { return nomeLivro; }
 
     public void setNomeLivro(String nomeLivro) { this.nomeLivro = nomeLivro; }
 
-    public String getAutorLivro() { return autorLivro; }
-
     public void setAutorLivro(String autorLivro) { this.autorLivro = autorLivro; }
 
-    public int getEdicaoLivro() { return edicaoLivro; }
-
+    public void setEditoraLivro(String editoraLivro) { this.editoraLivro = editoraLivro; }
+    
     public void setEdicaoLivro(int edicaoLivro) { this.edicaoLivro = edicaoLivro; }
-
-    public String getDataLancamentoLivro() { return dataLancamentoLivro; }
 
     public void setDataLancamentoLivro(String dataLancamentoLivro) { this.dataLancamentoLivro = dataLancamentoLivro; }
 
-    public int getIdLivroCategoria() { return idLivroCategoria; }
-
-    public void setIdLivroCategoria(int idLivroCategoria) { this.idLivroCategoria = idLivroCategoria; }
-
-    public int getEstoqueLivro() { return estoqueLivro; }
-
+    public void setNomeLivroCategoria(String nomeLivroCategoria) { this.nomeLivroCategoria = nomeLivroCategoria; }
+    
     public void setEstoqueLivro(int estoqueLivro) { this.estoqueLivro = estoqueLivro; }
+
+    public void setLocacaoLivro(int locacaoLivro) { this.locacaoLivro = locacaoLivro; }
+    
+    public void setPaginasLivro(int paginasLivro) { this.paginasLivro = paginasLivro; }
+    
+    public void setPrecoLivro(double precoLivro) { this.precoLivro = precoLivro; }
+    
+    public void setSinopseLivro(String sinopseLivro) { this.sinopseLivro = sinopseLivro; }
 }

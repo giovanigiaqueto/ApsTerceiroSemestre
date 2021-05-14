@@ -4,14 +4,15 @@ package model;
 public class Multa {
     private int idMulta;
     private int idMultaCliente;
-    private int idEmprestimoMulta;
+    private int idMultaEmprestimo;
     private String descricaoMulta;
     private double valorMulta;
 
-    public Multa(int idMulta, int idMultaCliente, int idEmprestimoMulta, String descricaoMulta, double valorMulta) {
+    public Multa(int idMulta, int idMultaCliente, int idMultaEmprestimo, 
+        String descricaoMulta, double valorMulta) {
         this.idMulta = idMulta;
         this.idMultaCliente = idMultaCliente;
-        this.idMultaCliente = idEmprestimoMulta;
+        this.idMultaEmprestimo = idMultaEmprestimo;
         this.descricaoMulta = descricaoMulta;
         this.valorMulta = valorMulta;
     }
@@ -34,7 +35,7 @@ public class Multa {
 
     public void setValorMulta(double valorMulta) { this.valorMulta = valorMulta; }
 
-    public int getIdEmprestimoMulta() { return idEmprestimoMulta; }
+    public int getIdMultaEmprestimo() { return idMultaEmprestimo; }
 
-    public void setIdEmprestimoMulta(int idEmprestimoMulta) { this.idEmprestimoMulta = idEmprestimoMulta; }
+    public void setIdMultaEmprestimo(int idMultaEmprestimo) { this.idMultaEmprestimo = idMultaEmprestimo; }
 }

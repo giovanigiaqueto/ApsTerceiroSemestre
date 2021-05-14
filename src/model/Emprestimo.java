@@ -9,9 +9,8 @@ public class Emprestimo {
     private String dataEmprestimo;
     private String dataDevolucao;
 
-    public Emprestimo() {}
-
-    public Emprestimo(int idEmprestimo, int idEmprestimoCliente, int idEmprestimoUsuario, int idEmprestimoLivro, String dataEmprestimo, String dataDevolucao) {
+    public Emprestimo(int idEmprestimo, int idEmprestimoCliente, int idEmprestimoUsuario, 
+        int idEmprestimoLivro, String dataEmprestimo, String dataDevolucao) {
         this.idEmprestimo = idEmprestimo;
         this.idEmprestimoCliente = idEmprestimoCliente;
         this.idEmprestimoUsuario = idEmprestimoUsuario;
@@ -19,10 +18,10 @@ public class Emprestimo {
         this.dataEmprestimo = dataEmprestimo;
         this.dataDevolucao = dataDevolucao;
     }
+    
+    public Emprestimo() {}
 
-    public int getIdEmprestimo() {
-        return idEmprestimo;
-    }
+    public int getIdEmprestimo() { return idEmprestimo; }
 
     public void setIdEmprestimo(int idEmprestimo) { this.idEmprestimo = idEmprestimo; }
 

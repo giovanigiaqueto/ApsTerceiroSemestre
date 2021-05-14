@@ -21,8 +21,8 @@ public class Cliente {
             this.emailCliente = emailCliente;
     }
     
-     public Cliente() {}
-
+    public Cliente() {}
+    
 
     public int getIdCliente() { return idCliente; }
 
