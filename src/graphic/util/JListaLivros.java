@@ -5,18 +5,36 @@
  */
 package graphic.util;
 
+// swing
+import javax.swing.JPanel;
+
+// awt
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.Component;
+import java.awt.Dimension;
+
+// java util
 import java.util.List;
 
+// modelos
 import model.Livro;
 
-import graphic.util.livro.JDadosLivro;
+// graphic.util.livro
+import graphic.util.livro.IComponenteLivro;
+
+// java lang.reflect
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  *
  * @author giovani
  */
 public class JListaLivros extends javax.swing.JPanel {
-
+    
+    private ComponentAdapter resizeListener;
+    
     /**
      * Creates new form JListaLivros
      */
@@ -29,17 +47,56 @@ public class JListaLivros extends javax.swing.JPanel {
         var dim = jPanelLivros.getPreferredSize();
         dim.height = 0;
         jPanelLivros.setPreferredSize(dim);
+        
+        // observador de redimensinamento
+        resizeListener = new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                conteudoRedimensionado();
+            }
+        };
     }
     
-    public void inserirLivros(List<Livro> livros) {
+    // inspirado por: https://stackoverflow.com/questions/75175/create-instance-of-generic-type-in-java
+    // permite a adição de qualquer JPanel que implemente a interface IComponenteLivro
+    public <T extends JPanel & IComponenteLivro>
+    void inserirLivros(List<Livro> livros, Class<T> cls) {
         var dim = jPanelLivros.getPreferredSize();
+        Constructor<T> constructor;
+        try {
+            constructor = cls.getDeclaredConstructor(Livro.class);
+        } catch(NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
         for (Livro p : livros) {
-            JDadosLivro livro = new JDadosLivro(p);
-            jPanelLivros.add(livro);
-            dim.height += livro.getPreferredSize().height;
+            try {
+                T livro = constructor.newInstance(p);
+                jPanelLivros.add(livro);
+                dim.height += livro.getPreferredSize().height;
+                livro.addComponentListener(resizeListener);
+            } catch(
+                InstantiationException | 
+                IllegalAccessException | 
+                InvocationTargetException e) { throw new RuntimeException(e); }
         }
         jPanelLivros.setPreferredSize(dim);
         jPanelLivros.revalidate();
+    }
+    
+    // força o JPanel dentro do JScrollPane a ter o tamanho necessário
+    // para comportar todos os componentes, mesmo que haja redimensionamento
+    public void conteudoRedimensionado() {
+        var dim = new Dimension(0, 0);
+        for (Component comp : jPanelLivros.getComponents()) {
+            var tmp = comp.getPreferredSize();
+            dim.height += tmp.height;
+            dim.width = (tmp.width > dim.width ? tmp.width:dim.width);
+        }
+        int delta = dim.height - jPanelLivros.getPreferredSize().height;
+        if (Math.abs(delta) > 0) {
+            jPanelLivros.setPreferredSize(dim);
+            jPanelLivros.revalidate();
+        }
     }
 
     /**

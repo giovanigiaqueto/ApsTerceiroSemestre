@@ -8,6 +8,8 @@ package graphic;
 import java.util.List;
 import model.Livro;
 
+import graphic.util.livro.JDadosLivro;
+
 /**
  *
  * @author giovani
@@ -116,7 +118,7 @@ public class MainJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     public void inserirLivros(List<Livro> lista) {
-        jListaLivros.inserirLivros(lista);
+        jListaLivros.inserirLivros(lista, JDadosLivro.class);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

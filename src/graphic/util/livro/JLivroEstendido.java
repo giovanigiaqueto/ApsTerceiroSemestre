@@ -1,21 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package graphic.util.livro;
 
 import model.Livro;
 
-/**
- *
- * @author giovani
- */
 public class JLivroEstendido extends javax.swing.JPanel {
     
     private JDadosLivro mestre;
-    
-    // TODO: separar labels com os valores em labels descrição - valor (ex: "nome:" e "valorNome")
     
     /**
      * Creates new form DadosLivroExtendido
@@ -30,14 +19,16 @@ public class JLivroEstendido extends javax.swing.JPanel {
         Livro livro = mestre.getLivro();
         if (livro == null) return;
         
-        jLabelCategoria.setText(livro.getNomeLivroCategoria());
+        jLabelEdicaoPaginas.setText(
+            livro.getEdicaoLivro() + "ª edição, " + 
+            String.valueOf(livro.getPaginasLivro()) + " páginas"
+        );
         jLabelEditora.setText(livro.getEditoraLivro());
         jLabelValorEstoque.setText(
             String.valueOf(livro.getLocacaoLivro()) + '/' +
             String.valueOf(livro.getEstoqueLivro())
         );
         jLabelNomeAutor.setText(livro.getAutorLivro());
-        jLabelValorPaginas.setText(String.valueOf(livro.getPaginasLivro()));
         jLabelValorPreco.setText(String.valueOf(livro.getPrecoLivro()) + "R$");
         
         jTextAreaSinopse.setText(livro.getSinopseLivro());
@@ -64,25 +55,20 @@ public class JLivroEstendido extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabelCategoria = new javax.swing.JLabel();
         jLabelNomeAutor = new javax.swing.JLabel();
         jLabelEditora = new javax.swing.JLabel();
         jLabelCampoEstoque = new javax.swing.JLabel();
         jLabelValorEstoque = new javax.swing.JLabel();
         jLabelCampoPreco = new javax.swing.JLabel();
         jLabelValorPreco = new javax.swing.JLabel();
-        jLabelCampoPaginas = new javax.swing.JLabel();
-        jLabelValorPaginas = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaSinopse = new javax.swing.JTextArea();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 78), new java.awt.Dimension(0, 78), new java.awt.Dimension(32767, 78));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jLabelEdicaoPaginas = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(500, 0));
-        setPreferredSize(new java.awt.Dimension(600, 305));
-
-        jLabelCategoria.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabelCategoria.setText("Categoria");
+        setPreferredSize(new java.awt.Dimension(600, 300));
 
         jLabelNomeAutor.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabelNomeAutor.setText("Nome Completo do Autor");
@@ -102,12 +88,6 @@ public class JLivroEstendido extends javax.swing.JPanel {
         jLabelValorPreco.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabelValorPreco.setText("XYZ.W R$");
 
-        jLabelCampoPaginas.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabelCampoPaginas.setText("Páginas:");
-
-        jLabelValorPaginas.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabelValorPaginas.setText("ABC");
-
         jScrollPane1.setMinimumSize(new java.awt.Dimension(576, 78));
         jScrollPane1.setPreferredSize(new java.awt.Dimension(576, 78));
 
@@ -118,6 +98,9 @@ public class JLivroEstendido extends javax.swing.JPanel {
         jTextAreaSinopse.setPreferredSize(new java.awt.Dimension(777, 75));
         jScrollPane1.setViewportView(jTextAreaSinopse);
 
+        jLabelEdicaoPaginas.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabelEdicaoPaginas.setText("1ª edição, 125 páginas");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -125,27 +108,24 @@ public class JLivroEstendido extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabelEditora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelNomeAutor, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                            .addComponent(jLabelCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabelEdicaoPaginas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelCampoPaginas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabelCampoPreco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabelCampoEstoque, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabelCampoPreco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabelCampoEstoque, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabelValorPreco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelValorPaginas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelValorEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(filler3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabelValorEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabelNomeAutor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(filler3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -154,28 +134,28 @@ public class JLivroEstendido extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelCampoEstoque, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabelCategoria)
-                                .addComponent(jLabelValorEstoque)))
+                        .addComponent(filler3, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                        .addGap(249, 249, 249))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabelNomeAutor)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelCampoPreco, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabelNomeAutor)
-                                .addComponent(jLabelValorPreco)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelCampoPaginas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabelCampoEstoque)
+                                    .addComponent(jLabelValorEstoque))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelCampoPreco, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabelValorPreco)))
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabelEditora)
-                                .addComponent(jLabelValorPaginas))))
-                    .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filler3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
-                .addContainerGap())
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabelEdicaoPaginas)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -184,13 +164,11 @@ public class JLivroEstendido extends javax.swing.JPanel {
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.JLabel jLabelCampoEstoque;
-    private javax.swing.JLabel jLabelCampoPaginas;
     private javax.swing.JLabel jLabelCampoPreco;
-    private javax.swing.JLabel jLabelCategoria;
+    private javax.swing.JLabel jLabelEdicaoPaginas;
     private javax.swing.JLabel jLabelEditora;
     private javax.swing.JLabel jLabelNomeAutor;
     private javax.swing.JLabel jLabelValorEstoque;
-    private javax.swing.JLabel jLabelValorPaginas;
     private javax.swing.JLabel jLabelValorPreco;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextAreaSinopse;
