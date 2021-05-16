@@ -27,16 +27,12 @@ public class JDadosLivro extends javax.swing.JPanel implements IDropdown, ICompo
     public JDadosLivro(Livro livro) {
         this();
         this.livro = livro;
-        atualizarConteudo();
+        this.atualizarConteudo();
     }
     
     // pós inicialização dos componentes desse componente
     @SuppressWarnings("Convert2Lambda")
     private void init() {
-        // adiciona o mestre dos componentes
-        jHeaderLivro.setMestre(this);
-        jLivroEstendido.setMestre(this);
-        
         // configura se o dropdown está estendido
         if (dropdownEstendido) {
             estenderDropdown();
@@ -60,8 +56,8 @@ public class JDadosLivro extends javax.swing.JPanel implements IDropdown, ICompo
     
     @Override
     public final void atualizarConteudo() {
-        jHeaderLivro.atualizarConteudo();
-        jLivroEstendido.atualizarConteudo();
+        jHeaderLivro.setConteudo(this.livro);
+        jLivroEstendido.setConteudo(this.livro);
     }
     
     @Override

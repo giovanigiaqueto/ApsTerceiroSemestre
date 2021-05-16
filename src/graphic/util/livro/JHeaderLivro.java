@@ -13,8 +13,6 @@ import model.Livro;
  * @author giovani
  */
 public class JHeaderLivro extends javax.swing.JPanel {
-
-    private JDadosLivro mestre;
     
     /**
      * Creates new form DadosLivro
@@ -23,28 +21,11 @@ public class JHeaderLivro extends javax.swing.JPanel {
         initComponents();
     }
     
-    public void atualizarConteudo() {
-        if (mestre == null) return;
-        
-        Livro livro = mestre.getLivro();
-        if (livro == null) return;
-        
+    public void setConteudo(Livro livro) { 
         jLabelTitulo.setText(livro.getNomeLivro());
         jLabelISBN.setText(livro.getISBNLivro());
     }
     
-    // ========== setters ==========
-    
-    public void setMestre(JDadosLivro mestre) {
-        this.mestre = mestre;
-    }
-    
-    // ========== getters ==========
-    
-    public JDadosLivro getMestre() {
-        return this.mestre;
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

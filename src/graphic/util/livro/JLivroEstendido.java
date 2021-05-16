@@ -13,12 +13,7 @@ public class JLivroEstendido extends javax.swing.JPanel {
         initComponents();
     }
     
-    public void atualizarConteudo() {
-        if (mestre == null) return;
-        
-        Livro livro = mestre.getLivro();
-        if (livro == null) return;
-        
+    public void setConteudo(Livro livro) {
         jLabelEdicaoPaginas.setText(
             livro.getEdicaoLivro() + "ª edição, " + 
             String.valueOf(livro.getPaginasLivro()) + " páginas"
@@ -32,18 +27,6 @@ public class JLivroEstendido extends javax.swing.JPanel {
         jLabelValorPreco.setText(String.valueOf(livro.getPrecoLivro()) + "R$");
         
         jTextAreaSinopse.setText(livro.getSinopseLivro());
-    }
-    
-    // ========== setters ==========
-    
-    public void setMestre(JDadosLivro mestre) {
-        this.mestre = mestre;
-    }
-    
-    // ========== getters ==========
-    
-    public JDadosLivro getMestre() {
-        return this.mestre;
     }
 
     /**
