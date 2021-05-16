@@ -52,7 +52,7 @@ CREATE TABLE Exemplar(
 CREATE TABLE Emprestimo(
     idEmprestimo            SERIAL          PRIMARY KEY,
     idEmprestimoCliente     integer         NOT NULL REFERENCES Cliente(idCliente),
-    idEmprestimoExemplar    integer         NOT NULL REFERENCES Livro(idExemplar),
+    idEmprestimoExemplar    integer         NOT NULL REFERENCES Exemplar(idExemplar),
     idEmprestimoUsuario     integer         NOT NULL REFERENCES Usuario(idUsuario),
     dataEmprestimo          date            NOT NULL,
     dataDevolucao           date            NOT NULL
