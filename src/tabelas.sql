@@ -22,7 +22,7 @@ CREATE TABLE Cliente(
 
 CREATE TABLE Categoria(
     idCategoria             SERIAL          PRIMARY KEY,
-    nomeCategoria           varchar(30)     NOT NULL,
+    nomeCategoria           varchar(30)     NOT NULL UNIQUE,
     descricaoCategoria      varchar(255)    NOT NULL
 );
 
@@ -33,12 +33,12 @@ CREATE TABLE Livro(
     autorLivro              varchar(40)     NOT NULL DEFAULT 'Autor Desconhecido',
     editoraLivro            varchar(40)     NOT NULL,
     edicaoLivro             integer         NOT NULL,
-    dataLancamentoLivro     date,           NOT NULL,
-    nomeLivroCategoria      integer         NOT NULL REFERENCES Categoria(nomeCategoria),
+    dataLancamentoLivro     date            NOT NULL,
+    nomeLivroCategoria      varchar(30)     NOT NULL REFERENCES Categoria(nomeCategoria),
     estoqueLivro            integer         NOT NULL,
     locacaoLivro            integer         NOT NULL,
     paginasLivro            integer         NOT NULL,
-    precoLivro              numeric,        NOT NULL,
+    precoLivro              numeric         NOT NULL,
     sinopseLivro            varchar(8192)   NOT NULL
 );
 
