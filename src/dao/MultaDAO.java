@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import model.Multa;
@@ -20,6 +21,53 @@ public class MultaDAO {
         }
     }
     
+    /**
+     * Retorna uma lista de Multa do banco de dados.
+     * 
+     * @param numItens a quantidade máxima de tuplas retornadas
+     * @param deslocamento serão retornadas as tuplas a partir deste valor
+     * (começando do deslocamento + 1)
+     * 
+     * @return a lista de Multa
+     */
+    public List<Multa> listarMultas(int numItens, int deslocamento){
+        String sql = "SELECT * FROM Multa LIMIT=? OFFSET=?";
+        ResultSet resultado;
+        List<Multa> multas = new ArrayList<>(numItens);
+        
+        try {
+            PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setInt(1, numItens);
+            stmt.setInt(2, deslocamento);
+            resultado = stmt.executeQuery();
+            
+            while(resultado.next()){
+                Multa multa = new Multa();
+                
+                multa.setIdMulta(resultado.getInt("idMulta"));
+                multa.setIdMultaCliente(resultado.getInt("idMultaCliente"));
+                multa.setIdMultaEmprestimo(resultado.getInt("idMultaEmprestimo"));
+                multa.setDescricaoMulta(resultado.getString("descricaoMulta"));
+                multa.setValorMulta(resultado.getDouble("valorMulta"));
+                
+                multas.add(multa);
+            }
+            
+            resultado.close();
+            stmt.close();
+            
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        
+        return multas;
+    }
+    
+    /**
+     * Retorna uma lista de Multa do banco de dados.
+     * 
+     * @return a lista de Multa
+     */
     public List<Multa> listarMultas(){
         String sql = "SELECT * FROM Multa";
         ResultSet resultado;
@@ -51,7 +99,13 @@ public class MultaDAO {
         return multas;
     }
     
-    public void salvar(Multa multa){
+    /**
+     * Salva a multa passada pelo parâmetro no banco de dados.
+     * 
+     * @param multa a multa a ser salva
+     * @return true, se conseguir salvar, e false se não conseguir
+     */
+    public boolean salvar(Multa multa){
         String sql = "INSERT INTO Multa(idMultaCliente, idMultaEmprestimo, "
                 + "descricaoMulta, valorMulta)"
                 + "VALUES(?, ?, ?, ?)";
@@ -67,11 +121,19 @@ public class MultaDAO {
             stmt.close();
             
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            return false;
         }
+        
+        return true;
     }
     
-    public void alterar(Multa multa){
+    /**
+     * Altera a multa passada pelo parâmetro no banco de dados.
+     * 
+     * @param multa a multa a ser alterada
+     * @return true, se conseguir alterar, e false se não conseguir
+     */
+    public boolean alterar(Multa multa){
         String sql = "UPDATE Multa SET idMultaCliente=?, idMultaEmprestimo=?, "
                 + "descricaoMulta=?, valorMulta=?"
                 + "WHERE idMulta=?";
@@ -88,11 +150,19 @@ public class MultaDAO {
             stmt.close();
             
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            return false;
         }
+        
+        return true;
     }
     
-    public void deletar(Multa multa){
+    /**
+     * Deleta a multa passada pelo parâmetro no banco de dados.
+     * 
+     * @param multa a multa a ser deletada
+     * @return true, se conseguir deletar, e false se não conseguir
+     */
+    public boolean deletar(Multa multa){
         String sql = "DELETE FROM Multa"
                 + "WHERE idMulta=?";
         
@@ -104,8 +174,10 @@ public class MultaDAO {
             stmt.close();
             
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            return false;
         }
+        
+        return true;
     }
     
 }

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import model.Livro;
@@ -20,6 +21,61 @@ public class LivroDAO {
         }
     }
     
+    /**
+     * Retorna uma lista de Livro do banco de dados.
+     * 
+     * @param numItens a quantidade máxima de tuplas retornadas
+     * @param deslocamento serão retornadas as tuplas a partir deste valor
+     * (começando do deslocamento + 1)
+     * 
+     * @return a lista de Livro
+     */
+    public List<Livro> listarLivros(int numItens, int deslocamento){
+        String sql = "SELECT * FROM Livro LIMIT=? OFFSET=?";
+        ResultSet resultado;
+        List<Livro> livros = new ArrayList<>(numItens);
+        
+        try {
+            PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setInt(1, numItens);
+            stmt.setInt(2, deslocamento);
+            resultado = stmt.executeQuery();
+            
+            while(resultado.next()){
+                Livro livro = new Livro();
+                
+                livro.setIdLivro(resultado.getInt("idLivro"));
+                livro.setNomeLivro(resultado.getString("nomeLivro"));
+                livro.setISBNLivro(resultado.getString("ISBNLivro"));
+                livro.setAutorLivro(resultado.getString("autorLivro"));
+                livro.setEditoraLivro(resultado.getString("editoraLivro"));
+                livro.setEdicaoLivro(resultado.getInt("edicaoLivro"));
+                livro.setDataLancamentoLivro(resultado.getString("dataLancamentoLivro"));
+                livro.setNomeLivroCategoria(resultado.getString("nomeLivroCategoria"));
+                livro.setEstoqueLivro(resultado.getInt("estoqueLivro"));
+                livro.setLocacaoLivro(resultado.getInt("locacaoLivro"));
+                livro.setPaginasLivro(resultado.getInt("paginasLivro"));
+                livro.setPrecoLivro(resultado.getDouble("precoLivro"));
+                livro.setSinopseLivro(resultado.getString("sinopseLivro"));
+                
+                livros.add(livro);
+            }
+            
+            resultado.close();
+            stmt.close();
+            
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        
+        return livros;
+    }
+    
+    /**
+     * Retorna uma lista de Livro do banco de dados.
+     * 
+     * @return a lista de Livro
+     */
     public List<Livro> listarLivros(){
         String sql = "SELECT * FROM Livro";
         ResultSet resultado;
@@ -59,7 +115,13 @@ public class LivroDAO {
         return livros;
     }
     
-    public void salvar(Livro livro){
+    /**
+     * Salva o livro passado pelo parâmetro no banco de dados.
+     * 
+     * @param livro o livro a ser salvo
+     * @return true, se conseguir salvar, e false se não conseguir
+     */
+    public boolean salvar(Livro livro){
         String sql = "INSERT INTO Livro(nomeLivro, ISBNLivro, autorLivro, editoraLivro,"
                 + "edicaoLivro, dataLancamentoLivro, nomeLivroCategoria, estoqueLivro,"
                 + "locacaoLivro, paginasLivro, precoLivro, sinopseLivro)";
@@ -83,11 +145,19 @@ public class LivroDAO {
             stmt.close();
             
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            return false;
         }
+        
+        return true;
     }
     
-    public void alterar(Livro livro){
+    /**
+     * Altera o livro passado pelo parâmetro no banco de dados.
+     * 
+     * @param livro o livro a ser alterado
+     * @return true, se conseguir alterar, e false se não conseguir
+     */
+    public boolean alterar(Livro livro){
         String sql = "UPDATE Livro SET nomeLivro=?, ISBNLivro=?, autorLivro=?, "
                 + "editoraLivro=?, edicaoLivro=?, dataLancamentoLivro=?, "
                 + "nomeLivroCategoria=?, estoqueLivro=?, locacaoLivro=?, paginasLivro=?, "
@@ -114,11 +184,19 @@ public class LivroDAO {
             stmt.close();
             
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            return false;
         }
+        
+        return true;
     }
     
-    public void deletar(Livro livro){
+    /**
+     * Deleta o livro passado pelo parâmetro no banco de dados.
+     * 
+     * @param livro o livro a ser deletado
+     * @return true, se conseguir deletar, e false se não conseguir
+     */
+    public boolean deletar(Livro livro){
         String sql = "DELETE FROM Livro"
                 + "WHERE idLivro=?";
         
@@ -130,8 +208,10 @@ public class LivroDAO {
             stmt.close();
             
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            return false;
         }
+        
+        return true;
     }
     
 }
