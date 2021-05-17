@@ -54,9 +54,9 @@ public class JCadastroCategoria extends javax.swing.JPanel {
         jTextAreaDescCategoria1.setMargin(new java.awt.Insets(4, 4, 4, 4));
         jScrollPane1.setViewportView(jTextAreaDescCategoria1);
 
-        setMinimumSize(new java.awt.Dimension(372, 412));
+        setMinimumSize(new java.awt.Dimension(372, 422));
         setName(""); // NOI18N
-        setPreferredSize(new java.awt.Dimension(372, 412));
+        setPreferredSize(new java.awt.Dimension(372, 422));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -66,16 +66,17 @@ public class JCadastroCategoria extends javax.swing.JPanel {
         jPanelForm.setMinimumSize(new java.awt.Dimension(344, 305));
 
         jTextAreaDescCategoria.setColumns(20);
+        jTextAreaDescCategoria.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jTextAreaDescCategoria.setLineWrap(true);
         jTextAreaDescCategoria.setRows(5);
         jTextAreaDescCategoria.setWrapStyleWord(true);
         jTextAreaDescCategoria.setMargin(new java.awt.Insets(4, 4, 4, 4));
         jScrollPane.setViewportView(jTextAreaDescCategoria);
 
-        jLabelDescCategoria.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabelDescCategoria.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabelDescCategoria.setText("Descrição da Categoria");
 
-        jLabelNomeCategoria.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabelNomeCategoria.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabelNomeCategoria.setText("Nome da Categoria");
 
         jTextFieldNomeCategoria.setColumns(30);
@@ -91,9 +92,9 @@ public class JCadastroCategoria extends javax.swing.JPanel {
                 .addGroup(jPanelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabelDescCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fillerEspacamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextFieldNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE))
+                    .addComponent(fillerEspacamento, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                    .addComponent(jScrollPane)
+                    .addComponent(jTextFieldNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelFormLayout.setVerticalGroup(
@@ -137,13 +138,13 @@ public class JCadastroCategoria extends javax.swing.JPanel {
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.weightx = 0.4;
         jPanel1.add(filler1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.weightx = 0.7;
         jPanel1.add(filler2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
@@ -151,7 +152,7 @@ public class JCadastroCategoria extends javax.swing.JPanel {
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.weightx = 0.4;
         jPanel1.add(filler3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -178,22 +179,20 @@ public class JCadastroCategoria extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelForm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
