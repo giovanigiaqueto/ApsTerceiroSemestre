@@ -63,5 +63,6 @@ CREATE TABLE Multa (
     idMultaCliente          integer         NOT NULL REFERENCES Cliente(idCliente),
     idMultaEmprestimo       integer         NOT NULL REFERENCES Emprestimo(idEmprestimo),
     descricaoMulta          varchar(255)    DEFAULT 'Não efetuou a devolução no prazo',
-    valorMulta              numeric         NOT NULL
+    valorMulta              numeric         NOT NULL,
+    pagamentoMulta          boolean         NOT NULL
 );
