@@ -1,4 +1,4 @@
-package graphic.util;
+package widget.support;
 
 public interface IDropdown {
     

@@ -1,5 +1,6 @@
-package graphic.util.livro;
+package widget;
 
+import widget.support.IComponenteLivro;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,7 +8,7 @@ import java.awt.Dimension;
 
 import model.Livro;
 
-import graphic.util.IDropdown;
+import widget.support.IDropdown;
 import java.awt.Dimension;
 
 public class JDadosLivro extends javax.swing.JPanel implements IDropdown, IComponenteLivro {
@@ -115,10 +116,10 @@ public class JDadosLivro extends javax.swing.JPanel implements IDropdown, ICompo
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jHeaderLivro = new graphic.util.livro.JHeaderLivro();
+        jHeaderLivro = new widget.support.livro.JHeaderLivro();
         jPanelDropdown = new javax.swing.JPanel();
         jPanelVazio = new javax.swing.JPanel();
-        jLivroEstendido = new graphic.util.livro.JLivroEstendido();
+        jLivroEstendido = new widget.support.livro.JLivroEstendido();
 
         setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         setMinimumSize(new java.awt.Dimension(528, 0));
@@ -164,8 +165,8 @@ public class JDadosLivro extends javax.swing.JPanel implements IDropdown, ICompo
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private graphic.util.livro.JHeaderLivro jHeaderLivro;
-    private graphic.util.livro.JLivroEstendido jLivroEstendido;
+    private widget.support.livro.JHeaderLivro jHeaderLivro;
+    private widget.support.livro.JLivroEstendido jLivroEstendido;
     private javax.swing.JPanel jPanelDropdown;
     private javax.swing.JPanel jPanelVazio;
     // End of variables declaration//GEN-END:variables

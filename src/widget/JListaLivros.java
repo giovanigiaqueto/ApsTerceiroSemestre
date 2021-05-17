@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package graphic.util;
+package widget;
 
 // swing
 import javax.swing.JPanel;
@@ -21,7 +21,7 @@ import java.util.List;
 import model.Livro;
 
 // graphic.util.livro
-import graphic.util.livro.IComponenteLivro;
+import widget.support.IComponenteLivro;
 
 // java lang.reflect
 import java.lang.reflect.Constructor;
@@ -110,7 +110,7 @@ public class JListaLivros extends javax.swing.JPanel {
 
         jScrollPaneLivros = new javax.swing.JScrollPane();
         jPanelLivros = new javax.swing.JPanel();
-        jBarraPesquisa1 = new graphic.util.JBarraPesquisa();
+        jBarraPesquisa1 = new widget.JBarraPesquisa();
 
         setPreferredSize(new java.awt.Dimension(600, 600));
 
@@ -146,7 +146,7 @@ public class JListaLivros extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private graphic.util.JBarraPesquisa jBarraPesquisa1;
+    private widget.JBarraPesquisa jBarraPesquisa1;
     private javax.swing.JPanel jPanelLivros;
     private javax.swing.JScrollPane jScrollPaneLivros;
     // End of variables declaration//GEN-END:variables

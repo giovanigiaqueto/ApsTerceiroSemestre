@@ -49,7 +49,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="graphic.util.livro.JHeaderLivro" name="jHeaderLivro">
+    <Component class="widget.support.livro.JHeaderLivro" name="jHeaderLivro">
     </Component>
     <Container class="javax.swing.JPanel" name="jPanelDropdown">
 
@@ -80,7 +80,7 @@
             </DimensionLayout>
           </Layout>
         </Container>
-        <Component class="graphic.util.livro.JLivroEstendido" name="jLivroEstendido">
+        <Component class="widget.support.livro.JLivroEstendido" name="jLivroEstendido">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
               <CardConstraints cardName="dropdownEstendido"/>

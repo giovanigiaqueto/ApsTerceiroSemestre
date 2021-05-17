@@ -30,7 +30,7 @@ public class DescricaoLivroJPanel extends javax.swing.JPanel {
 
         jButtonVoltar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jDadosLivro = new graphic.util.livro.JDadosLivro();
+        jDadosLivro = new widget.JDadosLivro();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
@@ -102,7 +102,7 @@ public class DescricaoLivroJPanel extends javax.swing.JPanel {
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.JButton jButtonVoltar;
-    private graphic.util.livro.JDadosLivro jDadosLivro;
+    private widget.JDadosLivro jDadosLivro;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -69,7 +69,7 @@
         </Container>
       </SubComponents>
     </Container>
-    <Component class="graphic.util.JBarraPesquisa" name="jBarraPesquisa1">
+    <Component class="widget.JBarraPesquisa" name="jBarraPesquisa1">
     </Component>
   </SubComponents>
 </Form>

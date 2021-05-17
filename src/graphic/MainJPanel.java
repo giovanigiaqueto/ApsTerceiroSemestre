@@ -8,7 +8,7 @@ package graphic;
 import java.util.List;
 import model.Livro;
 
-import graphic.util.livro.JDadosLivro;
+import widget.JDadosLivro;
 
 /**
  *
@@ -41,7 +41,7 @@ public class MainJPanel extends javax.swing.JPanel {
         fillerSE = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
         fillerSW = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
         fillerNW = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
-        jListaLivros = new graphic.util.JListaLivros();
+        jListaLivros = new widget.JListaLivros();
 
         jToolBar.setRollover(true);
 
@@ -128,7 +128,7 @@ public class MainJPanel extends javax.swing.JPanel {
     private javax.swing.Box.Filler fillerSW;
     private javax.swing.JButton jButtonCheckout;
     private javax.swing.JButton jButtonConta;
-    private graphic.util.JListaLivros jListaLivros;
+    private widget.JListaLivros jListaLivros;
     private javax.swing.JPanel jPanel;
     private javax.swing.JToolBar jToolBar;
     // End of variables declaration//GEN-END:variables

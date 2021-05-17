@@ -1,4 +1,4 @@
-package graphic.util.livro;
+package widget.support;
 
 import model.Livro;
 
