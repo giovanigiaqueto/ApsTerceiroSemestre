@@ -7,14 +7,16 @@ public class Multa {
     private int idMultaEmprestimo;
     private String descricaoMulta;
     private double valorMulta;
+    private boolean pagamentoMulta;
 
     public Multa(int idMulta, int idMultaCliente, int idMultaEmprestimo, 
-        String descricaoMulta, double valorMulta) {
+        String descricaoMulta, double valorMulta, boolean pagamentoMulta) {
         this.idMulta = idMulta;
         this.idMultaCliente = idMultaCliente;
         this.idMultaEmprestimo = idMultaEmprestimo;
         this.descricaoMulta = descricaoMulta;
         this.valorMulta = valorMulta;
+        this.pagamentoMulta = pagamentoMulta;
     }
 
     public Multa() {}
@@ -38,4 +40,8 @@ public class Multa {
     public int getIdMultaEmprestimo() { return idMultaEmprestimo; }
 
     public void setIdMultaEmprestimo(int idMultaEmprestimo) { this.idMultaEmprestimo = idMultaEmprestimo; }
+    
+    public boolean getPagamentoMulta() { return pagamentoMulta; }
+    
+    public void setPagamentoMulta(boolean pagamentoMulta) { this.pagamentoMulta = pagamentoMulta; }
 }

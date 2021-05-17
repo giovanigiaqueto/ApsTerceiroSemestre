@@ -5,16 +5,16 @@ public class Emprestimo {
     private int idEmprestimo;
     private int idEmprestimoCliente;
     private int idEmprestimoUsuario;
-    private int idEmprestimoLivro;
+    private int idEmprestimoExemplar;
     private String dataEmprestimo;
     private String dataDevolucao;
 
     public Emprestimo(int idEmprestimo, int idEmprestimoCliente, int idEmprestimoUsuario, 
-        int idEmprestimoLivro, String dataEmprestimo, String dataDevolucao) {
+        int idEmprestimoExemplar, String dataEmprestimo, String dataDevolucao) {
         this.idEmprestimo = idEmprestimo;
         this.idEmprestimoCliente = idEmprestimoCliente;
         this.idEmprestimoUsuario = idEmprestimoUsuario;
-        this.idEmprestimoLivro = idEmprestimoLivro;
+        this.idEmprestimoExemplar = idEmprestimoExemplar;
         this.dataEmprestimo = dataEmprestimo;
         this.dataDevolucao = dataDevolucao;
     }
@@ -29,9 +29,9 @@ public class Emprestimo {
 
     public void setIdEmprestimoCliente(int idEmprestimoCliente) { this.idEmprestimoCliente = idEmprestimoCliente; }
 
-    public int getIdEmprestimoLivro() { return idEmprestimoLivro; }
+    public int getIdEmprestimoExemplar() { return idEmprestimoExemplar; }
 
-    public void setIdEmprestimoLivro(int idEmprestimoLivro) { this.idEmprestimoLivro = idEmprestimoLivro; }
+    public void setIdEmprestimoExemplar(int idEmprestimoExemplar) { this.idEmprestimoExemplar = idEmprestimoExemplar; }
 
     public String getDataEmprestimo() { return dataEmprestimo; }
 

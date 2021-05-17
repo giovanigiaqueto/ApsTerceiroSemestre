@@ -46,7 +46,7 @@ public class EmprestimoDAO {
                 
                 emprestimo.setIdEmprestimo(resultado.getInt("idEmprestimo"));
                 emprestimo.setIdEmprestimoCliente(resultado.getInt("idEmprestimoCliente"));
-                emprestimo.setIdEmprestimoLivro(resultado.getInt("idEmprestimoExemplar"));
+                emprestimo.setIdEmprestimoExemplar(resultado.getInt("idEmprestimoExemplar"));
                 emprestimo.setIdEmprestimoUsuario(resultado.getInt("idEmprestimoUsuario"));
                 emprestimo.setDataEmprestimo(resultado.getString("dataEmprestimo"));
                 emprestimo.setDataDevolucao(resultado.getString("dataDevolucao"));
@@ -83,7 +83,7 @@ public class EmprestimoDAO {
                 
                 emprestimo.setIdEmprestimo(resultado.getInt("idEmprestimo"));
                 emprestimo.setIdEmprestimoCliente(resultado.getInt("idEmprestimoCliente"));
-                emprestimo.setIdEmprestimoLivro(resultado.getInt("idEmprestimoExemplar"));
+                emprestimo.setIdEmprestimoExemplar(resultado.getInt("idEmprestimoExemplar"));
                 emprestimo.setIdEmprestimoUsuario(resultado.getInt("idEmprestimoUsuario"));
                 emprestimo.setDataEmprestimo(resultado.getString("dataEmprestimo"));
                 emprestimo.setDataDevolucao(resultado.getString("dataDevolucao"));
@@ -116,7 +116,7 @@ public class EmprestimoDAO {
             PreparedStatement stmt = conecta.prepareStatement(sql);
             
             stmt.setInt(1, emprestimo.getIdEmprestimoCliente());
-            stmt.setInt(2, emprestimo.getIdEmprestimoLivro());
+            stmt.setInt(2, emprestimo.getIdEmprestimoExemplar());
             stmt.setInt(3, emprestimo.getIdEmprestimoUsuario());
             stmt.setString(4, emprestimo.getDataEmprestimo());
             stmt.setString(5, emprestimo.getDataDevolucao());
@@ -146,7 +146,7 @@ public class EmprestimoDAO {
             PreparedStatement stmt = conecta.prepareStatement(sql);
             
             stmt.setInt(1, emprestimo.getIdEmprestimoCliente());
-            stmt.setInt(2, emprestimo.getIdEmprestimoLivro());
+            stmt.setInt(2, emprestimo.getIdEmprestimoExemplar());
             stmt.setInt(3, emprestimo.getIdEmprestimoUsuario());
             stmt.setString(4, emprestimo.getDataEmprestimo());
             stmt.setString(5, emprestimo.getDataDevolucao());

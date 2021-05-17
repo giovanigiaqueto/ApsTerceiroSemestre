@@ -49,6 +49,7 @@ public class MultaDAO {
                 multa.setIdMultaEmprestimo(resultado.getInt("idMultaEmprestimo"));
                 multa.setDescricaoMulta(resultado.getString("descricaoMulta"));
                 multa.setValorMulta(resultado.getDouble("valorMulta"));
+                multa.setPagamentoMulta(resultado.getBoolean("pagamentoMulta"));
                 
                 multas.add(multa);
             }
@@ -85,6 +86,7 @@ public class MultaDAO {
                 multa.setIdMultaEmprestimo(resultado.getInt("idMultaEmprestimo"));
                 multa.setDescricaoMulta(resultado.getString("descricaoMulta"));
                 multa.setValorMulta(resultado.getDouble("valorMulta"));
+                multa.setPagamentoMulta(resultado.getBoolean("pagamentoMulta"));
                 
                 multas.add(multa);
             }
@@ -107,8 +109,8 @@ public class MultaDAO {
      */
     public boolean salvar(Multa multa){
         String sql = "INSERT INTO Multa(idMultaCliente, idMultaEmprestimo, "
-                + "descricaoMulta, valorMulta)"
-                + "VALUES(?, ?, ?, ?)";
+                + "descricaoMulta, valorMulta, pagamentoMulta)"
+                + "VALUES(?, ?, ?, ?, ?)";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -117,6 +119,7 @@ public class MultaDAO {
             stmt.setInt(2, multa.getIdMultaEmprestimo());
             stmt.setString(3, multa.getDescricaoMulta());
             stmt.setDouble(4, multa.getValorMulta());
+            stmt.setBoolean(5, multa.getPagamentoMulta());
             stmt.execute();
             stmt.close();
             
@@ -135,7 +138,7 @@ public class MultaDAO {
      */
     public boolean alterar(Multa multa){
         String sql = "UPDATE Multa SET idMultaCliente=?, idMultaEmprestimo=?, "
-                + "descricaoMulta=?, valorMulta=?"
+                + "descricaoMulta=?, valorMulta=?, pagamentoMulta=?"
                 + "WHERE idMulta=?";
         
         try {
@@ -145,7 +148,8 @@ public class MultaDAO {
             stmt.setInt(2, multa.getIdMultaEmprestimo());
             stmt.setString(3, multa.getDescricaoMulta());
             stmt.setDouble(4, multa.getValorMulta());
-            stmt.setInt(5, multa.getIdMulta());
+            stmt.setBoolean(5, multa.getPagamentoMulta());
+            stmt.setInt(6, multa.getIdMulta());
             stmt.execute();
             stmt.close();
             
