@@ -1,11 +1,11 @@
 INSERT INTO Usuario(
-	NomeUsuario,
-	CPFUsuario,
-	telefoneUsuario,
-	sexoUsuario,
-	enderecoUsuario,
-	emailUsuario,
-	senhaUsuario
+	nome_usuario,
+	cpf_suario,
+	telefone_usuario,
+	sexo_usuario,
+	endereco_usuario,
+	email_usuario,
+	senha_suario
 )
 VALUES
 ('Laura', '05983591096', '730-9419', 'f', 'Rua Tadeu Rangel Pestana, 506', 'eu.tellus@venenatisvel.edu', '3563c7e4f50fbd04b0cc3bbe6721b136f506cadb59f76aafe1f07ae01a253343'),
@@ -15,12 +15,12 @@ VALUES
 ('Clarke', '24731104092', '202-4448', 'm', 'Rua Engenheiro Reynaldo Cajado, 760', 'metus.In@imperdiet.edu', 'd5c2af68b917deda25ede67c645cc4ff8b9166d4635ae01f66417caa7291e7c2');
 
 INSERT INTO Cliente(
-	nomeCliente,
-	CPFCliente,
-	telefoneCliente,
-	sexoCliente,
-	enderecoCliente,
-	emailCliente
+	nome_cliente,
+	cpf_cliente,
+	telefone_cliente,
+	sexo_cliente,
+	endereco_cliente,
+	email_cliente
 )
 VALUES
 ('Pedro', '07643771081', '456-0877', 'm', 'Rua Deputado Cássio Ciampolini, 650', 'sagittis@augueeutempor.net'),
@@ -29,7 +29,7 @@ VALUES
 ('Kevin', '46802447045', '664-2122', 'm', 'Rua Barão de Vallim, 886', 'Donec@ipsumCurabitur.ca'),
 ('Maria', '54510944039', '896-7647', 'f', 'Rua Maria Natália Teodoro, 251', 'eget@Mauris.ca');
 
-INSERT INTO Categoria(nomeCategoria, descricaoCategoria)
+INSERT INTO Categoria(nome_categoria, descricao_categoria)
 VALUES
 ('drama', 'livros de drama'),
 ('comédia', 'livros de comédia'),
@@ -38,18 +38,18 @@ VALUES
 ('aventura', 'livros de aventura');
 
 INSERT INTO Livro(
-	nomeLivro,
-	ISBNLivro,
-	autorLivro,
-	editoraLivro,
-	edicaoLivro,
-	dataLancamentoLivro,
-	nomeLivroCategoria,
-	estoqueLivro,
-	locacaoLivro,
-	paginasLivro,
-	precoLivro,
-	sinopseLivro
+	nome_livro,
+	isbn_livro,
+	autor_livro,
+	editora_livro,
+	edicao_livro,
+	data_lancamento_livro,
+	nome_livro_categoria,
+	estoque_livro,
+	locacao_livro,
+	paginas_livro,
+	preco_livro,
+	sinopse_livro
 )
 VALUES
 ('A Seleção', '9788565765015', 'Kiera Cass', 'Seguinte', 1, '2012-09-17', 'romance', 2, 1, 368, 28.10, 'Muitas garotas sonham em ser princesas, mas este não é o caso de America Singer. Ela topa se inscrever na Seleção só para agradar a mãe, certa de que não será sorteada para participar da competição em que o príncipe escolherá sua futura esposa. Mas é claro que depois disso sua vida nunca mais será a mesma...'),
@@ -61,9 +61,9 @@ VALUES
 ('O menino do pijama listrado', '9788535911121', 'John Boyne', 'Seguinte', 1, '2007-10-11', 'drama', 3, 0, 192, 32.89, 'Bruno tem nove anos e não sabe nada sobre o Holocausto e a Solução Final contra os judeus. Também não faz idéia que seu país está em guerra com boa parte da Europa, e muito menos que sua família está envolvida no conflito. Na verdade, Bruno sabe apenas que foi obrigado a abandonar a espaçosa casa em que vivia em Berlim e a mudar-se para uma região desolada, onde ele não tem ninguém para brincar nem nada para fazer.');
 
 INSERT INTO Exemplar(
-	idExemplarLivro,
-	estaAlocado,
-	dataObtencao
+	id_exemplarLivro,
+	esta_alocado,
+	data_obtencao
 )
 VALUES
 (1, 'false', '2019-08-17'),
@@ -86,11 +86,11 @@ VALUES
 (7, 'false', '2021-03-02');
 
 INSERT INTO Emprestimo(
-	idEmprestimoCliente,
-	idEmprestimoExemplar,
-	idEmprestimoUsuario,
-	dataEmprestimo,
-	dataDevolucao
+	id_emprestimo_cliente,
+	id_emprestimo_exemplar,
+	id_emprestimo_usuario,
+	data_emprestimo,
+	data_devolucao
 )
 VALUES
 (1, 2, 1, '2020-02-25', '2020-03-25'),
@@ -102,11 +102,11 @@ VALUES
 (4, 14, 5, '2021-03-12', '2021-04-12');
 
 INSERT INTO Multa(
-	idMultaCliente,
-	idMultaEmprestimo,
-	descricaoMulta,
-	valorMulta,
-	pagamentoMulta
+	id_multa_cliente,
+	id_multa_emprestimo,
+	descricao_multa,
+	valor_multa,
+	pagamento_multa
 )
 VALUES
 (2, 3, 'Atrasou 12 dias a devolução do livro Hamlet de William Shakespeare.', 11.00, 'true'),

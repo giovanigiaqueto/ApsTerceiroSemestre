@@ -46,9 +46,9 @@ public class CategoriaDAO {
             while(resultado.next()){
                 Categoria categoria = new Categoria();
                 
-                categoria.setIdCategoria(resultado.getInt("idCategoria"));
-                categoria.setNomeCategoria(resultado.getString("nomeCategoria"));
-                categoria.setDescricaoCategoria(resultado.getString("descricaoCategoria"));
+                categoria.setIdCategoria(resultado.getInt("id_categoria"));
+                categoria.setNomeCategoria(resultado.getString("nome_categoria"));
+                categoria.setDescricaoCategoria(resultado.getString("descricao_categoria"));
                 
                 categorias.add(categoria);
             }
@@ -77,9 +77,9 @@ public class CategoriaDAO {
             while(resultado.next()){
                 Categoria categoria = new Categoria();
                 
-                categoria.setIdCategoria(resultado.getInt("idCategoria"));
-                categoria.setNomeCategoria(resultado.getString("nomeCategoria"));
-                categoria.setDescricaoCategoria(resultado.getString("descricaoCategoria"));
+                categoria.setIdCategoria(resultado.getInt("id_categoria"));
+                categoria.setNomeCategoria(resultado.getString("nome_categoria"));
+                categoria.setDescricaoCategoria(resultado.getString("descricao_categoria"));
                 
                 categorias.add(categoria);
             }
@@ -102,7 +102,7 @@ public class CategoriaDAO {
      * @return true, se conseguir salvar, e false se não conseguir
      */
     public boolean salvar(Categoria categoria){
-        String sql = "INSERT INTO Categoria(nomeCategoria, descricaoCategoria) "
+        String sql = "INSERT INTO Categoria(nome_categoria, descricao_categoria) "
                 + "VALUES (?, ?)";
         
         try {
@@ -128,8 +128,8 @@ public class CategoriaDAO {
      * @return true, se conseguir alterar, e false se não conseguir
      */
     public boolean alterar(Categoria categoria){
-        String sql = "UPDATE Categoria SET nomeCategoria=?, descricaoCategoria=? "
-                + "WHERE idCategoria=?";
+        String sql = "UPDATE Categoria SET nome_categoria=?, descricao_categoria=? "
+                + "WHERE id_categoria=?";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -156,7 +156,7 @@ public class CategoriaDAO {
      */
     public boolean deletar(Categoria categoria){
         String sql = "DELETE FROM Categoria "
-                + "WHERE idCategoria=?";
+                + "WHERE id_categoria=?";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);

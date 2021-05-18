@@ -53,19 +53,19 @@ public class LivroDAO {
             while(resultado.next()){
                 Livro livro = new Livro();
                 
-                livro.setIdLivro(resultado.getInt("idLivro"));
-                livro.setNomeLivro(resultado.getString("nomeLivro"));
-                livro.setISBNLivro(resultado.getString("ISBNLivro"));
-                livro.setAutorLivro(resultado.getString("autorLivro"));
-                livro.setEditoraLivro(resultado.getString("editoraLivro"));
-                livro.setEdicaoLivro(resultado.getInt("edicaoLivro"));
-                livro.setDataLancamentoLivro(resultado.getString("dataLancamentoLivro"));
-                livro.setNomeLivroCategoria(resultado.getString("nomeLivroCategoria"));
-                livro.setEstoqueLivro(resultado.getInt("estoqueLivro"));
-                livro.setLocacaoLivro(resultado.getInt("locacaoLivro"));
-                livro.setPaginasLivro(resultado.getInt("paginasLivro"));
-                livro.setPrecoLivro(resultado.getDouble("precoLivro"));
-                livro.setSinopseLivro(resultado.getString("sinopseLivro"));
+                livro.setIdLivro(resultado.getInt("id_livro"));
+                livro.setNomeLivro(resultado.getString("nome_livro"));
+                livro.setISBNLivro(resultado.getString("isbn_livro"));
+                livro.setAutorLivro(resultado.getString("autor_livro"));
+                livro.setEditoraLivro(resultado.getString("editora_livro"));
+                livro.setEdicaoLivro(resultado.getInt("edicao_livro"));
+                livro.setDataLancamentoLivro(resultado.getString("data_lancamento_livro"));
+                livro.setNomeLivroCategoria(resultado.getString("nome_livro_categoria"));
+                livro.setEstoqueLivro(resultado.getInt("estoque_livro"));
+                livro.setLocacaoLivro(resultado.getInt("locacao_livro"));
+                livro.setPaginasLivro(resultado.getInt("paginas_livro"));
+                livro.setPrecoLivro(resultado.getDouble("preco_livro"));
+                livro.setSinopseLivro(resultado.getString("sinopse_livro"));
                 
                 livros.add(livro);
             }
@@ -98,19 +98,19 @@ public class LivroDAO {
             while(resultado.next()){
                 Livro livro = new Livro();
                 
-                livro.setIdLivro(resultado.getInt("idLivro"));
-                livro.setNomeLivro(resultado.getString("nomeLivro"));
-                livro.setISBNLivro(resultado.getString("ISBNLivro"));
-                livro.setAutorLivro(resultado.getString("autorLivro"));
-                livro.setEditoraLivro(resultado.getString("editoraLivro"));
-                livro.setEdicaoLivro(resultado.getInt("edicaoLivro"));
-                livro.setDataLancamentoLivro(resultado.getString("dataLancamentoLivro"));
-                livro.setNomeLivroCategoria(resultado.getString("nomeLivroCategoria"));
-                livro.setEstoqueLivro(resultado.getInt("estoqueLivro"));
-                livro.setLocacaoLivro(resultado.getInt("locacaoLivro"));
-                livro.setPaginasLivro(resultado.getInt("paginasLivro"));
-                livro.setPrecoLivro(resultado.getDouble("precoLivro"));
-                livro.setSinopseLivro(resultado.getString("sinopseLivro"));
+                livro.setIdLivro(resultado.getInt("id_livro"));
+                livro.setNomeLivro(resultado.getString("nome_livro"));
+                livro.setISBNLivro(resultado.getString("isbn_livro"));
+                livro.setAutorLivro(resultado.getString("autor_livro"));
+                livro.setEditoraLivro(resultado.getString("editora_livro"));
+                livro.setEdicaoLivro(resultado.getInt("edicao_livro"));
+                livro.setDataLancamentoLivro(resultado.getString("data_lancamento_livro"));
+                livro.setNomeLivroCategoria(resultado.getString("nome_livro_categoria"));
+                livro.setEstoqueLivro(resultado.getInt("estoque_livro"));
+                livro.setLocacaoLivro(resultado.getInt("locacao_livro"));
+                livro.setPaginasLivro(resultado.getInt("paginas_livro"));
+                livro.setPrecoLivro(resultado.getDouble("preco_livro"));
+                livro.setSinopseLivro(resultado.getString("sinopse_livro"));
                 
                 livros.add(livro);
             }
@@ -133,9 +133,9 @@ public class LivroDAO {
      * @return true, se conseguir salvar, e false se não conseguir
      */
     public boolean salvar(Livro livro){
-        String sql = "INSERT INTO Livro(nomeLivro, ISBNLivro, autorLivro, editoraLivro,"
-                + "edicaoLivro, dataLancamentoLivro, nomeLivroCategoria, estoqueLivro,"
-                + "locacaoLivro, paginasLivro, precoLivro, sinopseLivro) "
+        String sql = "INSERT INTO Livro(nome_livro, isbn_livro, autor_livro, editora_livro,"
+                + "edicao_livro, data_lancamento_livro, nome_livro_categoria, estoque_livro,"
+                + "locacao_livro, paginas_livro, preco_livro, sinopse_livro) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
@@ -174,11 +174,11 @@ public class LivroDAO {
      * @return true, se conseguir alterar, e false se não conseguir
      */
     public boolean alterar(Livro livro){
-        String sql = "UPDATE Livro SET nomeLivro=?, ISBNLivro=?, autorLivro=?, "
-                + "editoraLivro=?, edicaoLivro=?, dataLancamentoLivro=?, "
-                + "nomeLivroCategoria=?, estoqueLivro=?, locacaoLivro=?, paginasLivro=?, "
-                + "precoLivro=?, sinopseLivro=? "
-                + "WHERE idLivro=?";
+        String sql = "UPDATE Livro SET nome_livro=?, isbn_livro=?, autor_livro=?, "
+                + "editora_livro=?, edicao_livro=?, data_lancamento_livro=?, "
+                + "nome_livro_categoria=?, estoque_livro=?, locacao_livro=?, paginas_livro=?, "
+                + "preco_livro=?, sinopse_livro=? "
+                + "WHERE id_livro=?";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -218,7 +218,7 @@ public class LivroDAO {
      */
     public boolean deletar(Livro livro){
         String sql = "DELETE FROM Livro "
-                + "WHERE idLivro=?";
+                + "WHERE id_livro=?";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);

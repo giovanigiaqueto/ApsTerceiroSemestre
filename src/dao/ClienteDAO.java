@@ -44,13 +44,13 @@ public class ClienteDAO {
             while(resultado.next()){
                 Cliente cliente = new Cliente();
                 
-                cliente.setIdCliente(resultado.getInt("idCliente"));
-                cliente.setNomeCliente(resultado.getString("nomeCliente"));
-                cliente.setCPFCliente(resultado.getString("CPFCliente"));
-                cliente.setTelefoneCliente(resultado.getString("telefoneCliente"));
-                cliente.setSexoCliente(resultado.getString("sexoCliente"));
-                cliente.setEnderecoCliente(resultado.getString("enderecoCliente"));
-                cliente.setEmailCliente(resultado.getString("emailCliente"));
+                cliente.setIdCliente(resultado.getInt("id_cliente"));
+                cliente.setNomeCliente(resultado.getString("nome_cliente"));
+                cliente.setCPFCliente(resultado.getString("cpf_cliente"));
+                cliente.setTelefoneCliente(resultado.getString("telefone_cliente"));
+                cliente.setSexoCliente(resultado.getString("sexo_cliente"));
+                cliente.setEnderecoCliente(resultado.getString("endereco_cliente"));
+                cliente.setEmailCliente(resultado.getString("email_cliente"));
                 
                 clientes.add(cliente);
             }
@@ -83,13 +83,13 @@ public class ClienteDAO {
             while(resultado.next()){
                 Cliente cliente = new Cliente();
                 
-                cliente.setIdCliente(resultado.getInt("idCliente"));
-                cliente.setNomeCliente(resultado.getString("nomeCliente"));
-                cliente.setCPFCliente(resultado.getString("CPFCliente"));
-                cliente.setTelefoneCliente(resultado.getString("telefoneCliente"));
-                cliente.setSexoCliente(resultado.getString("sexoCliente"));
-                cliente.setEnderecoCliente(resultado.getString("enderecoCliente"));
-                cliente.setEmailCliente(resultado.getString("emailCliente"));
+                cliente.setIdCliente(resultado.getInt("id_cliente"));
+                cliente.setNomeCliente(resultado.getString("nome_cliente"));
+                cliente.setCPFCliente(resultado.getString("cpf_cliente"));
+                cliente.setTelefoneCliente(resultado.getString("telefone_cliente"));
+                cliente.setSexoCliente(resultado.getString("sexo_cliente"));
+                cliente.setEnderecoCliente(resultado.getString("endereco_cliente"));
+                cliente.setEmailCliente(resultado.getString("email_cliente"));
                 
                 clientes.add(cliente);
             }
@@ -112,8 +112,8 @@ public class ClienteDAO {
      * @return true, se conseguir salvar, e false se não conseguir
      */
     public boolean salvar(Cliente cliente){
-        String sql = "INSERT INTO Cliente(nomeCliente, CPFCliente, "
-                + "telefoneCliente, sexoCliente, enderecoCliente, emailCliente)"
+        String sql = "INSERT INTO Cliente(nome_cliente, cpf_cliente, "
+                + "telefone_cliente, sexo_cliente, endereco_cliente, email_cliente)"
                 + "VALUES(?, ?, ?, ?, ?, ?)";
         
         try {
@@ -143,9 +143,9 @@ public class ClienteDAO {
      * @return true, se conseguir alterar, e false se não conseguir
      */
     public boolean alterar(Cliente cliente){
-        String sql = "UPDATE Cliente SET nomeCliente=?, CPFCliente=?, "
-                + "telefoneCliente=?, sexoCliente=?, enderecoCliente=?, emailCliente=?"
-                + "WHERE idCliente=?";
+        String sql = "UPDATE Cliente SET nome_cliente=?, cpf_cliente=?, "
+                + "telefone_cliente=?, sexo_cliente=?, endereco_cliente=?, email_cliente=?"
+                + "WHERE id_cliente=?";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -176,7 +176,7 @@ public class ClienteDAO {
      */
     public boolean deletar(Cliente cliente){
         String sql = "DELETE FROM Cliente "
-                + "WHERE idCliente=?";
+                + "WHERE id_cliente=?";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);

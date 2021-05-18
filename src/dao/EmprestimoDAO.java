@@ -53,12 +53,12 @@ public class EmprestimoDAO {
             while(resultado.next()){
                 Emprestimo emprestimo = new Emprestimo();
                 
-                emprestimo.setIdEmprestimo(resultado.getInt("idEmprestimo"));
-                emprestimo.setIdEmprestimoCliente(resultado.getInt("idEmprestimoCliente"));
-                emprestimo.setIdEmprestimoExemplar(resultado.getInt("idEmprestimoExemplar"));
-                emprestimo.setIdEmprestimoUsuario(resultado.getInt("idEmprestimoUsuario"));
-                emprestimo.setDataEmprestimo(resultado.getString("dataEmprestimo"));
-                emprestimo.setDataDevolucao(resultado.getString("dataDevolucao"));
+                emprestimo.setIdEmprestimo(resultado.getInt("id_emprestimo"));
+                emprestimo.setIdEmprestimoCliente(resultado.getInt("id_emprestimo_cliente"));
+                emprestimo.setIdEmprestimoExemplar(resultado.getInt("id_emprestimo_exemplar"));
+                emprestimo.setIdEmprestimoUsuario(resultado.getInt("id_emprestimo_usuario"));
+                emprestimo.setDataEmprestimo(resultado.getString("data_emprestimo"));
+                emprestimo.setDataDevolucao(resultado.getString("data_devolucao"));
                 
                 emprestimos.add(emprestimo);
             }
@@ -91,12 +91,12 @@ public class EmprestimoDAO {
             while(resultado.next()){
                 Emprestimo emprestimo = new Emprestimo();
                 
-                emprestimo.setIdEmprestimo(resultado.getInt("idEmprestimo"));
-                emprestimo.setIdEmprestimoCliente(resultado.getInt("idEmprestimoCliente"));
-                emprestimo.setIdEmprestimoExemplar(resultado.getInt("idEmprestimoExemplar"));
-                emprestimo.setIdEmprestimoUsuario(resultado.getInt("idEmprestimoUsuario"));
-                emprestimo.setDataEmprestimo(resultado.getString("dataEmprestimo"));
-                emprestimo.setDataDevolucao(resultado.getString("dataDevolucao"));
+                emprestimo.setIdEmprestimo(resultado.getInt("id_emprestimo"));
+                emprestimo.setIdEmprestimoCliente(resultado.getInt("id_emprestimo_cliente"));
+                emprestimo.setIdEmprestimoExemplar(resultado.getInt("id_emprestimo_exemplar"));
+                emprestimo.setIdEmprestimoUsuario(resultado.getInt("id_emprestimo_usuario"));
+                emprestimo.setDataEmprestimo(resultado.getString("data_emprestimo"));
+                emprestimo.setDataDevolucao(resultado.getString("data_devolucao"));
                 
                 emprestimos.add(emprestimo);
             }
@@ -119,8 +119,8 @@ public class EmprestimoDAO {
      * @return true, se conseguir salvar, e false se não conseguir
      */
     public boolean salvar(Emprestimo emprestimo){
-        String sql = "INSERT INTO Emprestimo(idEmprestimoCliente, idEmprestimoExemplar, "
-                + "idEmprestimoUsuario, dataEmprestimo, dataDevolucao) "
+        String sql = "INSERT INTO Emprestimo(id_emprestimo_cliente, id_emprestimo_exemplar, "
+                + "id_emprestimo_usuario, data_emprestimo, data_devolucao) "
                 + "VALUES (?, ?, ?, ?, ?)";
         
         try{
@@ -152,10 +152,10 @@ public class EmprestimoDAO {
      * @return true, se conseguir alterar, e false se não conseguir
      */
     public boolean alterar(Emprestimo emprestimo){
-        String sql = "UPDATE Emprestimo SET idEmprestimoCliente=?, "
-                + "idEmprestimoExemplar=?, idEmprestimoUsuario=?, dataEmprestimo=?, "
-                + "dataDevolucao=? "
-                + "WHERE idEmprestimo=?";
+        String sql = "UPDATE Emprestimo SET id_emprestimo_cliente=?, "
+                + "id_emprestimo_exemplar=?, id_emprestimo_usuario=?, data_emprestimo=?, "
+                + "data_devolucao=? "
+                + "WHERE id_emprestimo=?";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -188,7 +188,7 @@ public class EmprestimoDAO {
      */
     public boolean deletar(Emprestimo emprestimo){
         String sql = "DELETE FROM Emprestimo "
-                + "WHERE idEmprestimo=?";
+                + "WHERE id_emprestimo=?";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);

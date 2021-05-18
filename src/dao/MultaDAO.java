@@ -44,12 +44,12 @@ public class MultaDAO {
             while(resultado.next()){
                 Multa multa = new Multa();
                 
-                multa.setIdMulta(resultado.getInt("idMulta"));
-                multa.setIdMultaCliente(resultado.getInt("idMultaCliente"));
-                multa.setIdMultaEmprestimo(resultado.getInt("idMultaEmprestimo"));
-                multa.setDescricaoMulta(resultado.getString("descricaoMulta"));
-                multa.setValorMulta(resultado.getDouble("valorMulta"));
-                multa.setPagamentoMulta(resultado.getBoolean("pagamentoMulta"));
+                multa.setIdMulta(resultado.getInt("id_multa"));
+                multa.setIdMultaCliente(resultado.getInt("id_multa_cliente"));
+                multa.setIdMultaEmprestimo(resultado.getInt("id_multa_emprestimo"));
+                multa.setDescricaoMulta(resultado.getString("descricao_multa"));
+                multa.setValorMulta(resultado.getDouble("valor_multa"));
+                multa.setPagamentoMulta(resultado.getBoolean("pagamento_multa"));
                 
                 multas.add(multa);
             }
@@ -82,12 +82,12 @@ public class MultaDAO {
             while(resultado.next()){
                 Multa multa = new Multa();
                 
-                multa.setIdMulta(resultado.getInt("idMulta"));
-                multa.setIdMultaCliente(resultado.getInt("idMultaCliente"));
-                multa.setIdMultaEmprestimo(resultado.getInt("idMultaEmprestimo"));
-                multa.setDescricaoMulta(resultado.getString("descricaoMulta"));
-                multa.setValorMulta(resultado.getDouble("valorMulta"));
-                multa.setPagamentoMulta(resultado.getBoolean("pagamentoMulta"));
+                multa.setIdMulta(resultado.getInt("id_multa"));
+                multa.setIdMultaCliente(resultado.getInt("id_multa_cliente"));
+                multa.setIdMultaEmprestimo(resultado.getInt("id_multa_emprestimo"));
+                multa.setDescricaoMulta(resultado.getString("descricao_multa"));
+                multa.setValorMulta(resultado.getDouble("valor_multa"));
+                multa.setPagamentoMulta(resultado.getBoolean("pagamento_multa"));
                 
                 multas.add(multa);
             }
@@ -110,8 +110,8 @@ public class MultaDAO {
      * @return true, se conseguir salvar, e false se não conseguir
      */
     public boolean salvar(Multa multa){
-        String sql = "INSERT INTO Multa(idMultaCliente, idMultaEmprestimo, "
-                + "descricaoMulta, valorMulta, pagamentoMulta) "
+        String sql = "INSERT INTO Multa(id_multa_cliente, id_multa_emprestimo, "
+                + "descricao_multa, valor_multa, pagamento_multa) "
                 + "VALUES (?, ?, ?, ?, ?)";
         
         try {
@@ -140,9 +140,9 @@ public class MultaDAO {
      * @return true, se conseguir alterar, e false se não conseguir
      */
     public boolean alterar(Multa multa){
-        String sql = "UPDATE Multa SET idMultaCliente=?, idMultaEmprestimo=?, "
-                + "descricaoMulta=?, valorMulta=?, pagamentoMulta=? "
-                + "WHERE idMulta=?";
+        String sql = "UPDATE Multa SET id_multa_cliente=?, id_multa_emprestimo=?, "
+                + "descricao_multa=?, valor_multa=?, pagamento_multa=? "
+                + "WHERE id_multa=?";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -172,7 +172,7 @@ public class MultaDAO {
      */
     public boolean deletar(Multa multa){
         String sql = "DELETE FROM Multa "
-                + "WHERE idMulta=?";
+                + "WHERE id_multa=?";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);

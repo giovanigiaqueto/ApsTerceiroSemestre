@@ -53,10 +53,10 @@ public class ExemplarDAO {
             while(resultado.next()){
                 Exemplar exemplar = new Exemplar();
                 
-                exemplar.setIdExemplar(resultado.getInt("idExemplar"));
-                exemplar.setIdExemplarLivro(resultado.getInt("idExemplarLivro"));
-                exemplar.setEstaAlocado(resultado.getBoolean("estaAlocado"));
-                exemplar.setDataObtencao(resultado.getString("dataObtencao"));
+                exemplar.setIdExemplar(resultado.getInt("id_exemplar"));
+                exemplar.setIdExemplarLivro(resultado.getInt("id_exemplarLivro"));
+                exemplar.setEstaAlocado(resultado.getBoolean("esta_alocado"));
+                exemplar.setDataObtencao(resultado.getString("data_obtencao"));
                 
                 exemplares.add(exemplar);
             }
@@ -89,10 +89,10 @@ public class ExemplarDAO {
             while(resultado.next()){
                 Exemplar exemplar = new Exemplar();
                 
-                exemplar.setIdExemplar(resultado.getInt("idExemplar"));
-                exemplar.setIdExemplarLivro(resultado.getInt("idExemplarLivro"));
-                exemplar.setEstaAlocado(resultado.getBoolean("estaAlocado"));
-                exemplar.setDataObtencao(resultado.getString("dataObtencao"));
+                exemplar.setIdExemplar(resultado.getInt("id_exemplar"));
+                exemplar.setIdExemplarLivro(resultado.getInt("id_exemplarLivro"));
+                exemplar.setEstaAlocado(resultado.getBoolean("esta_alocado"));
+                exemplar.setDataObtencao(resultado.getString("data_obtencao"));
                 
                 exemplares.add(exemplar);
             }
@@ -115,7 +115,7 @@ public class ExemplarDAO {
      * @return true, se conseguir salvar, e false se não conseguir
      */
     public boolean salvar(Exemplar exemplar){
-        String sql = "INSERT INTO Exemplar(idExemplarLivro, estaAlocado, dataObtencao) "
+        String sql = "INSERT INTO Exemplar(id_exemplarLivro, esta_alocado, data_obtencao) "
                 + "VALUES (?, ?, ?)";
         
         try {
@@ -145,9 +145,9 @@ public class ExemplarDAO {
      * @return true, se conseguir alterar, e false se não conseguir
      */
     public boolean alterar(Exemplar exemplar){
-        String sql = "UPDATE Exemplar SET idExemplarLivro=?, estaAlocado=?, "
-                + "dataObtencao=? "
-                + "WHERE idExemplar=?";
+        String sql = "UPDATE Exemplar SET id_exemplarLivro=?, esta_alocado=?, "
+                + "data_obtencao=? "
+                + "WHERE id_exemplar=?";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -178,7 +178,7 @@ public class ExemplarDAO {
      */
     public boolean deletar(Exemplar exemplar){
         String sql = "DELETE FROM Exemplar "
-                + "WHERE idExemplar=?";
+                + "WHERE id_exemplar=?";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);

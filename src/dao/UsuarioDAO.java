@@ -44,14 +44,14 @@ public class UsuarioDAO {
             while(resultado.next()){
                 Usuario usuario = new Usuario();
                 
-                usuario.setIdUsuario(resultado.getInt("idUsuario"));
-                usuario.setNomeUsuario(resultado.getString("nomeUsuario"));
-                usuario.setCPFUsuario(resultado.getString("CPFUsuario"));
-                usuario.setTelefoneUsuario(resultado.getString("telefoneUsuario"));
-                usuario.setSexoUsuario(resultado.getString("sexoUsuario"));
-                usuario.setEnderecoUsuario(resultado.getString("enderecoUsuario"));
-                usuario.setEmailUsuario(resultado.getString("emailUsuario"));
-                usuario.setSenhaUsuario(resultado.getString("senhaUsuario"));
+                usuario.setIdUsuario(resultado.getInt("id_usuario"));
+                usuario.setNomeUsuario(resultado.getString("nome_usuario"));
+                usuario.setCPFUsuario(resultado.getString("cpf_suario"));
+                usuario.setTelefoneUsuario(resultado.getString("telefone_usuario"));
+                usuario.setSexoUsuario(resultado.getString("sexo_usuario"));
+                usuario.setEnderecoUsuario(resultado.getString("endereco_usuario"));
+                usuario.setEmailUsuario(resultado.getString("email_usuario"));
+                usuario.setSenhaUsuario(resultado.getString("senha_suario"));
                 
                 usuarios.add(usuario);
             }
@@ -84,14 +84,14 @@ public class UsuarioDAO {
             while(resultado.next()){
                 Usuario usuario = new Usuario();
                 
-                usuario.setIdUsuario(resultado.getInt("idUsuario"));
-                usuario.setNomeUsuario(resultado.getString("nomeUsuario"));
-                usuario.setCPFUsuario(resultado.getString("CPFUsuario"));
-                usuario.setTelefoneUsuario(resultado.getString("telefoneUsuario"));
-                usuario.setSexoUsuario(resultado.getString("sexoUsuario"));
-                usuario.setEnderecoUsuario(resultado.getString("enderecoUsuario"));
-                usuario.setEmailUsuario(resultado.getString("emailUsuario"));
-                usuario.setSenhaUsuario(resultado.getString("senhaUsuario"));
+                usuario.setIdUsuario(resultado.getInt("id_usuario"));
+                usuario.setNomeUsuario(resultado.getString("nome_usuario"));
+                usuario.setCPFUsuario(resultado.getString("cpf_suario"));
+                usuario.setTelefoneUsuario(resultado.getString("telefone_usuario"));
+                usuario.setSexoUsuario(resultado.getString("sexo_usuario"));
+                usuario.setEnderecoUsuario(resultado.getString("endereco_usuario"));
+                usuario.setEmailUsuario(resultado.getString("email_usuario"));
+                usuario.setSenhaUsuario(resultado.getString("senha_suario"));
                 
                 usuarios.add(usuario);
             }
@@ -114,8 +114,8 @@ public class UsuarioDAO {
      * @return true, se conseguir salvar, e false se não conseguir
      */
     public boolean salvar(Usuario usuario){
-        String sql = "INSERT INTO Usuario(nomeUsuario, CPFUsuario, telefoneUsuario, "
-                + "sexoUsuario, enderecoUsuario, emailUsuario, senhaUsuario) "
+        String sql = "INSERT INTO Usuario(nome_usuario, cpf_suario, telefone_usuario, "
+                + "sexo_usuario, endereco_usuario, email_usuario, senha_suario) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?) ";
         
         try {
@@ -146,9 +146,9 @@ public class UsuarioDAO {
      * @return true, se conseguir alterar, e false se não conseguir
      */
     public boolean alterar(Usuario usuario){
-        String sql = "UPDATE Usuario SET nomeUsuario=?, CPFUsuario=?, telefoneUsuario=?, "
-                + "sexoUsuario=?, enderecoUsuario=?, emailUsuario=?, senhaUsuario=? "
-                + "WHERE idUsuario=?";
+        String sql = "UPDATE Usuario SET nome_usuario=?, cpf_suario=?, telefone_usuario=?, "
+                + "sexo_usuario=?, endereco_usuario=?, email_usuario=?, senha_suario=? "
+                + "WHERE id_usuario=?";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -180,7 +180,7 @@ public class UsuarioDAO {
      */
     public boolean deletar(Usuario usuario){
         String sql = "DELETE FROM Usuario "
-                + "WHERE idUsuario=?";
+                + "WHERE id_usuario=?";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
