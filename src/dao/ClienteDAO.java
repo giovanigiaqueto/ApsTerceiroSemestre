@@ -46,11 +46,11 @@ public class ClienteDAO {
                 
                 cliente.setIdCliente(resultado.getInt("idCliente"));
                 cliente.setNomeCliente(resultado.getString("nomeCliente"));
-//                cliente.setCPFCliente(resultado.getString("CPFCliente"));
-//                cliente.setTelefoneCliente(resultado.getString("telefoneCliente"));
-//                cliente.setSexoCliente(resultado.getString("sexoCliente"));
-//                cliente.setEnderecoCliente(resultado.getString("enderecoCliente"));
-//                cliente.setEmailCliente(resultado.getString("emailCliente"));
+                cliente.setCPFCliente(resultado.getString("CPFCliente"));
+                cliente.setTelefoneCliente(resultado.getString("telefoneCliente"));
+                cliente.setSexoCliente(resultado.getString("sexoCliente"));
+                cliente.setEnderecoCliente(resultado.getString("enderecoCliente"));
+                cliente.setEmailCliente(resultado.getString("emailCliente"));
                 
                 clientes.add(cliente);
             }
