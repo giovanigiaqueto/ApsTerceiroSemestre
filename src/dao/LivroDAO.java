@@ -1,17 +1,24 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Livro;
 
 public class LivroDAO {
     
     private Connection conecta;
+    
+    private SimpleDateFormat formataData;
 
     public LivroDAO() {
         try {
@@ -19,6 +26,8 @@ public class LivroDAO {
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+        
+        formataData = new SimpleDateFormat("yyyy-MM-dd");
     }
     
     /**
@@ -31,7 +40,7 @@ public class LivroDAO {
      * @return a lista de Livro
      */
     public List<Livro> listarLivros(int numItens, int deslocamento){
-        String sql = "SELECT * FROM Livro LIMIT=? OFFSET=?";
+        String sql = "SELECT * FROM Livro LIMIT ? OFFSET ?";
         ResultSet resultado;
         List<Livro> livros = new ArrayList<>(numItens);
         
@@ -65,6 +74,7 @@ public class LivroDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             throw new RuntimeException(ex);
         }
         
@@ -109,6 +119,7 @@ public class LivroDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             throw new RuntimeException(ex);
         }
         
@@ -124,7 +135,8 @@ public class LivroDAO {
     public boolean salvar(Livro livro){
         String sql = "INSERT INTO Livro(nomeLivro, ISBNLivro, autorLivro, editoraLivro,"
                 + "edicaoLivro, dataLancamentoLivro, nomeLivroCategoria, estoqueLivro,"
-                + "locacaoLivro, paginasLivro, precoLivro, sinopseLivro)";
+                + "locacaoLivro, paginasLivro, precoLivro, sinopseLivro) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -134,7 +146,7 @@ public class LivroDAO {
             stmt.setString(3, livro.getAutorLivro());
             stmt.setString(4, livro.getEditoraLivro());
             stmt.setInt(5, livro.getEdicaoLivro());
-            stmt.setString(6, livro.getDataLancamentoLivro());
+            stmt.setDate(6, new Date(formataData.parse(livro.getDataLancamentoLivro()).getTime()));
             stmt.setString(7, livro.getNomeLivroCategoria());
             stmt.setInt(8, livro.getEstoqueLivro());
             stmt.setInt(9, livro.getLocacaoLivro());
@@ -145,6 +157,10 @@ public class LivroDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        } catch (ParseException ex) {
+            Logger.getLogger(LivroDAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
         
@@ -161,7 +177,7 @@ public class LivroDAO {
         String sql = "UPDATE Livro SET nomeLivro=?, ISBNLivro=?, autorLivro=?, "
                 + "editoraLivro=?, edicaoLivro=?, dataLancamentoLivro=?, "
                 + "nomeLivroCategoria=?, estoqueLivro=?, locacaoLivro=?, paginasLivro=?, "
-                + "precoLivro=?, sinopseLivro=?"
+                + "precoLivro=?, sinopseLivro=? "
                 + "WHERE idLivro=?";
         
         try {
@@ -172,7 +188,7 @@ public class LivroDAO {
             stmt.setString(3, livro.getAutorLivro());
             stmt.setString(4, livro.getEditoraLivro());
             stmt.setInt(5, livro.getEdicaoLivro());
-            stmt.setString(6, livro.getDataLancamentoLivro());
+            stmt.setDate(6, new Date(formataData.parse(livro.getDataLancamentoLivro()).getTime()));
             stmt.setString(7, livro.getNomeLivroCategoria());
             stmt.setInt(8, livro.getEstoqueLivro());
             stmt.setInt(9, livro.getLocacaoLivro());
@@ -184,6 +200,10 @@ public class LivroDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        } catch (ParseException ex) {
+            Logger.getLogger(LivroDAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
         
@@ -197,7 +217,7 @@ public class LivroDAO {
      * @return true, se conseguir deletar, e false se não conseguir
      */
     public boolean deletar(Livro livro){
-        String sql = "DELETE FROM Livro"
+        String sql = "DELETE FROM Livro "
                 + "WHERE idLivro=?";
         
         try {
@@ -208,6 +228,7 @@ public class LivroDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             return false;
         }
         

@@ -25,7 +25,18 @@ public class Usuario {
 
     public Usuario() {}
 
-
+    @Override
+    public String toString() {
+        return "Usuario{" + "idUsuario = " + idUsuario
+                + "\n\tnomeUsuario = " + nomeUsuario
+                + "\n\tCPFUsuario = " + CPFUsuario
+                + "\n\ttelefoneUsuario = " + telefoneUsuario
+                + "\n\tsexoUsuario = " + sexoUsuario
+                + "\n\tenderecoUsuario = " + enderecoUsuario
+                + "\n\temailUsuario = " + emailUsuario
+                + "\n\tsenhaUsuario = " + senhaUsuario + '}';
+    }
+    
     public int getIdUsuario() { return idUsuario; }
 
     public void setIdUsuario(int idUsuario) { this.idUsuario = idUsuario; }

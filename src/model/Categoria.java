@@ -15,6 +15,13 @@ public class Categoria {
     
     public Categoria() {}
     
+    @Override
+    public String toString() {
+        return "Categoria{idCategoria = " + idCategoria
+                + "\n\tnomeCategoria = " + nomeCategoria
+                + "\n\tdescricaoCategoria = "+descricaoCategoria + '}';
+    }
+    
     // ==================== GETTERS ====================
     
     public int getIdCategoria() {

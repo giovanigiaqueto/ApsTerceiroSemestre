@@ -31,7 +31,7 @@ public class ClienteDAO {
      * @return a lista de Cliente
      */
     public List<Cliente> listarClientes(int numItens, int deslocamento){
-        String sql = "SELECT * FROM Cliente LIMIT=? OFFSET=?";
+        String sql = "SELECT * FROM Cliente LIMIT ? OFFSET ?";
         ResultSet resultado;
         List<Cliente> clientes = new ArrayList<>(numItens);
         
@@ -46,11 +46,11 @@ public class ClienteDAO {
                 
                 cliente.setIdCliente(resultado.getInt("idCliente"));
                 cliente.setNomeCliente(resultado.getString("nomeCliente"));
-                cliente.setCPFCliente(resultado.getString("CPFCliente"));
-                cliente.setTelefoneCliente(resultado.getString("telefoneCliente"));
-                cliente.setSexoCliente(resultado.getString("sexoCliente"));
-                cliente.setEnderecoCliente(resultado.getString("enderecoCliente"));
-                cliente.setEmailCliente(resultado.getString("emailCliente"));
+//                cliente.setCPFCliente(resultado.getString("CPFCliente"));
+//                cliente.setTelefoneCliente(resultado.getString("telefoneCliente"));
+//                cliente.setSexoCliente(resultado.getString("sexoCliente"));
+//                cliente.setEnderecoCliente(resultado.getString("enderecoCliente"));
+//                cliente.setEmailCliente(resultado.getString("emailCliente"));
                 
                 clientes.add(cliente);
             }
@@ -59,6 +59,7 @@ public class ClienteDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             throw new RuntimeException(ex);
         }
         
@@ -97,6 +98,7 @@ public class ClienteDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             throw new RuntimeException(ex);
         }
         
@@ -127,6 +129,7 @@ public class ClienteDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             return false;
         }
         
@@ -142,7 +145,7 @@ public class ClienteDAO {
     public boolean alterar(Cliente cliente){
         String sql = "UPDATE Cliente SET nomeCliente=?, CPFCliente=?, "
                 + "telefoneCliente=?, sexoCliente=?, enderecoCliente=?, emailCliente=?"
-                + "WHERE id=?";
+                + "WHERE idCliente=?";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -158,6 +161,7 @@ public class ClienteDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             return false;
         }
         
@@ -171,7 +175,7 @@ public class ClienteDAO {
      * @return true, se conseguir deletar, e false se não conseguir
      */
     public boolean deletar(Cliente cliente){
-        String sql = "DELETE FROM Cliente"
+        String sql = "DELETE FROM Cliente "
                 + "WHERE idCliente=?";
         
         try {
@@ -182,6 +186,7 @@ public class ClienteDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             return false;
         }
         

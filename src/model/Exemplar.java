@@ -17,6 +17,14 @@ public class Exemplar {
     }
     
     public Exemplar() {}
+
+    @Override
+    public String toString() {
+        return "Exemplar{" + "idExemplar = " + idExemplar
+                + "\n\tidExemplarLivro = " + idExemplarLivro
+                + "\n\testaAlocado = " + estaAlocado
+                + "\n\tdataObtencao = " + dataObtencao + '}';
+    }
     
     // ==================== GETTERS ====================
     

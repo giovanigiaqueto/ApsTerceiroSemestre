@@ -36,6 +36,23 @@ public class Livro {
     }
 
     public Livro() {}
+
+    @Override
+    public String toString() {
+        return "Livro{" + "idLivro = " + idLivro
+                + "\n\tnomeLivro = " + nomeLivro
+                + "\n\tISBNLivro = " + ISBNLivro
+                + "\n\tautorLivro = " + autorLivro
+                + "\n\teditoraLivro = " + editoraLivro
+                + "\n\tedicaoLivro = " + edicaoLivro
+                + "\n\tdataLancamentoLivro = " + dataLancamentoLivro
+                + "\n\tnomeLivroCategoria = " + nomeLivroCategoria
+                + "\n\testoqueLivro = " + estoqueLivro
+                + "\n\tlocacaoLivro = " + locacaoLivro
+                + "\n\tpaginasLivro = " + paginasLivro
+                + "\n\tprecoLivro = " + precoLivro
+                + "\n\tsinopseLivro = " + sinopseLivro + '}';
+    }
     
     // ==================== GETTERS ====================
     

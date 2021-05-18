@@ -1,17 +1,24 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Emprestimo;
 
 public class EmprestimoDAO {
     
     private Connection conecta;
+    
+    private SimpleDateFormat formataData;
 
     public EmprestimoDAO() {
         try {
@@ -19,6 +26,8 @@ public class EmprestimoDAO {
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+        
+        formataData = new SimpleDateFormat("yyyy-MM-dd");
     }
     
     /**
@@ -31,7 +40,7 @@ public class EmprestimoDAO {
      * @return a lista de Emprestimo
      */
     public List<Emprestimo> listarEmprestimos(int numItens, int deslocamento){
-        String sql = "SELECT * FROM Emprestimo LIMIT=? OFFSET=?";
+        String sql = "SELECT * FROM Emprestimo LIMIT ? OFFSET ?";
         ResultSet resultado;
         List<Emprestimo> emprestimos = new ArrayList<>(numItens);
         
@@ -58,6 +67,7 @@ public class EmprestimoDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             throw new RuntimeException(ex);
         }
         
@@ -95,6 +105,7 @@ public class EmprestimoDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             throw new RuntimeException(ex);
         }
         
@@ -109,8 +120,8 @@ public class EmprestimoDAO {
      */
     public boolean salvar(Emprestimo emprestimo){
         String sql = "INSERT INTO Emprestimo(idEmprestimoCliente, idEmprestimoExemplar, "
-                + "idEmprestimoUsuario, dataEmprestimo, dataDevolucao)"
-                + "VALUES(?, ?, ?, ?, ?)";
+                + "idEmprestimoUsuario, dataEmprestimo, dataDevolucao) "
+                + "VALUES (?, ?, ?, ?, ?)";
         
         try{
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -118,12 +129,16 @@ public class EmprestimoDAO {
             stmt.setInt(1, emprestimo.getIdEmprestimoCliente());
             stmt.setInt(2, emprestimo.getIdEmprestimoExemplar());
             stmt.setInt(3, emprestimo.getIdEmprestimoUsuario());
-            stmt.setString(4, emprestimo.getDataEmprestimo());
-            stmt.setString(5, emprestimo.getDataDevolucao());
+            stmt.setDate(4, new Date(formataData.parse(emprestimo.getDataEmprestimo()).getTime()));
+            stmt.setDate(5, new Date(formataData.parse(emprestimo.getDataDevolucao()).getTime()));
             stmt.execute();
             stmt.close();
             
         } catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            return false;
+        } catch (ParseException ex) {
+            Logger.getLogger(EmprestimoDAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
         
@@ -139,7 +154,7 @@ public class EmprestimoDAO {
     public boolean alterar(Emprestimo emprestimo){
         String sql = "UPDATE Emprestimo SET idEmprestimoCliente=?, "
                 + "idEmprestimoExemplar=?, idEmprestimoUsuario=?, dataEmprestimo=?, "
-                + "dataDevolucao=?"
+                + "dataDevolucao=? "
                 + "WHERE idEmprestimo=?";
         
         try {
@@ -148,13 +163,17 @@ public class EmprestimoDAO {
             stmt.setInt(1, emprestimo.getIdEmprestimoCliente());
             stmt.setInt(2, emprestimo.getIdEmprestimoExemplar());
             stmt.setInt(3, emprestimo.getIdEmprestimoUsuario());
-            stmt.setString(4, emprestimo.getDataEmprestimo());
-            stmt.setString(5, emprestimo.getDataDevolucao());
+            stmt.setDate(4, new Date(formataData.parse(emprestimo.getDataEmprestimo()).getTime()));
+            stmt.setDate(5, new Date(formataData.parse(emprestimo.getDataDevolucao()).getTime()));
             stmt.setInt(6, emprestimo.getIdEmprestimo());
             stmt.execute();
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        } catch (ParseException ex) {
+            Logger.getLogger(EmprestimoDAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
         
@@ -168,8 +187,8 @@ public class EmprestimoDAO {
      * @return true, se conseguir deletar, e false se não conseguir
      */
     public boolean deletar(Emprestimo emprestimo){
-        String sql = "DELETE FROM Emprestimo"
-                + "WHERE id=?";
+        String sql = "DELETE FROM Emprestimo "
+                + "WHERE idEmprestimo=?";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -179,6 +198,7 @@ public class EmprestimoDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             return false;
         }
         

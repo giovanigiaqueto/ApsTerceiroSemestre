@@ -33,7 +33,7 @@ public class CategoriaDAO {
      * @return a lista de Categoria
      */
     public List<Categoria> listarCategorias(int numItens, int deslocamento){
-        String sql = "SELECT * FROM Categoria LIMIT=? OFFSET=?";
+        String sql = "SELECT * FROM Categoria LIMIT ? OFFSET ?";
         ResultSet resultado;
         List<Categoria> categorias = new ArrayList<>(numItens);
         
@@ -53,6 +53,7 @@ public class CategoriaDAO {
                 categorias.add(categoria);
             }
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             throw new RuntimeException(ex);
         }
         
@@ -87,6 +88,7 @@ public class CategoriaDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             throw new RuntimeException(ex);
         }
         
@@ -100,8 +102,8 @@ public class CategoriaDAO {
      * @return true, se conseguir salvar, e false se não conseguir
      */
     public boolean salvar(Categoria categoria){
-        String sql = "INSERT INTO Categoria(nomeCategoria, descricaoCategoria)"
-                + "VALUES(?, ?)";
+        String sql = "INSERT INTO Categoria(nomeCategoria, descricaoCategoria) "
+                + "VALUES (?, ?)";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -112,6 +114,7 @@ public class CategoriaDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             return false;
         }
         
@@ -125,8 +128,8 @@ public class CategoriaDAO {
      * @return true, se conseguir alterar, e false se não conseguir
      */
     public boolean alterar(Categoria categoria){
-        String sql = "UPDATE Categoria SET nomeCategoria=?, descricaoCategoria=?"
-                + "WHERE id=?";
+        String sql = "UPDATE Categoria SET nomeCategoria=?, descricaoCategoria=? "
+                + "WHERE idCategoria=?";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -138,6 +141,7 @@ public class CategoriaDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             return false;
         }
         
@@ -152,7 +156,7 @@ public class CategoriaDAO {
      */
     public boolean deletar(Categoria categoria){
         String sql = "DELETE FROM Categoria "
-                + "WHERE id=?";
+                + "WHERE idCategoria=?";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -162,6 +166,7 @@ public class CategoriaDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             return false;
         }
         

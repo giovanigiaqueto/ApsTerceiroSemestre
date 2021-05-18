@@ -1,17 +1,24 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Exemplar;
 
 public class ExemplarDAO {
     
     private Connection conecta;
+    
+    private SimpleDateFormat formataData;
 
     public ExemplarDAO() {
         try {
@@ -19,6 +26,8 @@ public class ExemplarDAO {
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+        
+        formataData = new SimpleDateFormat("yyyy-MM-dd");
     }
     
     /**
@@ -31,7 +40,7 @@ public class ExemplarDAO {
      * @return a lista de Exemplar
      */
     public List<Exemplar> listarExemplares(int numItens, int deslocamento){
-        String sql = "SELECT * FROM Exemplar LIMIT=? OFFSET=?";
+        String sql = "SELECT * FROM Exemplar LIMIT ? OFFSET ?";
         ResultSet resultado;
         List<Exemplar> exemplares = new ArrayList<>(numItens);
         
@@ -56,6 +65,7 @@ public class ExemplarDAO {
             stmt.close();
             
         } catch (SQLException ex){
+            System.out.println(ex.getMessage());
             throw new RuntimeException(ex);
         }
         
@@ -91,6 +101,7 @@ public class ExemplarDAO {
             stmt.close();
             
         } catch (SQLException ex){
+            System.out.println(ex.getMessage());
             throw new RuntimeException(ex);
         }
         
@@ -104,19 +115,23 @@ public class ExemplarDAO {
      * @return true, se conseguir salvar, e false se não conseguir
      */
     public boolean salvar(Exemplar exemplar){
-        String sql = "INSERT INTO Exemplar(idExemplarLivro, estaAlocado, dataObtencao)"
-                + "VALUES(?, ?, ?)";
+        String sql = "INSERT INTO Exemplar(idExemplarLivro, estaAlocado, dataObtencao) "
+                + "VALUES (?, ?, ?)";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
             
             stmt.setInt(1, exemplar.getIdExemplarLivro());
             stmt.setBoolean(2, exemplar.getEstaAlocado());
-            stmt.setString(3, exemplar.getDataObtencao());
+            stmt.setDate(3, new Date(formataData.parse(exemplar.getDataObtencao()).getTime()));
             stmt.execute();
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        } catch (ParseException ex) {
+            Logger.getLogger(ExemplarDAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
         
@@ -131,7 +146,7 @@ public class ExemplarDAO {
      */
     public boolean alterar(Exemplar exemplar){
         String sql = "UPDATE Exemplar SET idExemplarLivro=?, estaAlocado=?, "
-                + "dataObtencao=?"
+                + "dataObtencao=? "
                 + "WHERE idExemplar=?";
         
         try {
@@ -139,12 +154,16 @@ public class ExemplarDAO {
             
             stmt.setInt(1, exemplar.getIdExemplarLivro());
             stmt.setBoolean(2, exemplar.getEstaAlocado());
-            stmt.setString(3, exemplar.getDataObtencao());
+            stmt.setDate(3, new Date(formataData.parse(exemplar.getDataObtencao()).getTime()));
             stmt.setInt(4, exemplar.getIdExemplar());
             stmt.execute();
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        } catch (ParseException ex) {
+            Logger.getLogger(ExemplarDAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
         
@@ -158,8 +177,8 @@ public class ExemplarDAO {
      * @return true, se conseguir deletar, e false se não conseguir
      */
     public boolean deletar(Exemplar exemplar){
-        String sql = "DELETE FROM Exemplar"
-                + "WHERE id=?";
+        String sql = "DELETE FROM Exemplar "
+                + "WHERE idExemplar=?";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -169,6 +188,7 @@ public class ExemplarDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             return false;
         }
         

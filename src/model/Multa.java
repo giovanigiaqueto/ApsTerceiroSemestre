@@ -21,6 +21,16 @@ public class Multa {
 
     public Multa() {}
 
+    @Override
+    public String toString() {
+        return "Multa{" + "idMulta = " + idMulta
+                + "\n\tidMultaCliente = " + idMultaCliente
+                + "\n\tidMultaEmprestimo = " + idMultaEmprestimo
+                + "\n\tdescricaoMulta= " + descricaoMulta
+                + "\n\tvalorMulta = " + valorMulta
+                + "\n\tpagamentoMulta = " + pagamentoMulta + '}';
+    }
+
     public int getIdMulta() { return idMulta; }
 
     public void setIdMulta(int idMulta) { this.idMulta = idMulta; }

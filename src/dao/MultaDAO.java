@@ -31,7 +31,7 @@ public class MultaDAO {
      * @return a lista de Multa
      */
     public List<Multa> listarMultas(int numItens, int deslocamento){
-        String sql = "SELECT * FROM Multa LIMIT=? OFFSET=?";
+        String sql = "SELECT * FROM Multa LIMIT ? OFFSET ?";
         ResultSet resultado;
         List<Multa> multas = new ArrayList<>(numItens);
         
@@ -58,6 +58,7 @@ public class MultaDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             throw new RuntimeException(ex);
         }
         
@@ -95,6 +96,7 @@ public class MultaDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             throw new RuntimeException(ex);
         }
         
@@ -109,8 +111,8 @@ public class MultaDAO {
      */
     public boolean salvar(Multa multa){
         String sql = "INSERT INTO Multa(idMultaCliente, idMultaEmprestimo, "
-                + "descricaoMulta, valorMulta, pagamentoMulta)"
-                + "VALUES(?, ?, ?, ?, ?)";
+                + "descricaoMulta, valorMulta, pagamentoMulta) "
+                + "VALUES (?, ?, ?, ?, ?)";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -124,6 +126,7 @@ public class MultaDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             return false;
         }
         
@@ -138,7 +141,7 @@ public class MultaDAO {
      */
     public boolean alterar(Multa multa){
         String sql = "UPDATE Multa SET idMultaCliente=?, idMultaEmprestimo=?, "
-                + "descricaoMulta=?, valorMulta=?, pagamentoMulta=?"
+                + "descricaoMulta=?, valorMulta=?, pagamentoMulta=? "
                 + "WHERE idMulta=?";
         
         try {
@@ -154,6 +157,7 @@ public class MultaDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             return false;
         }
         
@@ -167,7 +171,7 @@ public class MultaDAO {
      * @return true, se conseguir deletar, e false se não conseguir
      */
     public boolean deletar(Multa multa){
-        String sql = "DELETE FROM Multa"
+        String sql = "DELETE FROM Multa "
                 + "WHERE idMulta=?";
         
         try {
@@ -178,6 +182,7 @@ public class MultaDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             return false;
         }
         

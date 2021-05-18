@@ -21,6 +21,16 @@ public class Emprestimo {
     
     public Emprestimo() {}
 
+    @Override
+    public String toString() {
+        return "Emprestimo{" + "idEmprestimo = " + idEmprestimo
+                + "\n\tidEmprestimoCliente = " + idEmprestimoCliente
+                + "\n\tidEmprestimoUsuario = " + idEmprestimoUsuario
+                + "\n\tidEmprestimoExemplar = " + idEmprestimoExemplar
+                + "\n\tdataEmprestimo = " + dataEmprestimo
+                + "\n\tdataDevolucao = " + dataDevolucao + '}';
+    }
+
     public int getIdEmprestimo() { return idEmprestimo; }
 
     public void setIdEmprestimo(int idEmprestimo) { this.idEmprestimo = idEmprestimo; }

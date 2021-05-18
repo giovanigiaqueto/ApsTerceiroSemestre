@@ -31,7 +31,7 @@ public class UsuarioDAO {
      * @return a lista de Usuario
      */
     public List<Usuario> listarUsuarios(int numItens, int deslocamento){
-        String sql = "SELECT * FROM Usuario LIMIT=? OFFSET=?";
+        String sql = "SELECT * FROM Usuario LIMIT ? OFFSET ?";
         ResultSet resultado;
         List<Usuario> usuarios = new ArrayList<>(numItens);
         
@@ -60,6 +60,7 @@ public class UsuarioDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             throw new RuntimeException(ex);
         }
         
@@ -99,6 +100,7 @@ public class UsuarioDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             throw new RuntimeException(ex);
         }
         
@@ -113,8 +115,8 @@ public class UsuarioDAO {
      */
     public boolean salvar(Usuario usuario){
         String sql = "INSERT INTO Usuario(nomeUsuario, CPFUsuario, telefoneUsuario, "
-                + "sexoUsuario, enderecoUsuario, emailUsuario, senhaUsuario)"
-                + "VALUES(?, ?, ?, ?, ?, ?, ?)";
+                + "sexoUsuario, enderecoUsuario, emailUsuario, senhaUsuario) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?) ";
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -130,6 +132,7 @@ public class UsuarioDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             return false;
         }
         
@@ -143,8 +146,8 @@ public class UsuarioDAO {
      * @return true, se conseguir alterar, e false se não conseguir
      */
     public boolean alterar(Usuario usuario){
-        String sql = "UPDATE Usuario SET nomeUsuario=?, CPFUsuario=?, telefoneUsuario=?,"
-                + "sexoUsuario=?, enderecoUsuario=?, emailUsuario=?, senhaUsuario=?"
+        String sql = "UPDATE Usuario SET nomeUsuario=?, CPFUsuario=?, telefoneUsuario=?, "
+                + "sexoUsuario=?, enderecoUsuario=?, emailUsuario=?, senhaUsuario=? "
                 + "WHERE idUsuario=?";
         
         try {
@@ -162,6 +165,7 @@ public class UsuarioDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             return false;
         }
         
@@ -175,7 +179,7 @@ public class UsuarioDAO {
      * @return true, se conseguir deletar, e false se não conseguir
      */
     public boolean deletar(Usuario usuario){
-        String sql = "DELETE FROM Usuario"
+        String sql = "DELETE FROM Usuario "
                 + "WHERE idUsuario=?";
         
         try {
@@ -186,6 +190,7 @@ public class UsuarioDAO {
             stmt.close();
             
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             return false;
         }
         

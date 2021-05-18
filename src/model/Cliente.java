@@ -23,6 +23,16 @@ public class Cliente {
     
     public Cliente() {}
     
+    @Override
+    public String toString() {
+        return "Cliente{" + "idCliente = " + idCliente
+                + "\n\tnomeCliente = " + nomeCliente
+                + "\n\tCPFCliente = " + CPFCliente
+                + "\n\ttelefoneCliente = " + telefoneCliente
+                + "\n\tsexoCliente = " + sexoCliente
+                + "\n\tenderecoCliente = " + enderecoCliente
+                + "\n\temailCliente = " + emailCliente + '}';
+    }
 
     public int getIdCliente() { return idCliente; }
 
