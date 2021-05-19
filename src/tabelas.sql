@@ -8,7 +8,7 @@ CREATE TABLE Usuario(
     endereco_usuario        varchar(60)     NOT NULL,
     email_usuario           varchar(256)    NOT NULL,
     senha_suario            varchar(128),
-    ativo                   boolean
+    ativo                   boolean         NOT NULL DEFAULT 'true'
 );
 
 CREATE TABLE Cliente(
@@ -19,14 +19,14 @@ CREATE TABLE Cliente(
     sexo_cliente             varchar(12)     NOT NULL,
     endereco_cliente         varchar(60)     NOT NULL,
     email_cliente            varchar(256)    NOT NULL,
-    ativo                    boolean
+    ativo                    boolean         NOT NULL DEFAULT 'true'
 );
 
 CREATE TABLE Categoria(
     id_categoria             SERIAL          PRIMARY KEY,
     nome_categoria           varchar(30)     NOT NULL UNIQUE,
     descricao_categoria      varchar(255)    NOT NULL,
-    ativo                    boolean
+    ativo                    boolean         NOT NULL DEFAULT 'true'
 );
 
 CREATE TABLE Livro(
@@ -43,7 +43,7 @@ CREATE TABLE Livro(
     paginas_livro            integer         NOT NULL,
     preco_livro              numeric         NOT NULL,
     sinopse_livro            varchar(8192)   NOT NULL,
-    ativo                    boolean
+    ativo                    boolean         NOT NULL DEFAULT 'true'
 );
 
 CREATE TABLE Exemplar(
@@ -51,7 +51,7 @@ CREATE TABLE Exemplar(
     id_exemplarLivro         integer         NOT NULL REFERENCES Livro(id_livro),
     esta_alocado             boolean         NOT NULL,
     data_obtencao            date            NOT NULL,
-    ativo                    boolean
+    ativo                    boolean         NOT NULL DEFAULT 'true'
 );
 
 CREATE TABLE Emprestimo(
@@ -61,7 +61,7 @@ CREATE TABLE Emprestimo(
     id_emprestimo_usuario     integer        NOT NULL REFERENCES Usuario(id_usuario),
     data_emprestimo           date           NOT NULL,
     data_devolucao            date           NOT NULL,
-    ativo                     boolean
+    ativo                     boolean        NOT NULL DEFAULT 'true'
 );
 
 CREATE TABLE Multa (
@@ -71,15 +71,25 @@ CREATE TABLE Multa (
     descricao_multa         varchar(255)    DEFAULT 'Não efetuou a devolução no prazo',
     valor_multa             numeric         NOT NULL,
     pagamento_multa         boolean         NOT NULL,
-    ativo                   boolean
+    ativo                   boolean         NOT NULL DEFAULT 'true'
 );
+
+/*
+TODO:
+    criar triggers nas tabelas que impeçam de desativar registros
+    caso existam registros ativos que dependem desses (evitar
+    registros ativos referenciando registros inativos)
+*/
+
+/*
+// código salvo caso seja necessário de novo
 
 CREATE OR REPLACE FUNCTION ativa_flag_usuario()
     RETURNS trigger AS
     $$
     BEGIN
         UPDATE Usuario
-        SET ativo='true';
+        SET ativo=false;
         RETURN NULL;
     END;
     $$
@@ -90,7 +100,7 @@ CREATE OR REPLACE FUNCTION ativa_flag_cliente()
     $$
     BEGIN
         UPDATE Cliente
-        SET ativo='true';
+        SET ativo=false;
         RETURN NULL;
     END;
     $$
@@ -101,7 +111,7 @@ CREATE OR REPLACE FUNCTION ativa_flag_categoria()
     $$
     BEGIN
         UPDATE Categoria
-        SET ativo='true';
+        SET ativo=false;
         RETURN NULL;
     END;
     $$
@@ -112,7 +122,7 @@ CREATE OR REPLACE FUNCTION ativa_flag_livro()
     $$
     BEGIN
         UPDATE Livro
-        SET ativo='true';
+        SET ativo=false;
         RETURN NULL;
     END;
     $$
@@ -123,7 +133,7 @@ CREATE OR REPLACE FUNCTION ativa_flag_exemplar()
     $$
     BEGIN
         UPDATE Exemplar
-        SET ativo='true';
+        SET ativo=false;
         RETURN NULL;
     END;
     $$
@@ -134,7 +144,7 @@ CREATE OR REPLACE FUNCTION ativa_flag_emprestimo()
     $$
     BEGIN
         UPDATE Emprestimo
-        SET ativo='true';
+        SET ativo=false;
         RETURN NULL;
     END;
     $$
@@ -145,7 +155,7 @@ CREATE OR REPLACE FUNCTION ativa_flag_multa()
     $$
     BEGIN
         UPDATE Multa
-        SET ativo='true';
+        SET ativo=false;
         RETURN NULL;
     END;
     $$
@@ -178,3 +188,4 @@ FOR EACH ROW EXECUTE PROCEDURE ativa_flag_emprestimo();
 CREATE TRIGGER trigger_ativa_flag_multa
 AFTER INSERT ON Multa
 FOR EACH ROW EXECUTE PROCEDURE ativa_flag_multa();
+*/
