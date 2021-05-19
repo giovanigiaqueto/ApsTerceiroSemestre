@@ -81,6 +81,83 @@ TODO:
     registros ativos referenciando registros inativos)
 */
 
+CREATE OR REPLACE PROCEDURE desativar_usuario(ID integer)
+    AS
+    $$
+    BEGIN
+        UPDATE usuario
+        SET ativo='false'
+	WHERE usuario.id_usuario = ID;
+    END;
+    $$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE PROCEDURE desativar_cliente(ID integer)
+    AS
+    $$
+    BEGIN
+        UPDATE cliente
+        SET ativo='false'
+	WHERE cliente.id_cliente = ID;
+    END;
+    $$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE PROCEDURE desativar_categoria(ID integer)
+    AS
+    $$
+    BEGIN
+        UPDATE categoria
+        SET ativo='false'
+	WHERE categoria.id_categoria = ID;
+    END;
+    $$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE PROCEDURE desativar_livro(ID integer)
+    AS
+    $$
+    BEGIN
+        UPDATE livro
+        SET ativo='false'
+	WHERE livro.id_livro = ID;
+    END;
+    $$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE PROCEDURE desativar_exemplar(ID integer)
+    AS
+    $$
+    BEGIN
+        UPDATE exemplar
+        SET ativo='false'
+	WHERE exemplar.id_exemplar = ID;
+    END;
+    $$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE PROCEDURE desativar_emprestimo(ID integer)
+    AS
+    $$
+    BEGIN
+        UPDATE emprestimo
+        SET ativo='false'
+	WHERE emprestimo.id_emprestimo = ID;
+    END;
+    $$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE PROCEDURE desativar_multa(ID integer)
+    AS
+    $$
+    BEGIN
+        UPDATE multa
+        SET ativo='false'
+	WHERE multa.id_multa = ID;
+    END;
+    $$
+LANGUAGE plpgsql;
+
 /*
 // código salvo caso seja necessário de novo
 
