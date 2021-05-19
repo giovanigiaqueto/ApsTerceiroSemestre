@@ -31,14 +31,17 @@ public class UsuarioDAO {
      * @return a lista de Usuario
      */
     public List<Usuario> listarUsuarios(int numItens, int deslocamento){
-        String sql = "SELECT * FROM Usuario LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM Usuario "
+                + "WHERE ativo=? "
+                + "LIMIT ? OFFSET ?";
         ResultSet resultado;
         List<Usuario> usuarios = new ArrayList<>(numItens);
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
-            stmt.setInt(1, numItens);
-            stmt.setInt(2, deslocamento);
+            stmt.setBoolean(1, true);
+            stmt.setInt(2, numItens);
+            stmt.setInt(3, deslocamento);
             resultado = stmt.executeQuery();
             
             while(resultado.next()){
@@ -73,12 +76,14 @@ public class UsuarioDAO {
      * @return a lista de Usuario
      */
     public List<Usuario> listarUsuarios(){
-        String sql = "SELECT * FROM Usuario";
+        String sql = "SELECT * FROM Usuario "
+                + "WHERE ativo=?";
         ResultSet resultado;
         List<Usuario> usuarios = new LinkedList<>();
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, true);
             resultado = stmt.executeQuery();
             
             while(resultado.next()){
@@ -175,6 +180,7 @@ public class UsuarioDAO {
     /**
      * Deleta o usuario passado pelo parâmetro no banco de dados.
      * 
+     * @deprecated use {@link #desativar(model.Usuario) }
      * @param usuario o usuario a ser deletado
      * @return true, se conseguir deletar, e false se não conseguir
      */
@@ -189,6 +195,31 @@ public class UsuarioDAO {
             stmt.execute();
             stmt.close();
             
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Coloca o campo ativo como falso
+     * 
+     * @param usuario o usuario a ser desativado
+     * @return true, se conseguir desativar, e false se não conseguir
+     */
+    public boolean desativar(Usuario usuario){
+        String sql = "UPDATE Usuario SET ativo=? "
+                + "WHERE id_usuario=?";
+        
+        try {
+            PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, false);
+            stmt.setInt(2, usuario.getIdUsuario());
+            
+            stmt.execute();
+            stmt.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             return false;

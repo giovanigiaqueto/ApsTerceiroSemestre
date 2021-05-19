@@ -40,14 +40,17 @@ public class LivroDAO {
      * @return a lista de Livro
      */
     public List<Livro> listarLivros(int numItens, int deslocamento){
-        String sql = "SELECT * FROM Livro LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM Livro "
+                + "WHERE ativo=? "
+                + "LIMIT ? OFFSET ?";
         ResultSet resultado;
         List<Livro> livros = new ArrayList<>(numItens);
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
-            stmt.setInt(1, numItens);
-            stmt.setInt(2, deslocamento);
+            stmt.setBoolean(1, true);
+            stmt.setInt(2, numItens);
+            stmt.setInt(3, deslocamento);
             resultado = stmt.executeQuery();
             
             while(resultado.next()){
@@ -87,12 +90,14 @@ public class LivroDAO {
      * @return a lista de Livro
      */
     public List<Livro> listarLivros(){
-        String sql = "SELECT * FROM Livro";
+        String sql = "SELECT * FROM Livro "
+                + "WHERE ativo=?";
         ResultSet resultado;
         List<Livro> livros = new LinkedList<>();
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, true);
             resultado = stmt.executeQuery();
             
             while(resultado.next()){
@@ -213,6 +218,7 @@ public class LivroDAO {
     /**
      * Deleta o livro passado pelo parâmetro no banco de dados.
      * 
+     * @deprecated use {@link #desativar(model.Livro) }
      * @param livro o livro a ser deletado
      * @return true, se conseguir deletar, e false se não conseguir
      */
@@ -227,6 +233,31 @@ public class LivroDAO {
             stmt.execute();
             stmt.close();
             
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Coloca o campo ativo como falso
+     * 
+     * @param livro o livro a ser desativado
+     * @return true, se conseguir desativar, e false se não conseguir
+     */
+    public boolean desativar(Livro livro){
+        String sql = "UPDATE Livro SET ativo=? "
+                + "WHERE id_livro=?";
+        
+        try {
+            PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, false);
+            stmt.setInt(2, livro.getIdLivro());
+            
+            stmt.execute();
+            stmt.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             return false;

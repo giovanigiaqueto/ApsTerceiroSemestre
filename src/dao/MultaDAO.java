@@ -31,14 +31,17 @@ public class MultaDAO {
      * @return a lista de Multa
      */
     public List<Multa> listarMultas(int numItens, int deslocamento){
-        String sql = "SELECT * FROM Multa LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM Multa "
+                + "WHERE ativo=? "
+                + "LIMIT ? OFFSET ?";
         ResultSet resultado;
         List<Multa> multas = new ArrayList<>(numItens);
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
-            stmt.setInt(1, numItens);
-            stmt.setInt(2, deslocamento);
+            stmt.setBoolean(1, true);
+            stmt.setInt(2, numItens);
+            stmt.setInt(3, deslocamento);
             resultado = stmt.executeQuery();
             
             while(resultado.next()){
@@ -71,12 +74,14 @@ public class MultaDAO {
      * @return a lista de Multa
      */
     public List<Multa> listarMultas(){
-        String sql = "SELECT * FROM Multa";
+        String sql = "SELECT * FROM Multa "
+                + "WHERE ativo=?";
         ResultSet resultado;
         List<Multa> multas = new LinkedList<>();
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, true);
             resultado = stmt.executeQuery();
             
             while(resultado.next()){
@@ -167,6 +172,7 @@ public class MultaDAO {
     /**
      * Deleta a multa passada pelo parâmetro no banco de dados.
      * 
+     * @deprecated use {@link #desativar(model.Multa) }
      * @param multa a multa a ser deletada
      * @return true, se conseguir deletar, e false se não conseguir
      */
@@ -181,6 +187,31 @@ public class MultaDAO {
             stmt.execute();
             stmt.close();
             
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Coloca o campo ativo como falso
+     * 
+     * @param multa a multa a ser desativada
+     * @return true, se conseguir desativar, e false se não conseguir
+     */
+    public boolean desativar(Multa multa){
+        String sql = "UPDATE Multa SET ativo=? "
+                + "WHERE id_multa=?";
+        
+        try {
+            PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, false);
+            stmt.setInt(2, multa.getIdMulta());
+            
+            stmt.execute();
+            stmt.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             return false;

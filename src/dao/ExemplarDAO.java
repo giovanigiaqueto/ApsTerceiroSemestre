@@ -40,14 +40,17 @@ public class ExemplarDAO {
      * @return a lista de Exemplar
      */
     public List<Exemplar> listarExemplares(int numItens, int deslocamento){
-        String sql = "SELECT * FROM Exemplar LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM Exemplar "
+                + "WHERE ativo=? "
+                + "LIMIT ? OFFSET ?";
         ResultSet resultado;
         List<Exemplar> exemplares = new ArrayList<>(numItens);
         
         try{
             PreparedStatement stmt = conecta.prepareStatement(sql);
-            stmt.setInt(1, numItens);
-            stmt.setInt(2, deslocamento);
+            stmt.setBoolean(1, true);
+            stmt.setInt(2, numItens);
+            stmt.setInt(3, deslocamento);
             resultado = stmt.executeQuery();
             
             while(resultado.next()){
@@ -78,12 +81,14 @@ public class ExemplarDAO {
      * @return a lista de Exemplar
      */
     public List<Exemplar> listarExemplares(){
-        String sql = "SELECT * FROM Exemplar";
+        String sql = "SELECT * FROM Exemplar "
+                + "WHERE ativo=?";
         ResultSet resultado;
         List<Exemplar> exemplares = new LinkedList<>();
         
         try{
             PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, true);
             resultado = stmt.executeQuery();
             
             while(resultado.next()){
@@ -173,6 +178,7 @@ public class ExemplarDAO {
     /**
      * Deleta o exemplar passado pelo parâmetro no banco de dados.
      * 
+     * @deprecated use {@link #desativar(model.Exemplar) }
      * @param exemplar o exemplar a ser deletado
      * @return true, se conseguir deletar, e false se não conseguir
      */
@@ -187,6 +193,31 @@ public class ExemplarDAO {
             stmt.execute();
             stmt.close();
             
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Coloca o campo ativo como falso
+     * 
+     * @param exemplar o exemplar a ser desativado
+     * @return true, se conseguir desativar, e false se não conseguir
+     */
+    public boolean desativar(Exemplar exemplar){
+        String sql = "UPDATE Exemplar SET ativo=? "
+                + "WHERE id_exemplar=?";
+        
+        try {
+            PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, false);
+            stmt.setInt(2, exemplar.getIdExemplar());
+            
+            stmt.execute();
+            stmt.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             return false;

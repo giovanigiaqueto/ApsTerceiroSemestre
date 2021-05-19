@@ -33,14 +33,17 @@ public class CategoriaDAO {
      * @return a lista de Categoria
      */
     public List<Categoria> listarCategorias(int numItens, int deslocamento){
-        String sql = "SELECT * FROM Categoria LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM Categoria "
+                + "WHERE ativo=? "
+                + "LIMIT ? OFFSET ?";
         ResultSet resultado;
         List<Categoria> categorias = new ArrayList<>(numItens);
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
-            stmt.setInt(1, numItens);
-            stmt.setInt(2, deslocamento);
+            stmt.setBoolean(1, true);
+            stmt.setInt(2, numItens);
+            stmt.setInt(3, deslocamento);
             resultado = stmt.executeQuery();
             
             while(resultado.next()){
@@ -66,12 +69,14 @@ public class CategoriaDAO {
      * @return a lista de Categoria
      */
     public List<Categoria> listarCategorias(){
-        String sql = "SELECT * FROM Categoria";
+        String sql = "SELECT * FROM Categoria "
+                + "WHERE ativo=?";
         ResultSet resultado;
         List<Categoria> categorias = new LinkedList<>();
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, true);
             resultado = stmt.executeQuery();
             
             while(resultado.next()){
@@ -151,6 +156,7 @@ public class CategoriaDAO {
     /**
      * Deleta a categoria passada pelo parâmetro no banco de dados.
      * 
+     * @deprecated use {@link #desativar(model.Categoria) }
      * @param categoria a categoria a ser deletada
      * @return true, se conseguir deletar, e false se não conseguir
      */
@@ -162,6 +168,31 @@ public class CategoriaDAO {
             PreparedStatement stmt = conecta.prepareStatement(sql);
             
             stmt.setInt(1, categoria.getIdCategoria());
+            stmt.execute();
+            stmt.close();
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Coloca o campo ativo como falso
+     * 
+     * @param categoria a categoria a ser desativada
+     * @return true, se conseguir desativar, e false se não conseguir
+     */
+    public boolean desativar(Categoria categoria){
+        String sql = "UPDATE Categoria SET ativo=? "
+                + "WHERE id_categoria=?";
+        
+        try {
+            PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, false);
+            stmt.setInt(2, categoria.getIdCategoria());
             stmt.execute();
             stmt.close();
             

@@ -40,14 +40,17 @@ public class EmprestimoDAO {
      * @return a lista de Emprestimo
      */
     public List<Emprestimo> listarEmprestimos(int numItens, int deslocamento){
-        String sql = "SELECT * FROM Emprestimo LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM Emprestimo "
+                + "WHERE ativo=? "
+                + "LIMIT ? OFFSET ?";
         ResultSet resultado;
         List<Emprestimo> emprestimos = new ArrayList<>(numItens);
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
-            stmt.setInt(1, numItens);
-            stmt.setInt(2, deslocamento);
+            stmt.setBoolean(1, true);
+            stmt.setInt(2, numItens);
+            stmt.setInt(3, deslocamento);
             resultado = stmt.executeQuery();
             
             while(resultado.next()){
@@ -80,12 +83,14 @@ public class EmprestimoDAO {
      * @return a lista de Emprestimo
      */
     public List<Emprestimo> listarEmprestimos(){
-        String sql = "SELECT * FROM Emprestimo";
+        String sql = "SELECT * FROM Emprestimo "
+                + "WHERE ativo=?";
         ResultSet resultado;
         List<Emprestimo> emprestimos = new LinkedList<>();
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, true);
             resultado = stmt.executeQuery();
             
             while(resultado.next()){
@@ -183,6 +188,7 @@ public class EmprestimoDAO {
     /**
      * Deleta o emprestimo passado pelo parâmetro no banco de dados.
      * 
+     * @deprecated use {@link #desativar(model.Emprestimo) }
      * @param emprestimo o emprestimo a ser deletado
      * @return true, se conseguir deletar, e false se não conseguir
      */
@@ -197,6 +203,31 @@ public class EmprestimoDAO {
             stmt.execute();
             stmt.close();
             
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Coloca o campo ativo como falso
+     * 
+     * @param emprestimo o emprestimo a ser desativado
+     * @return true, se conseguir desativar, e false se não conseguir
+     */
+    public boolean desativar(Emprestimo emprestimo){
+        String sql = "UPDATE Emprestimo SET ativo=? "
+                + "WHERE id_emprestimo=?";
+        
+        try {
+            PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, false);
+            stmt.setInt(2, emprestimo.getIdEmprestimo());
+            
+            stmt.execute();
+            stmt.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             return false;

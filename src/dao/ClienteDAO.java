@@ -31,14 +31,17 @@ public class ClienteDAO {
      * @return a lista de Cliente
      */
     public List<Cliente> listarClientes(int numItens, int deslocamento){
-        String sql = "SELECT * FROM Cliente LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM Cliente "
+                + "WHERE ativo=? "
+                + "LIMIT ? OFFSET ?";
         ResultSet resultado;
         List<Cliente> clientes = new ArrayList<>(numItens);
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
-            stmt.setInt(1, numItens);
-            stmt.setInt(2, deslocamento);
+            stmt.setBoolean(1, true);
+            stmt.setInt(2, numItens);
+            stmt.setInt(3, deslocamento);
             resultado = stmt.executeQuery();
             
             while(resultado.next()){
@@ -72,12 +75,14 @@ public class ClienteDAO {
      * @return a lista de Cliente
      */
     public List<Cliente> listarClientes(){
-        String sql = "SELECT * FROM Cliente";
+        String sql = "SELECT * FROM Cliente "
+                + "WHERE ativo=?";
         ResultSet resultado;
         List<Cliente> clientes = new LinkedList<>();
         
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, true);
             resultado = stmt.executeQuery();
             
             while(resultado.next()){
@@ -171,6 +176,7 @@ public class ClienteDAO {
     /**
      * Deleta o cliente passado pelo parâmetro no banco de dados.
      * 
+     * @deprecated use {@link #desativar(model.Cliente) }
      * @param cliente o cliente a ser deletado
      * @return true, se conseguir deletar, e false se não conseguir
      */
@@ -185,6 +191,31 @@ public class ClienteDAO {
             stmt.execute();
             stmt.close();
             
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Coloca o campo ativo como falso
+     * 
+     * @param cliente o cliente a ser desativado
+     * @return true, se conseguir desativar, e false se não conseguir
+     */
+    public boolean desativar(Cliente cliente){
+        String sql = "UPDATE Cliente SET ativo=? "
+                + "WHERE id_cliente=?";
+        
+        try {
+            PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, false);
+            stmt.setInt(2, cliente.getIdCliente());
+            
+            stmt.execute();
+            stmt.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             return false;
