@@ -176,6 +176,7 @@ public class MultaDAO {
      * @param multa a multa a ser deletada
      * @return true, se conseguir deletar, e false se não conseguir
      */
+    @Deprecated
     public boolean deletar(Multa multa){
         String sql = "DELETE FROM Multa "
                 + "WHERE id_multa=?";

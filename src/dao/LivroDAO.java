@@ -222,6 +222,7 @@ public class LivroDAO {
      * @param livro o livro a ser deletado
      * @return true, se conseguir deletar, e false se não conseguir
      */
+    @Deprecated
     public boolean deletar(Livro livro){
         String sql = "DELETE FROM Livro "
                 + "WHERE id_livro=?";

@@ -184,6 +184,7 @@ public class UsuarioDAO {
      * @param usuario o usuario a ser deletado
      * @return true, se conseguir deletar, e false se não conseguir
      */
+    @Deprecated
     public boolean deletar(Usuario usuario){
         String sql = "DELETE FROM Usuario "
                 + "WHERE id_usuario=?";

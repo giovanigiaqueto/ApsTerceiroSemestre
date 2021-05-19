@@ -160,6 +160,7 @@ public class CategoriaDAO {
      * @param categoria a categoria a ser deletada
      * @return true, se conseguir deletar, e false se não conseguir
      */
+    @Deprecated
     public boolean deletar(Categoria categoria){
         String sql = "DELETE FROM Categoria "
                 + "WHERE id_categoria=?";

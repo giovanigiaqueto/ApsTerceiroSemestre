@@ -180,6 +180,7 @@ public class ClienteDAO {
      * @param cliente o cliente a ser deletado
      * @return true, se conseguir deletar, e false se não conseguir
      */
+    @Deprecated
     public boolean deletar(Cliente cliente){
         String sql = "DELETE FROM Cliente "
                 + "WHERE id_cliente=?";

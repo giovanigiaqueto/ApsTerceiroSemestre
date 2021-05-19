@@ -192,6 +192,7 @@ public class EmprestimoDAO {
      * @param emprestimo o emprestimo a ser deletado
      * @return true, se conseguir deletar, e false se não conseguir
      */
+    @Deprecated
     public boolean deletar(Emprestimo emprestimo){
         String sql = "DELETE FROM Emprestimo "
                 + "WHERE id_emprestimo=?";

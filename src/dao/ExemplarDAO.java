@@ -182,6 +182,7 @@ public class ExemplarDAO {
      * @param exemplar o exemplar a ser deletado
      * @return true, se conseguir deletar, e false se não conseguir
      */
+    @Deprecated
     public boolean deletar(Exemplar exemplar){
         String sql = "DELETE FROM Exemplar "
                 + "WHERE id_exemplar=?";
