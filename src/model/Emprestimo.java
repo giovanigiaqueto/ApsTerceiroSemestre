@@ -8,7 +8,16 @@ public class Emprestimo {
     private int idEmprestimoExemplar;
     private String dataEmprestimo;
     private String dataDevolucao;
-
+    
+    /**
+     * 
+     * @param idEmprestimo id do emprestimo
+     * @param idEmprestimoCliente id do cliente que pego o exemplar emprestado
+     * @param idEmprestimoUsuario id do usuário que realizou o emprestimo
+     * @param idEmprestimoExemplar id do exemplar que foi emprestado
+     * @param dataEmprestimo data em que o emprestimo foi realizado
+     * @param dataDevolucao data em que o exemplar deve ser devolvido sem que haja multa
+     */
     public Emprestimo(int idEmprestimo, int idEmprestimoCliente, int idEmprestimoUsuario, 
         int idEmprestimoExemplar, String dataEmprestimo, String dataDevolucao) {
         this.idEmprestimo = idEmprestimo;

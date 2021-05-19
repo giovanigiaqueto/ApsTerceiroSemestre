@@ -8,6 +8,13 @@ public class Exemplar {
     private boolean estaAlocado;
     private String dataObtencao;
     
+    /**
+     * 
+     * @param idExemplar id do exemplar
+     * @param idExemplarLivro id do livro que o exemplar pertence
+     * @param estaAlocado estado de alocação do livro
+     * @param dataObtencao data de obtenção / compra do exemplar
+     */
     public Exemplar(int idExemplar, int idExemplarLivro,
         boolean estaAlocado, String dataObtencao) {
         this.idExemplar = idExemplar;

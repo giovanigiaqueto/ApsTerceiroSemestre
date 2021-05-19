@@ -8,7 +8,16 @@ public class Multa {
     private String descricaoMulta;
     private double valorMulta;
     private boolean pagamentoMulta;
-
+    
+    /**
+     * 
+     * @param idMulta id da multa
+     * @param idMultaCliente id do cliente do emprestimo que originou a multa
+     * @param idMultaEmprestimo id do emprestimo de onde se originou a multa
+     * @param descricaoMulta descrição da multa
+     * @param valorMulta valor da multa em reais
+     * @param pagamentoMulta estado de pagamento da multa
+     */
     public Multa(int idMulta, int idMultaCliente, int idMultaEmprestimo, 
         String descricaoMulta, double valorMulta, boolean pagamentoMulta) {
         this.idMulta = idMulta;

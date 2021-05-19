@@ -16,6 +16,22 @@ public class Livro {
     private double precoLivro;
     private String sinopseLivro;
 
+    /**
+     * 
+     * @param idLivro id do livro
+     * @param nomeLivro nome completo do livro
+     * @param ISBNLivro código ISBN do livro, incluindo traços
+     * @param autorLivro nome completo do autor do livro, ou NULL
+     * @param editoraLivro nome da editora que publicou o livro
+     * @param edicaoLivro número da edição do livro (começando do 1)
+     * @param dataLancamentoLivro data de lançamento da edição do livro
+     * @param nomeLivroCategoria nome da categoria
+     * @param estoqueLivro quantidade total de livros (estoque + locação)
+     * @param locacaoLivro quantidade de livros alocados
+     * @param paginasLivro quantidade de páginas do livro
+     * @param precoLivro preço do livro em reais
+     * @param sinopseLivro sinopse do livro (comprimento máximo: 8*1024 = 8192)
+     */
     public Livro(int idLivro, String nomeLivro, String ISBNLivro, String autorLivro,
         String editoraLivro, int edicaoLivro, String dataLancamentoLivro,
         String nomeLivroCategoria, int estoqueLivro, int locacaoLivro, int paginasLivro,

@@ -11,7 +11,20 @@ public class Usuario {
     private String enderecoUsuario;
     private String emailUsuario;
     private String senhaUsuario;
-
+    
+    /**
+     * 
+     * @param idUsuario id do usuário
+     * @param nomeUsuario nome social do usuário
+     * @param CPFUsuario cpf do usuário sem pontos e traços
+     * @param telefoneUsuario telefone do usuário, contendo parenteses e traços
+     * @param sexoUsuario sexo do usuário
+     * @param enderecoUsuario endereço do usuário, composto por complemento,
+     * rua, número, cidade e estado seguido o formato:
+     * "[ complemento, ] (rua) (número), (cidade), (estado)", sendo o complemento opcional
+     * @param emailUsuario email do usuário
+     * @param senhaUsuario hash (sha128) da senha do usuário
+     */
     public Usuario(int idUsuario, String nomeUsuario, String CPFUsuario, String telefoneUsuario, String sexoUsuario, String enderecoUsuario, String emailUsuario, String senhaUsuario) {
         this.idUsuario = idUsuario;
         this.nomeUsuario = nomeUsuario;

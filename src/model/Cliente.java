@@ -10,7 +10,19 @@ public class Cliente {
     private String sexoCliente;
     private String enderecoCliente;
     private String emailCliente;
-
+    
+    /**
+     * 
+     * @param idCliente id do cliente
+     * @param nomeCliente nome social do cliente
+     * @param CPFCliente cpf do cliente sem pontos e traços
+     * @param telefoneCliente telefone do cliente, contendo parenteses e traços
+     * @param sexoCliente sexo do cliente
+     * @param enderecoCliente endereço do cliente, composto por complemento,
+     * rua, número, cidade e estado seguido o formato:
+     * "[ complemento, ] (rua) (número), (cidade), (estado)", sendo o complemento opcional
+     * @param emailCliente email do cliente
+     */
     public Cliente(int idCliente, String nomeCliente, String CPFCliente, String telefoneCliente, String sexoCliente, String enderecoCliente, String emailCliente) {
             this.idCliente = idCliente;
             this.nomeCliente = nomeCliente;
