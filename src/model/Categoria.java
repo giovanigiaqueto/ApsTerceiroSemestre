@@ -7,6 +7,13 @@ public class Categoria {
     private String nomeCategoria;
     private String descricaoCategoria;
     
+    /**
+     * 
+     * 
+     * @param idCategoria o id da categoria
+     * @param nomeCategoria nome da categoria
+     * @param descricaoCategoria descrição da categoria
+     */
     public Categoria(int idCategoria, String nomeCategoria, String descricaoCategoria) {
         this.idCategoria = idCategoria;
         this.nomeCategoria = nomeCategoria;

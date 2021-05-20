@@ -158,6 +158,173 @@ CREATE OR REPLACE PROCEDURE desativar_multa(ID integer)
     $$
 LANGUAGE plpgsql;
 
+-- Usuario
+CREATE OR REPLACE FUNCTION fn_impede_desativa_usuario()
+RETURNS trigger AS
+$$
+DECLARE
+	qtd_emp_true INTEGER;
+BEGIN
+	IF(new.ativo = 'false') THEN
+		qtd_emp_true := (SELECT COUNT(*) FROM (SELECT *
+		FROM Emprestimo e
+		JOIN Usuario u ON (u.id_usuario = e.id_emprestimo_usuario)
+		WHERE u.id_usuario = new.id_usuario
+		AND e.ativo = 'true') AS a);
+		
+		IF(qtd_emp_true > 0) THEN
+			RETURN NULL;
+		END IF;
+	END IF;
+	
+	RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER tg_impede_desativa_usuario
+BEFORE UPDATE ON Usuario
+FOR EACH ROW EXECUTE PROCEDURE fn_impede_desativa_usuario();
+
+-- Emprestimo
+CREATE OR REPLACE FUNCTION fn_impede_desativa_emprestimo()
+RETURNS trigger AS
+$$
+DECLARE
+	qtd_multa_true INTEGER;
+BEGIN
+	IF(new.ativo = 'false') THEN
+		qtd_multa_true := (SELECT COUNT(*) FROM (SELECT *
+		FROM Emprestimo e
+		JOIN Multa m ON (e.id_emprestimo = m.id_multa_emprestimo)
+		WHERE e.id_emprestimo = new.id_emprestimo
+		AND m.ativo = 'true') AS a);
+		
+		IF(qtd_multa_true > 0) THEN
+			RETURN NULL;
+		END IF;
+	END IF;
+	
+	RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER tg_impede_desativa_emprestimo
+BEFORE UPDATE ON Emprestimo
+FOR EACH ROW EXECUTE PROCEDURE fn_impede_desativa_emprestimo();
+
+-- Exemplar
+CREATE OR REPLACE FUNCTION fn_impede_desativa_exemplar()
+RETURNS trigger AS
+$$
+BEGIN
+	IF(new.ativo = 'false') THEN
+		IF(old.esta_alocado = 'true') THEN
+			RETURN NULL;
+		END IF;
+	END IF;
+	
+	RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER tg_impede_desativa_exemplar
+BEFORE UPDATE ON Exemplar
+FOR EACH ROW EXECUTE PROCEDURE fn_impede_desativa_exemplar();
+
+-- Categoria
+CREATE OR REPLACE FUNCTION fn_impede_desativa_categoria()
+RETURNS trigger AS
+$$
+DECLARE
+	qtd_livros_categoria INTEGER;
+BEGIN
+	IF(new.ativo = 'false') THEN
+		qtd_livros_categoria := (SELECT COUNT(*) FROM (SELECT *
+		FROM Livro l
+		JOIN Categoria c ON (l.nome_livro_categoria = c.nome_categoria)
+		WHERE c.id_categoria = new.id_categoria
+		AND l.nome_livro_categoria = new.nome_categoria) AS a);
+		
+		IF(qtd_livros_categoria > 0) THEN
+			RETURN NULL;
+		END IF;
+	END IF;
+	
+	RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER tg_impede_desativa_categoria
+BEFORE UPDATE ON Categoria
+FOR EACH ROW EXECUTE PROCEDURE fn_impede_desativa_categoria();
+
+-- Livro
+CREATE OR REPLACE FUNCTION fn_impede_desativa_livro()
+RETURNS trigger AS
+$$
+DECLARE
+	qtd_exemplares INTEGER;
+BEGIN
+	IF(new.ativo = 'false') THEN
+		qtd_exemplares := (SELECT COUNT(*) FROM (SELECT *
+		FROM Exemplar exem
+		JOIN livro l ON (l.id_livro = exem.id_exemplarlivro)
+		WHERE l.id_livro = new.id_livro
+		AND exem.id_exemplarlivro = new.id_livro) AS a);
+		
+		IF(qtd_exemplares > 0) THEN
+			RETURN NULL;
+		END IF;
+	END IF;
+	
+	RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER tg_impede_desativa_livro
+BEFORE UPDATE ON Livro
+FOR EACH ROW EXECUTE PROCEDURE fn_impede_desativa_livro();
+
+-- Cliente
+CREATE OR REPLACE FUNCTION fn_impede_desativa_cliente()
+RETURNS trigger AS
+$$
+DECLARE
+	qtd_emp_true INTEGER;
+	qtd_multas_nao_pagas INTEGER;
+BEGIN
+	IF(new.ativo = 'false') THEN
+		qtd_emp_true := (SELECT COUNT(*) FROM (SELECT *
+		FROM Emprestimo e
+		JOIN Usuario u ON (u.id_usuario = e.id_emprestimo_usuario)
+		WHERE u.id_usuario = new.id_usuario
+		AND e.ativo = 'true') AS a);
+		
+		qtd_multas_nao_pagas := (SELECT COUNT(*) FROM (SELECT *
+		FROM Multa m
+		JOIN Cliente c ON (c.id_cliente = m.id_multa_cliente)
+		WHERE c.id_cliente = new.id_cliente
+		AND m.pagamento_multa = 'true') AS a);
+		
+		IF((qtd_emp_true > 0) OR (qtd_multas_nao_pagas > 0)) THEN
+			RETURN NULL;
+		END IF;
+	END IF;
+	
+	RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER tg_impede_desativa_cliente
+BEFORE UPDATE ON Cliente
+FOR EACH ROW EXECUTE PROCEDURE fn_impede_desativa_cliente();
+
 /*
 // código salvo caso seja necessário de novo
 
