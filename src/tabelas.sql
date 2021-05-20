@@ -1,13 +1,13 @@
 
 CREATE TABLE Usuario(
-    id_usuario               SERIAL         PRIMARY KEY,
+    id_usuario              SERIAL          PRIMARY KEY,
     nome_usuario            varchar(40)     NOT NULL,
-    cpf_suario              char(11)        NOT NULL UNIQUE,
+    cpf_usuario             char(11)        NOT NULL UNIQUE,
     telefone_usuario        char(13)        NOT NULL,
     sexo_usuario            varchar(12)     NOT NULL,
     endereco_usuario        varchar(60)     NOT NULL,
     email_usuario           varchar(256)    NOT NULL,
-    senha_suario            varchar(128),
+    senha_usuario           varchar(128),
     ativo                   boolean         NOT NULL DEFAULT 'true'
 );
 
@@ -55,7 +55,7 @@ CREATE TABLE Exemplar(
 );
 
 CREATE TABLE Emprestimo(
-    id_emprestimo            SERIAL          PRIMARY KEY,
+    id_emprestimo             SERIAL         PRIMARY KEY,
     id_emprestimo_cliente     integer        NOT NULL REFERENCES Cliente(id_cliente),
     id_emprestimo_exemplar    integer        NOT NULL REFERENCES Exemplar(id_exemplar),
     id_emprestimo_usuario     integer        NOT NULL REFERENCES Usuario(id_usuario),
@@ -65,7 +65,7 @@ CREATE TABLE Emprestimo(
 );
 
 CREATE TABLE Multa (
-    id_multa                 SERIAL          PRIMARY KEY,
+    id_multa                SERIAL          PRIMARY KEY,
     id_multa_cliente        integer         NOT NULL REFERENCES Cliente(id_cliente),
     id_multa_emprestimo     integer         NOT NULL REFERENCES Emprestimo(id_emprestimo),
     descricao_multa         varchar(255)    DEFAULT 'Não efetuou a devolução no prazo',

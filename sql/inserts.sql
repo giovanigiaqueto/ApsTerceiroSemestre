@@ -1,11 +1,11 @@
 INSERT INTO Usuario(
 	nome_usuario,
-	cpf_suario,
+	cpf_usuario,
 	telefone_usuario,
 	sexo_usuario,
 	endereco_usuario,
 	email_usuario,
-	senha_suario
+	senha_usuario
 )
 VALUES
 ('Laura', '05983591096', '730-9419', 'f', 'Rua Tadeu Rangel Pestana, 506', 'eu.tellus@venenatisvel.edu', '3563c7e4f50fbd04b0cc3bbe6721b136f506cadb59f76aafe1f07ae01a253343'),
