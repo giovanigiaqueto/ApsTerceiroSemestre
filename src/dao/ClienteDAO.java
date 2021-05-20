@@ -117,9 +117,9 @@ public class ClienteDAO {
      * 
      * @return o cliente com o id
      */
-    public Cliente listarUsuarios(int id){
-        String sql = "SELECT * FROM Usuario "
-                + "WHERE ativo=? AND idUsuario=?";
+    public Cliente procurarCliente(int id){
+        String sql = "SELECT * FROM Cliente "
+                + "WHERE ativo=? AND id_cliente=?";
         
         Cliente cliente;
         try {

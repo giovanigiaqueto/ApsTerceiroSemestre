@@ -119,9 +119,9 @@ public class UsuarioDAO {
      * 
      * @return o usuário com o id
      */
-    public Usuario listarUsuarios(int id){
+    public Usuario procurarUsuario(int id){
         String sql = "SELECT * FROM Usuario "
-                + "WHERE ativo=? AND idUsuario=?";
+                + "WHERE ativo=? AND id_usuario=?";
         
         Usuario usuario;
         try {
