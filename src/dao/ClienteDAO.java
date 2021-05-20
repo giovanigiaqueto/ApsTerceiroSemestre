@@ -111,6 +111,44 @@ public class ClienteDAO {
     }
     
     /**
+     * Retorna um Cliente dado seu id, gera RuntimeError se esse id não existir
+     * 
+     * @param id o id do cliente a ser procurado
+     * 
+     * @return o cliente com o id
+     */
+    public Cliente listarUsuarios(int id){
+        String sql = "SELECT * FROM Usuario "
+                + "WHERE ativo=? AND idUsuario=?";
+        
+        Cliente cliente;
+        try {
+            PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, true);
+            stmt.setInt(2, id);
+            ResultSet resultado = stmt.executeQuery();
+            
+            cliente = new Cliente();
+            
+            cliente.setIdCliente(id);
+            cliente.setNomeCliente(resultado.getString("nome_cliente"));
+            cliente.setCPFCliente(resultado.getString("cpf_cliente"));
+            cliente.setTelefoneCliente(resultado.getString("telefone_cliente"));
+            cliente.setSexoCliente(resultado.getString("sexo_cliente"));
+            cliente.setEnderecoCliente(resultado.getString("endereco_cliente"));
+            cliente.setEmailCliente(resultado.getString("email_cliente"));
+            
+            resultado.close();
+            stmt.close();
+            
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        
+        return cliente;
+    }
+    
+    /**
      * Salva o cliente passado pelo parâmetro no banco de dados.
      * 
      * @param cliente o cliente a ser salvo
