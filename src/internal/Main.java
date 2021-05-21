@@ -59,4 +59,12 @@ public class Main {
         frame.pack();
         frame.setVisible(true);
     }
+    
+    //Fica aqui por enquanto, já que várias classes precisam
+    public static String formataData(String data){
+        String[] pedacosData = data.split("/");
+        
+        return pedacosData[2]+"-"+pedacosData[1]+"-"+pedacosData[0];
+    }
+    
 }

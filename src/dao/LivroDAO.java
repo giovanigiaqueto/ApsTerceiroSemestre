@@ -132,6 +132,50 @@ public class LivroDAO {
     }
     
     /**
+     * 
+     * Procura o livro que tenha o ISBN passado.
+     * 
+     * @param isbn o ISBN para procurar o livro
+     * @return 
+     */
+    public Livro procurarPorISBN(String isbn){
+        String sql = "SELECT * FROM Livro "
+                + "WHERE isbn_livro = ?";
+        
+        Livro livro = null;
+        try {
+            PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setString(1, isbn);
+            ResultSet resultado = stmt.executeQuery();
+            
+            if(resultado.next()){
+                livro = new Livro();
+                
+                livro.setIdLivro(resultado.getInt("id_livro"));
+                livro.setNomeLivro(resultado.getString("nome_livro"));
+                livro.setISBNLivro(resultado.getString("isbn_livro"));
+                livro.setAutorLivro(resultado.getString("autor_livro"));
+                livro.setEditoraLivro(resultado.getString("editora_livro"));
+                livro.setEdicaoLivro(resultado.getInt("edicao_livro"));
+                livro.setDataLancamentoLivro(resultado.getString("data_lancamento_livro"));
+                livro.setNomeLivroCategoria(resultado.getString("nome_livro_categoria"));
+                livro.setEstoqueLivro(resultado.getInt("estoque_livro"));
+                livro.setLocacaoLivro(resultado.getInt("locacao_livro"));
+                livro.setPaginasLivro(resultado.getInt("paginas_livro"));
+                livro.setPrecoLivro(resultado.getDouble("preco_livro"));
+                livro.setSinopseLivro(resultado.getString("sinopse_livro"));
+            }
+            
+            stmt.close();
+            
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        
+        return livro;
+    }
+    
+    /**
      * Salva o livro passado pelo parâmetro no banco de dados.
      * 
      * @param livro o livro a ser salvo

@@ -5,6 +5,11 @@
  */
 package graphic.cadastro;
 
+import dao.CategoriaDAO;
+import java.awt.Color;
+import javax.swing.JOptionPane;
+import model.Categoria;
+
 /**
  *
  * @author giovani
@@ -30,7 +35,7 @@ public class JCadastroCategoria extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaDescCategoria1 = new javax.swing.JTextArea();
-        jLabelHeader = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jPanelForm = new javax.swing.JPanel();
         jScrollPane = new javax.swing.JScrollPane();
         jTextAreaDescCategoria = new javax.swing.JTextArea();
@@ -38,14 +43,14 @@ public class JCadastroCategoria extends javax.swing.JPanel {
         jLabelNomeCategoria = new javax.swing.JLabel();
         jTextFieldNomeCategoria = new javax.swing.JTextField();
         fillerEspacamento = new javax.swing.Box.Filler(new java.awt.Dimension(0, 16), new java.awt.Dimension(0, 16), new java.awt.Dimension(32767, 16));
-        jPanelButtons = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         jButtonConcluir = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
-        fillerLeft = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        fillerCenter = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        fillerRight = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        fillerUpper = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        fillerLower = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
 
         jTextAreaDescCategoria1.setColumns(20);
         jTextAreaDescCategoria1.setLineWrap(true);
@@ -58,9 +63,9 @@ public class JCadastroCategoria extends javax.swing.JPanel {
         setName(""); // NOI18N
         setPreferredSize(new java.awt.Dimension(372, 422));
 
-        jLabelHeader.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabelHeader.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelHeader.setText("Cadastro Categoria");
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Cadastro Categoria");
 
         jPanelForm.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanelForm.setMinimumSize(new java.awt.Dimension(344, 305));
@@ -81,7 +86,6 @@ public class JCadastroCategoria extends javax.swing.JPanel {
 
         jTextFieldNomeCategoria.setColumns(30);
         jTextFieldNomeCategoria.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextFieldNomeCategoria.setMargin(new java.awt.Insets(2, 2, 2, 2));
 
         javax.swing.GroupLayout jPanelFormLayout = new javax.swing.GroupLayout(jPanelForm);
         jPanelForm.setLayout(jPanelFormLayout);
@@ -113,16 +117,21 @@ public class JCadastroCategoria extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanelButtons.setLayout(new java.awt.GridBagLayout());
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jButtonConcluir.setText("Concluir");
+        jButtonConcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConcluirActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.weighty = 0.5;
-        jPanelButtons.add(jButtonConcluir, gridBagConstraints);
+        jPanel1.add(jButtonConcluir, gridBagConstraints);
 
         jButtonCancelar.setText("Cancelar");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -131,7 +140,7 @@ public class JCadastroCategoria extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.weighty = 0.5;
-        jPanelButtons.add(jButtonCancelar, gridBagConstraints);
+        jPanel1.add(jButtonCancelar, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -139,13 +148,13 @@ public class JCadastroCategoria extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.4;
-        jPanelButtons.add(fillerLeft, gridBagConstraints);
+        jPanel1.add(filler1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.7;
-        jPanelButtons.add(fillerCenter, gridBagConstraints);
+        jPanel1.add(filler2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
@@ -153,7 +162,7 @@ public class JCadastroCategoria extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.weightx = 0.4;
-        jPanelButtons.add(fillerRight, gridBagConstraints);
+        jPanel1.add(filler3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -161,7 +170,7 @@ public class JCadastroCategoria extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
         gridBagConstraints.weighty = 0.3;
-        jPanelButtons.add(fillerUpper, gridBagConstraints);
+        jPanel1.add(filler4, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -169,7 +178,7 @@ public class JCadastroCategoria extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
         gridBagConstraints.weighty = 0.3;
-        jPanelButtons.add(fillerLower, gridBagConstraints);
+        jPanel1.add(filler5, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -179,37 +188,76 @@ public class JCadastroCategoria extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelForm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelButtons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanelButtons, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonConcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConcluirActionPerformed
+        CategoriaDAO dao = new CategoriaDAO();
+        Categoria categoria = new Categoria();
+        
+        String nomeCat = jTextFieldNomeCategoria.getText();
+        String descCat = jTextAreaDescCategoria.getText();
+        
+        if(!nomeCat.isEmpty() && !descCat.isEmpty()){
+            categoria.setNomeCategoria(nomeCat);
+            categoria.setDescricaoCategoria(descCat);
+            
+            if(dao.salvar(categoria))
+                JOptionPane.showMessageDialog(this, "Categoria "+jTextFieldNomeCategoria.getText()+" salva com sucesso!",
+                        "Categoria salva!", JOptionPane.INFORMATION_MESSAGE);
+            else
+                JOptionPane.showMessageDialog(this, "Não foi possível salvar a categoria "+nomeCat+"!", 
+                        "Algo deu errado!", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        lembreteCamposEmBranco();
+    }//GEN-LAST:event_jButtonConcluirActionPerformed
+
+    /**
+     * Coloca a cor dos componentes para uma cor vermelho claro 
+     * para mostrar que o usuario não os preencheu
+     */
+    private void lembreteCamposEmBranco(){
+        Color cor = new Color(248, 220, 219);
+        
+        if(jTextFieldNomeCategoria.getText().isEmpty())
+            jTextFieldNomeCategoria.setBackground(cor);
+        else
+            jTextFieldNomeCategoria.setBackground(Color.WHITE);
+        
+        if(jTextAreaDescCategoria.getText().isEmpty())
+            jTextAreaDescCategoria.setBackground(cor);
+        else
+            jTextAreaDescCategoria.setBackground(Color.WHITE);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.Box.Filler fillerCenter;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
+    private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler fillerEspacamento;
-    private javax.swing.Box.Filler fillerLeft;
-    private javax.swing.Box.Filler fillerLower;
-    private javax.swing.Box.Filler fillerRight;
-    private javax.swing.Box.Filler fillerUpper;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonConcluir;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelDescCategoria;
-    private javax.swing.JLabel jLabelHeader;
     private javax.swing.JLabel jLabelNomeCategoria;
-    private javax.swing.JPanel jPanelButtons;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelForm;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JScrollPane jScrollPane1;

@@ -1,13 +1,13 @@
 
 CREATE TABLE Usuario(
-    id_usuario              SERIAL          PRIMARY KEY,
+    id_usuario               SERIAL         PRIMARY KEY,
     nome_usuario            varchar(40)     NOT NULL,
-    cpf_usuario             char(11)        NOT NULL UNIQUE,
+    cpf_suario              char(11)        NOT NULL UNIQUE,
     telefone_usuario        char(13)        NOT NULL,
     sexo_usuario            varchar(12)     NOT NULL,
     endereco_usuario        varchar(60)     NOT NULL,
     email_usuario           varchar(256)    NOT NULL,
-    senha_usuario           varchar(128),
+    senha_suario            varchar(128),
     ativo                   boolean         NOT NULL DEFAULT 'true'
 );
 
@@ -55,7 +55,7 @@ CREATE TABLE Exemplar(
 );
 
 CREATE TABLE Emprestimo(
-    id_emprestimo             SERIAL         PRIMARY KEY,
+    id_emprestimo            SERIAL          PRIMARY KEY,
     id_emprestimo_cliente     integer        NOT NULL REFERENCES Cliente(id_cliente),
     id_emprestimo_exemplar    integer        NOT NULL REFERENCES Exemplar(id_exemplar),
     id_emprestimo_usuario     integer        NOT NULL REFERENCES Usuario(id_usuario),
@@ -65,7 +65,7 @@ CREATE TABLE Emprestimo(
 );
 
 CREATE TABLE Multa (
-    id_multa                SERIAL          PRIMARY KEY,
+    id_multa                 SERIAL          PRIMARY KEY,
     id_multa_cliente        integer         NOT NULL REFERENCES Cliente(id_cliente),
     id_multa_emprestimo     integer         NOT NULL REFERENCES Emprestimo(id_emprestimo),
     descricao_multa         varchar(255)    DEFAULT 'Não efetuou a devolução no prazo',
@@ -301,15 +301,15 @@ BEGIN
 	IF(new.ativo = 'false') THEN
 		qtd_emp_true := (SELECT COUNT(*) FROM (SELECT *
 		FROM Emprestimo e
-		JOIN Usuario u ON (u.id_usuario = e.id_emprestimo_usuario)
-		WHERE u.id_usuario = new.id_usuario
+		JOIN Cliente c ON (c.id_cliente = e.id_emprestimo_cliente)
+		WHERE c.id_cliente = new.id_cliente
 		AND e.ativo = 'true') AS a);
 		
 		qtd_multas_nao_pagas := (SELECT COUNT(*) FROM (SELECT *
 		FROM Multa m
 		JOIN Cliente c ON (c.id_cliente = m.id_multa_cliente)
 		WHERE c.id_cliente = new.id_cliente
-		AND m.pagamento_multa = 'true') AS a);
+		AND m.pagamento_multa = 'false') AS a);
 		
 		IF((qtd_emp_true > 0) OR (qtd_multas_nao_pagas > 0)) THEN
 			RETURN NULL;
