@@ -1,5 +1,15 @@
 package graphic.cadastro;
 
+import dao.CategoriaDAO;
+import dao.LivroDAO;
+import internal.Main;
+import java.awt.Color;
+import java.util.Comparator;
+import java.util.List;
+import javax.swing.JOptionPane;
+import model.Categoria;
+import model.Livro;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -17,6 +27,23 @@ public class JCadastroLivro extends javax.swing.JPanel {
      */
     public JCadastroLivro() {
         initComponents();
+        listarCategorias();
+    }
+    
+    private void listarCategorias(){
+        CategoriaDAO catDao = new CategoriaDAO();
+        List<Categoria> categorias = catDao.listarCategorias();
+        categorias.sort(new Comparator<Categoria>() {
+            @Override
+            public int compare(Categoria t1, Categoria t2) {
+                return t1.getNomeCategoria().compareTo(t2.getNomeCategoria());
+            }
+        });
+
+        for (int i = 0; i < categorias.size(); i++) {
+            jComboBoxCategoria.addItem(categorias.get(i).getNomeCategoria());
+        }
+
     }
 
     /**
@@ -28,6 +55,7 @@ public class JCadastroLivro extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTextFieldISBN = new javax.swing.JTextField();
         jLabelCadastro = new javax.swing.JLabel();
         jPanelFormParteA = new javax.swing.JPanel();
         jLabelNomeLivro = new javax.swing.JLabel();
@@ -39,15 +67,15 @@ public class JCadastroLivro extends javax.swing.JPanel {
         jLabelNomeEditora = new javax.swing.JLabel();
         jTextFieldNomeEditora = new javax.swing.JTextField();
         jLabelISBN = new javax.swing.JLabel();
-        jTextFieldISBN = new javax.swing.JTextField();
         jLabelNomeAutor = new javax.swing.JLabel();
         jTextFieldNomeAutor = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jComboBoxCategoria = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
+        jFormattedTextFieldPaginas = new javax.swing.JFormattedTextField();
+        jFormattedTextFieldPreco = new javax.swing.JFormattedTextField();
         jLabel4 = new javax.swing.JLabel();
+        jFormattedTextFieldISBN = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
         jScrollPaneSinopse = new javax.swing.JScrollPane();
         jTextAreaSinopse = new javax.swing.JTextArea();
@@ -56,6 +84,12 @@ public class JCadastroLivro extends javax.swing.JPanel {
         jPanelButtons = new javax.swing.JPanel();
         jButtonConfirmar = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
+
+        jTextFieldISBN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldISBNActionPerformed(evt);
+            }
+        });
 
         setPreferredSize(new java.awt.Dimension(1280, 720));
 
@@ -68,7 +102,6 @@ public class JCadastroLivro extends javax.swing.JPanel {
         jLabelNomeLivro.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabelNomeLivro.setText("Nome do Livro");
 
-        jTextFieldNomeLivro.setMargin(new java.awt.Insets(2, 2, 2, 2));
         jTextFieldNomeLivro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldNomeLivroActionPerformed(evt);
@@ -80,13 +113,21 @@ public class JCadastroLivro extends javax.swing.JPanel {
 
         jFormattedTextFieldEdicao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         jFormattedTextFieldEdicao.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jFormattedTextFieldEdicao.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        jFormattedTextFieldEdicao.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jFormattedTextFieldEdicaoKeyTyped(evt);
+            }
+        });
 
         jLabelDataLancamento.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabelDataLancamento.setText("Lançamento");
 
-        jFormattedTextFieldDataLancamento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        jFormattedTextFieldDataLancamento.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        try {
+            jFormattedTextFieldDataLancamento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jFormattedTextFieldDataLancamento.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jFormattedTextFieldDataLancamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jFormattedTextFieldDataLancamentoActionPerformed(evt);
@@ -96,22 +137,11 @@ public class JCadastroLivro extends javax.swing.JPanel {
         jLabelNomeEditora.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabelNomeEditora.setText("Editora");
 
-        jTextFieldNomeEditora.setMargin(new java.awt.Insets(2, 2, 2, 2));
-
         jLabelISBN.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabelISBN.setText("ISBN");
 
-        jTextFieldISBN.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        jTextFieldISBN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldISBNActionPerformed(evt);
-            }
-        });
-
         jLabelNomeAutor.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabelNomeAutor.setText("Autor");
-
-        jTextFieldNomeAutor.setMargin(new java.awt.Insets(2, 2, 2, 2));
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel2.setText("Categoria");
@@ -123,14 +153,31 @@ public class JCadastroLivro extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel3.setText("Páginas");
 
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("####0"))));
-        jFormattedTextField1.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        jFormattedTextFieldPaginas.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("####0"))));
+        jFormattedTextFieldPaginas.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jFormattedTextFieldPaginas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jFormattedTextFieldPaginasKeyTyped(evt);
+            }
+        });
 
-        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00 ¤"))));
-        jFormattedTextField2.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        jFormattedTextFieldPreco.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        jFormattedTextFieldPreco.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jFormattedTextFieldPreco.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jFormattedTextFieldPrecoKeyTyped(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel4.setText("Preço");
+
+        try {
+            jFormattedTextFieldISBN.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###-#-###-#####-#")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jFormattedTextFieldISBN.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         javax.swing.GroupLayout jPanelFormParteALayout = new javax.swing.GroupLayout(jPanelFormParteA);
         jPanelFormParteA.setLayout(jPanelFormParteALayout);
@@ -153,16 +200,16 @@ public class JCadastroLivro extends javax.swing.JPanel {
                             .addComponent(jComboBoxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanelFormParteALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabelISBN, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-                            .addComponent(jTextFieldISBN))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabelISBN, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jFormattedTextFieldISBN, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelFormParteALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jFormattedTextFieldPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanelFormParteALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jFormattedTextFieldPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanelFormParteALayout.createSequentialGroup()
                         .addGroup(jPanelFormParteALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabelNomeEditora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -199,9 +246,9 @@ public class JCadastroLivro extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelFormParteALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jComboBoxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldISBN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jFormattedTextFieldPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jFormattedTextFieldPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jFormattedTextFieldISBN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanelFormParteALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelFormParteALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,12 +274,16 @@ public class JCadastroLivro extends javax.swing.JPanel {
         jTextAreaSinopse.setLineWrap(true);
         jTextAreaSinopse.setRows(5);
         jTextAreaSinopse.setWrapStyleWord(true);
-        jTextAreaSinopse.setMargin(new java.awt.Insets(2, 2, 2, 2));
         jScrollPaneSinopse.setViewportView(jTextAreaSinopse);
 
         jButtonConfirmar.setText("Concluir");
         jButtonConfirmar.setMaximumSize(new java.awt.Dimension(125, 25));
         jButtonConfirmar.setMinimumSize(new java.awt.Dimension(125, 25));
+        jButtonConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConfirmarActionPerformed(evt);
+            }
+        });
 
         jButtonCancelar.setText("Cancelar");
         jButtonCancelar.setMaximumSize(new java.awt.Dimension(125, 25));
@@ -322,6 +373,149 @@ public class JCadastroLivro extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jFormattedTextFieldDataLancamentoActionPerformed
 
+    private void jButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmarActionPerformed
+        LivroDAO livroDao = new LivroDAO();
+        Livro livro = new Livro();
+
+        String nome = jTextFieldNomeLivro.getText();
+        String isbn = jFormattedTextFieldISBN.getText().replace("-", "");
+        String autor = jTextFieldNomeAutor.getText();
+        String editora = jTextFieldNomeEditora.getText();
+        String edicao = jFormattedTextFieldEdicao.getText();
+        String dataLancamento = jFormattedTextFieldDataLancamento.getText();
+        String categoria = (String) jComboBoxCategoria.getSelectedItem();
+        String paginas = jFormattedTextFieldPaginas.getText();
+        String preco = jFormattedTextFieldPreco.getText().replace(",", ".");
+        String sinopse = jTextAreaSinopse.getText();
+
+        if(!nome.isEmpty() &&
+                !isbn.equals("   - -   -     - ") &&
+                !autor.isEmpty() &&
+                !editora.isEmpty() &&
+                !edicao.isEmpty() &&
+                !dataLancamento.equals("  /  /    ") &&
+                !categoria.isEmpty() &&
+                !paginas.isEmpty() &&
+                !preco.isEmpty() &&
+                !sinopse.isEmpty()){
+
+            livro.setNomeLivro(nome);
+            livro.setISBNLivro(isbn);
+            livro.setAutorLivro(autor);
+            livro.setEditoraLivro(editora);
+            livro.setEdicaoLivro(Integer.parseInt(edicao));
+            livro.setDataLancamentoLivro(Main.formataData(dataLancamento));
+            livro.setNomeLivroCategoria(categoria);
+            livro.setPaginasLivro(Integer.parseInt(paginas));
+            livro.setPrecoLivro(Double.parseDouble(preco));
+            livro.setSinopseLivro(sinopse);
+
+            if(livroDao.salvar(livro))
+                JOptionPane.showMessageDialog(this, "Livro "+nome+" salvo com sucesso!", "Livro salvo!", 
+                        JOptionPane.INFORMATION_MESSAGE);
+            else
+                JOptionPane.showMessageDialog(this, "Não foi possível salvar o livro", "Algo deu errado!", 
+                        JOptionPane.ERROR_MESSAGE);
+
+        }
+
+        lembreteCamposEmBranco();
+    }//GEN-LAST:event_jButtonConfirmarActionPerformed
+
+        /**
+     * Coloca a cor dos componentes para uma cor vermelho claro 
+     * para mostrar que o usuario não os preencheu
+     */
+    private void lembreteCamposEmBranco(){
+        Color cor = new Color(248, 220, 219);
+
+        if(jTextFieldNomeLivro.getText().isEmpty())
+            jTextFieldNomeLivro.setBackground(cor);
+        else
+            jTextFieldNomeLivro.setBackground(Color.WHITE);
+
+        if(jFormattedTextFieldISBN.getText().equals("   - -   -     - "))
+            jFormattedTextFieldISBN.setBackground(cor);
+        else
+            jFormattedTextFieldISBN.setBackground(Color.WHITE);
+
+        if(jTextFieldNomeAutor.getText().isEmpty())
+            jTextFieldNomeAutor.setBackground(cor);
+        else
+            jTextFieldNomeAutor.setBackground(Color.WHITE);
+
+        if(jTextFieldNomeEditora.getText().isEmpty())
+            jTextFieldNomeEditora.setBackground(cor);
+        else
+            jTextFieldNomeEditora.setBackground(Color.WHITE);
+
+        if(jFormattedTextFieldEdicao.getText().isEmpty())
+            jFormattedTextFieldEdicao.setBackground(cor);
+        else
+            jFormattedTextFieldEdicao.setBackground(Color.WHITE);
+
+        if(jFormattedTextFieldDataLancamento.getText().equals("  /  /    "))
+            jFormattedTextFieldDataLancamento.setBackground(cor);
+        else
+            jFormattedTextFieldDataLancamento.setBackground(Color.WHITE);
+
+        if(jComboBoxCategoria.getSelectedItem() == null)
+            jComboBoxCategoria.setBackground(cor);
+        else
+            jComboBoxCategoria.setBackground(Color.WHITE);
+
+        if(jFormattedTextFieldPaginas.getText().isEmpty())
+            jFormattedTextFieldPaginas.setBackground(cor);
+        else
+            jFormattedTextFieldPaginas.setBackground(Color.WHITE);
+
+        if(jFormattedTextFieldPreco.getText().isEmpty())
+            jFormattedTextFieldPreco.setBackground(cor);
+        else
+            jFormattedTextFieldPreco.setBackground(Color.WHITE);
+
+        if(jTextAreaSinopse.getText().isEmpty())
+            jTextAreaSinopse.setBackground(cor);
+        else
+            jTextAreaSinopse.setBackground(Color.WHITE);
+    }
+    
+    private void jFormattedTextFieldPaginasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextFieldPaginasKeyTyped
+        String charsPermitidos = "0123456789";
+            if(!charsPermitidos.contains(evt.getKeyChar()+""))
+                evt.consume();
+    }//GEN-LAST:event_jFormattedTextFieldPaginasKeyTyped
+
+    private void jFormattedTextFieldEdicaoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextFieldEdicaoKeyTyped
+        String charsPermitidos = "0123456789";
+            if(!charsPermitidos.contains(evt.getKeyChar()+""))
+                evt.consume();
+    }//GEN-LAST:event_jFormattedTextFieldEdicaoKeyTyped
+
+    private void jFormattedTextFieldPrecoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextFieldPrecoKeyTyped
+        String charsPermitidos = "0123456789,";
+            if(!charsPermitidos.contains(evt.getKeyChar()+"") ||
+                    (evt.getKeyChar() == ',' && quantidadeCaracteres(evt.getKeyChar(), jFormattedTextFieldPreco.getText()) >= 1))
+                evt.consume();
+    }//GEN-LAST:event_jFormattedTextFieldPrecoKeyTyped
+
+    /**
+     * Retorna a quantidade de vezes em que o caractere c aparece na String s
+     * 
+     * @param c o char para verificar
+     * @param s a String para ver quantas vezes ela possui o char c
+     * @return  a quantidade de vezes que c aparece em s
+     */
+    private int quantidadeCaracteres(char c, String s){
+        int quantidade = 0;
+        
+        for (int i = 0; i < s.length(); i++) {
+            if(s.charAt(i) == c)
+                quantidade++;
+        }
+        
+        return quantidade;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler fillerLeft;
@@ -329,10 +523,11 @@ public class JCadastroLivro extends javax.swing.JPanel {
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonConfirmar;
     private javax.swing.JComboBox<String> jComboBoxCategoria;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JFormattedTextField jFormattedTextFieldDataLancamento;
     private javax.swing.JFormattedTextField jFormattedTextFieldEdicao;
+    private javax.swing.JFormattedTextField jFormattedTextFieldISBN;
+    private javax.swing.JFormattedTextField jFormattedTextFieldPaginas;
+    private javax.swing.JFormattedTextField jFormattedTextFieldPreco;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

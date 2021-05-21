@@ -49,12 +49,12 @@ public class UsuarioDAO {
                 
                 usuario.setIdUsuario(resultado.getInt("id_usuario"));
                 usuario.setNomeUsuario(resultado.getString("nome_usuario"));
-                usuario.setCPFUsuario(resultado.getString("cpf_suario"));
+                usuario.setCPFUsuario(resultado.getString("cpf_usuario"));
                 usuario.setTelefoneUsuario(resultado.getString("telefone_usuario"));
                 usuario.setSexoUsuario(resultado.getString("sexo_usuario"));
                 usuario.setEnderecoUsuario(resultado.getString("endereco_usuario"));
                 usuario.setEmailUsuario(resultado.getString("email_usuario"));
-                usuario.setSenhaUsuario(resultado.getString("senha_suario"));
+                usuario.setSenhaUsuario(resultado.getString("senha_usuario"));
                 
                 usuarios.add(usuario);
             }
@@ -91,12 +91,12 @@ public class UsuarioDAO {
                 
                 usuario.setIdUsuario(resultado.getInt("id_usuario"));
                 usuario.setNomeUsuario(resultado.getString("nome_usuario"));
-                usuario.setCPFUsuario(resultado.getString("cpf_suario"));
+                usuario.setCPFUsuario(resultado.getString("cpf_usuario"));
                 usuario.setTelefoneUsuario(resultado.getString("telefone_usuario"));
                 usuario.setSexoUsuario(resultado.getString("sexo_usuario"));
                 usuario.setEnderecoUsuario(resultado.getString("endereco_usuario"));
                 usuario.setEmailUsuario(resultado.getString("email_usuario"));
-                usuario.setSenhaUsuario(resultado.getString("senha_suario"));
+                usuario.setSenhaUsuario(resultado.getString("senha_usuario"));
                 
                 usuarios.add(usuario);
             }
@@ -158,8 +158,8 @@ public class UsuarioDAO {
      * @return true, se conseguir salvar, e false se não conseguir
      */
     public boolean salvar(Usuario usuario){
-        String sql = "INSERT INTO Usuario(nome_usuario, cpf_suario, telefone_usuario, "
-                + "sexo_usuario, endereco_usuario, email_usuario, senha_suario) "
+        String sql = "INSERT INTO Usuario(nome_usuario, cpf_usuario, telefone_usuario, "
+                + "sexo_usuario, endereco_usuario, email_usuario, senha_usuario) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?) ";
         
         try {
@@ -190,8 +190,8 @@ public class UsuarioDAO {
      * @return true, se conseguir alterar, e false se não conseguir
      */
     public boolean alterar(Usuario usuario){
-        String sql = "UPDATE Usuario SET nome_usuario=?, cpf_suario=?, telefone_usuario=?, "
-                + "sexo_usuario=?, endereco_usuario=?, email_usuario=?, senha_suario=? "
+        String sql = "UPDATE Usuario SET nome_usuario=?, cpf_usuario=?, telefone_usuario=?, "
+                + "sexo_usuario=?, endereco_usuario=?, email_usuario=?, senha_usuario=? "
                 + "WHERE id_usuario=?";
         
         try {
