@@ -176,6 +176,49 @@ public class LivroDAO {
     }
     
     /**
+     * Retorna um Livro dado seu id, gera RuntimeError se esse id não existir
+     * 
+     * @param id o id do livro a ser procurado
+     * 
+     * @return o livro com o id
+     */
+    public Livro procurarLivro(int id){
+        String sql = "SELECT * FROM Livro WHERE ativo=? AND id_livro=?";
+        
+        Livro livro;
+        try {
+            PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, true);
+            ResultSet resultado = stmt.executeQuery();
+            
+            livro = new Livro();
+
+            livro.setIdLivro(resultado.getInt("id_livro"));
+            livro.setNomeLivro(resultado.getString("nome_livro"));
+            livro.setISBNLivro(resultado.getString("isbn_livro"));
+            livro.setAutorLivro(resultado.getString("autor_livro"));
+            livro.setEditoraLivro(resultado.getString("editora_livro"));
+            livro.setEdicaoLivro(resultado.getInt("edicao_livro"));
+            livro.setDataLancamentoLivro(resultado.getString("data_lancamento_livro"));
+            livro.setNomeLivroCategoria(resultado.getString("nome_livro_categoria"));
+            livro.setEstoqueLivro(resultado.getInt("estoque_livro"));
+            livro.setLocacaoLivro(resultado.getInt("locacao_livro"));
+            livro.setPaginasLivro(resultado.getInt("paginas_livro"));
+            livro.setPrecoLivro(resultado.getDouble("preco_livro"));
+            livro.setSinopseLivro(resultado.getString("sinopse_livro"));
+            
+            resultado.close();
+            stmt.close();
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            throw new RuntimeException(ex);
+        }
+        
+        return livro;
+    }
+    
+    /**
      * Salva o livro passado pelo parâmetro no banco de dados.
      * 
      * @param livro o livro a ser salvo

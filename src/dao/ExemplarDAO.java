@@ -114,6 +114,82 @@ public class ExemplarDAO {
     }
     
     /**
+     * Retorna uma lista de Exemplar do banco de dados que tem o Livro com o id_livro id.
+     * 
+     * @param id o id do livro a qual os exemplares retornados deve pertencer
+     * 
+     * @return a lista de Exemplar
+     */
+    public List<Exemplar> listarExemplaresLivro(int id){
+        String sql = "SELECT * FROM Exemplar "
+                + "WHERE ativo=? AND id_exemplarLivro=?";
+        
+        List<Exemplar> exemplares = new LinkedList<>();
+        try {
+            PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, true);
+            stmt.setInt(2, id);
+            ResultSet resultado = stmt.executeQuery();
+            
+            while (resultado.next()) {
+                Exemplar exemplar = new Exemplar();
+                
+                exemplar.setIdExemplar(resultado.getInt("id_exemplar"));
+                exemplar.setIdExemplarLivro(resultado.getInt("id_exemplarLivro"));
+                exemplar.setEstaAlocado(resultado.getBoolean("esta_alocado"));
+                exemplar.setDataObtencao(resultado.getString("data_obtencao"));
+                
+                exemplares.add(exemplar);
+            }
+            
+            resultado.close();
+            stmt.close();
+            
+        } catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            throw new RuntimeException(ex);
+        }
+        
+        return exemplares;
+    }
+    
+    /**
+     * Retorna um Exemplar dado seu id, gera RuntimeError se esse id não existir
+     * 
+     * @param id o id do exemplar a ser procurado
+     * 
+     * @return o exemplar com o id
+     */
+    public Exemplar procurarExemplar(int id){
+        String sql = "SELECT * FROM Exemplar "
+                + "WHERE ativo=? AND id_exemplar=?";
+        
+        Exemplar exemplar;
+        try{
+            PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, true);
+            stmt.setInt(2, id);
+            ResultSet resultado = stmt.executeQuery();
+            
+            exemplar = new Exemplar();
+            
+            exemplar.setIdExemplar(resultado.getInt("id_exemplar"));
+            exemplar.setIdExemplarLivro(resultado.getInt("id_exemplarLivro"));
+            exemplar.setEstaAlocado(resultado.getBoolean("esta_alocado"));
+            exemplar.setDataObtencao(resultado.getString("data_obtencao"));
+            
+            resultado.close();
+            stmt.close();
+            
+        } catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            throw new RuntimeException(ex);
+        }
+        
+        return exemplar;
+    }
+    
+    /**
      * Salva o exemplar passado pelo parâmetro no banco de dados.
      * 
      * @param exemplar o exemplar a ser salvo
