@@ -100,7 +100,6 @@ public class JDadosCliente extends javax.swing.JPanel {
         jTextFieldNome.setEditable(false);
         jTextFieldNome.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldNome.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextFieldNome.setText("Pedro de Alcântara Francisco Antônio João Carlos Xavier de Paula");
         jTextFieldNome.setMargin(new java.awt.Insets(2, 2, 2, 2));
 
         jLabelEndereço.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -115,7 +114,6 @@ public class JDadosCliente extends javax.swing.JPanel {
         jTextAreaEndereco.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jTextAreaEndereco.setLineWrap(true);
         jTextAreaEndereco.setRows(5);
-        jTextAreaEndereco.setText("Avenida José Antonio de Paula e Silva nº 1028, Apartamento 2053, São Jose do Rio Preto, São Paulo");
         jTextAreaEndereco.setWrapStyleWord(true);
         jTextAreaEndereco.setMargin(new java.awt.Insets(2, 2, 2, 2));
         jTextAreaEndereco.setMinimumSize(new java.awt.Dimension(498, 40));

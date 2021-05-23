@@ -6,42 +6,35 @@
 package widget.listas;
 
 // swing
-import java.awt.Color;
 import javax.swing.JPanel;
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
 
 // awt
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Color;
+
+// awt.event
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-// java util
+// java.util
 import java.util.List;
 import java.util.LinkedList;
 
 // modelos
-import model.Livro;
+import model.Emprestimo;
 
 // widget
-import widget.dados.JDadosLivro;
-import widget.support.IComponenteLivro;
-
-// java lang.reflect
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import javax.swing.BorderFactory;
-import javax.swing.border.Border;
+import widget.dados.JDadosEmprestimo;
 
 /**
  *
  * @author giovani
  */
-public class JListaLivros extends javax.swing.JPanel {
-    
-    private ComponentAdapter resizeListener;
+public class JListaEmprestimos extends javax.swing.JPanel {
     
     // se está observando seleções
     private boolean observarSelecao;
@@ -49,12 +42,12 @@ public class JListaLivros extends javax.swing.JPanel {
     // observador de seleção (MouseClick event handler)
     private MouseAdapter observadorSelecao;
     
-    private JPanel livroSelecionado; // livro selecionado 
-    private Border bordaSalva;       // borda normal do livro selecionado
-    private Border bordaSelecao;     // borda do livro selecionado
+    private JDadosEmprestimo emprestimoSelecionado; // livro selecionado 
+    private Border           bordaSalva;            // borda normal do livro selecionado
+    private Border           bordaSelecao;          // borda do livro selecionado
     
     public interface ObservadorSelecao {
-        public void selecao(IComponenteLivro livro);
+        public void selecao(JDadosEmprestimo emprestimo);
     };
     
     private List<ObservadorSelecao> observadoresSelecao;
@@ -62,7 +55,7 @@ public class JListaLivros extends javax.swing.JPanel {
     /**
      * Creates new form JListaLivros
      */
-    public JListaLivros() {
+    public JListaEmprestimos() {
         initComponents();
         init();
     }
@@ -77,14 +70,6 @@ public class JListaLivros extends javax.swing.JPanel {
         // borda de seleção
         bordaSelecao = BorderFactory.createLineBorder(Color.orange);
         
-        // observador de redimensinamento
-        resizeListener = new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                conteudoRedimensionado();
-            }
-        };
-        
         // observador de seleção
         observadorSelecao = new MouseAdapter() {
             @Override
@@ -94,8 +79,8 @@ public class JListaLivros extends javax.swing.JPanel {
                 // verifica se um livro foi selecionado
                 if (panel != null) {
                     // reseta a borda do livro que estava selecionado
-                    if (livroSelecionado != null) {
-                        livroSelecionado.setBorder(bordaSalva);
+                    if (emprestimoSelecionado != null) {
+                        emprestimoSelecionado.setBorder(bordaSalva);
                     }
                     // salva a borda do livro que foi selecionado
                     // e troca sua borda autal pela borda de seleção
@@ -103,38 +88,28 @@ public class JListaLivros extends javax.swing.JPanel {
                     panel.setBorder(bordaSelecao);
                     
                     // salva o exemplar selecionado
-                    livroSelecionado = panel;
+                    emprestimoSelecionado = (JDadosEmprestimo) panel;
                     
                     // executa todos os observadores de selecao
                     for (ObservadorSelecao obs : observadoresSelecao) {
-                        obs.selecao((IComponenteLivro) panel);
+                        obs.selecao(emprestimoSelecionado);
                     }
                 }
             }
         };
     }
-    
-    // inspirado por: https://stackoverflow.com/questions/75175/create-instance-of-generic-type-in-java
-    // permite a adição de qualquer JPanel que implemente a interface IComponenteLivro
-    public <T extends JPanel & IComponenteLivro>
-    void inserirLivros(List<Livro> livros, Class<T> cls) {
+    /**
+     * insere emprestimos na lista, exibindo-os gráficamente
+     * 
+     * @param emprestimos os emprestimos a serem inseridos
+     */
+    public void inserirEmprestimos(List<Emprestimo> emprestimos) {
         var dim = jPanelLivros.getPreferredSize();
-        Constructor<T> constructor;
-        try {
-            constructor = cls.getDeclaredConstructor(Livro.class);
-        } catch(NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-        for (Livro p : livros) {
-            try {
-                T livro = constructor.newInstance(p);
-                jPanelLivros.add(livro);
-                dim.height += livro.getPreferredSize().height;
-                livro.addComponentListener(resizeListener);
-            } catch(
-                InstantiationException | 
-                IllegalAccessException | 
-                InvocationTargetException e) { throw new RuntimeException(e); }
+        
+        for (Emprestimo p : emprestimos) {
+            JDadosEmprestimo emprestimo = new JDadosEmprestimo(p);
+            jPanelLivros.add(emprestimo);
+            dim.height += emprestimo.getPreferredSize().height;    
         }
         jPanelLivros.setPreferredSize(dim);
         jPanelLivros.revalidate();
@@ -192,8 +167,8 @@ public class JListaLivros extends javax.swing.JPanel {
         }
     }
     
-    public IComponenteLivro getLivroSelecionado() {
-        return (IComponenteLivro) livroSelecionado;
+    public JDadosEmprestimo getEmprestimoSelecionado() {
+        return emprestimoSelecionado;
     }
     
     public void setObservarSelecao(boolean observarSelecao) {
@@ -249,12 +224,13 @@ public class JListaLivros extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPaneLivros, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 35, Short.MAX_VALUE)
+                        .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 36, Short.MAX_VALUE))
+                    .addComponent(jScrollPaneLivros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

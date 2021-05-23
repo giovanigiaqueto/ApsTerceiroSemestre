@@ -2,6 +2,7 @@ package widget.listas;
 
 // java util
 import java.util.List;
+import java.util.LinkedList;
 
 // java awt
 import java.awt.Component;
@@ -59,6 +60,8 @@ public class JListaExemplares extends javax.swing.JPanel {
         jPanelExemplares.setPreferredSize(dim);
         
         bordaSelecao = BorderFactory.createLineBorder(Color.orange);
+        
+        observadoresSelecao = new LinkedList<ObservadorSelecao>();
         
         observadorSelecao = new MouseAdapter() {
             @Override
@@ -169,6 +172,11 @@ public class JListaExemplares extends javax.swing.JPanel {
         _jPanelLinhaExemplarRef = null;
         exemplarSelecionado = null;
         bordaSalva = null;
+        
+        // reseta o comprimento do conteudo dentro do ScrollPane
+        var dim = jPanelExemplares.getPreferredSize();
+        dim.height = 0;
+        jPanelExemplares.setPreferredSize(dim);
     }
     
     /**
@@ -240,21 +248,22 @@ public class JListaExemplares extends javax.swing.JPanel {
     }
     
     public void addObservadorSelecao(ObservadorSelecao obs) {
-        observadoresSelecao.add(obs);
+        if (observadoresSelecao != null) observadoresSelecao.add(obs);
     }
     public void removeObservadorSelecao(ObservadorSelecao obs) {
-        observadoresSelecao.remove(obs);
+        if (observadoresSelecao != null) observadoresSelecao.remove(obs);
     }
 
     /**
      * seleciona o exemplar pelo id do seu exemplar
      * 
-     * @param id o id do exemplar
+     * @param id_exemplar o id do exemplar
      */
-    public void selecionar(int id) {
-        for (JPanel p : (JPanel[]) jPanelExemplares.getComponents()) {
-            for (JDadosExemplar ex : (JDadosExemplar[]) p.getComponents()) {
-                if (ex.getExemplar().getIdExemplar() == id) {
+    public void selecionar(int id_exemplar) {
+        for (Component c1 : jPanelExemplares.getComponents()) {
+            for (Component c2 : ((JPanel) c1).getComponents()) {
+                JDadosExemplar ex = (JDadosExemplar) c2;
+                if (ex.getExemplar().getIdExemplar() == id_exemplar) {
                     __innerSelecionar(ex);
                     return;
                 }
@@ -275,12 +284,11 @@ public class JListaExemplares extends javax.swing.JPanel {
         jPanelExemplares = new javax.swing.JPanel();
         jBarraPesquisaSimples1 = new widget.JBarraPesquisaSimples();
 
-        setPreferredSize(new java.awt.Dimension(566, 600));
+        setPreferredSize(new java.awt.Dimension(602, 600));
 
-        jScrollPaneExemplares.setMinimumSize(new java.awt.Dimension(542, 22));
         jScrollPaneExemplares.setPreferredSize(new java.awt.Dimension(542, 533));
 
-        jPanelExemplares.setPreferredSize(new java.awt.Dimension(524, 530));
+        jPanelExemplares.setPreferredSize(new java.awt.Dimension(520, 520));
         jPanelExemplares.setLayout(new javax.swing.BoxLayout(jPanelExemplares, javax.swing.BoxLayout.Y_AXIS));
         jScrollPaneExemplares.setViewportView(jPanelExemplares);
 
@@ -290,10 +298,12 @@ public class JListaExemplares extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPaneExemplares, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPaneExemplares, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

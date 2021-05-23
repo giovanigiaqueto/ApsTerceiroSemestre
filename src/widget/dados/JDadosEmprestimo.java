@@ -24,45 +24,12 @@ public class JDadosEmprestimo extends javax.swing.JPanel {
     
     public JDadosEmprestimo(Emprestimo emprestimo) {
         this(); // chama o construtor padrão
-
-        if (emprestimo != null) {
-            
-            jTextFieldDataEmprestimo.setText(emprestimo.getDataEmprestimo());
-            jTextFieldDataDevolucao.setText(emprestimo.getDataDevolucao());
-            
-            try {
-                ExemplarDAO daoExemplar = new ExemplarDAO();
-                Exemplar exemplar = daoExemplar.procurarExemplar(emprestimo.getIdEmprestimoExemplar());
-                
-                LivroDAO daoLivro = new LivroDAO();
-                Livro livro = daoLivro.procurarLivro(exemplar.getIdExemplarLivro());
-                
-                jTextFieldTitulo.setText(livro.getNomeLivro());
-                jTextFieldISBN.setText(livro.getISBNLivro());
-                jTextFieldValor.setText(String.valueOf(livro.getPrecoLivro()) + " R$");
-            } catch(RuntimeException e) {
-                jTextFieldTitulo.setText("ERRO");
-                jTextFieldISBN.setText("ERRO");
-                jTextFieldValor.setText("ERRO");
-                throw e;
-            }
-            
-            try {
-                UsuarioDAO dao = new UsuarioDAO();
-                Usuario usuario = dao.procurarUsuario(emprestimo.getIdEmprestimoUsuario());
-                jTextFieldUsuarioEmissor.setText(usuario.getNomeUsuario());
-            } catch(RuntimeException e) {
-                jTextFieldUsuarioEmissor.setText("ERROR");
-                throw e;
-            }
-        }
-        
-        this.emprestimo = emprestimo;
+        setEmprestimo(emprestimo);
     }
     
     // ========== SETTERS ==========
     
-    public void setEmprestimo(Emprestimo emprestimo) {
+    public final void setEmprestimo(Emprestimo emprestimo) {
         
         if (emprestimo != null) {
             
