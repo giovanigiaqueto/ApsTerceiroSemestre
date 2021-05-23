@@ -5,11 +5,6 @@
  */
 package graphic.cadastro;
 
-import dao.CategoriaDAO;
-import java.awt.Color;
-import javax.swing.JOptionPane;
-import model.Categoria;
-
 /**
  *
  * @author giovani
@@ -86,6 +81,7 @@ public class JCadastroCategoria extends javax.swing.JPanel {
 
         jTextFieldNomeCategoria.setColumns(30);
         jTextFieldNomeCategoria.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jTextFieldNomeCategoria.setMargin(new java.awt.Insets(2, 2, 2, 2));
 
         javax.swing.GroupLayout jPanelFormLayout = new javax.swing.GroupLayout(jPanelForm);
         jPanelForm.setLayout(jPanelFormLayout);
@@ -120,11 +116,6 @@ public class JCadastroCategoria extends javax.swing.JPanel {
         jPanelButtons.setLayout(new java.awt.GridBagLayout());
 
         jButtonConcluir.setText("Concluir");
-        jButtonConcluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonConcluirActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -205,45 +196,6 @@ public class JCadastroCategoria extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonConcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConcluirActionPerformed
-        CategoriaDAO dao = new CategoriaDAO();
-        Categoria categoria = new Categoria();
-
-        String nomeCat = jTextFieldNomeCategoria.getText();
-        String descCat = jTextAreaDescCategoria.getText();
-
-        if(!nomeCat.isEmpty() && !descCat.isEmpty()){
-            categoria.setNomeCategoria(nomeCat);
-            categoria.setDescricaoCategoria(descCat);
-
-            if(dao.salvar(categoria))
-                JOptionPane.showMessageDialog(this, "Categoria "+jTextFieldNomeCategoria.getText()+" salva com sucesso!",
-                        "Categoria salva!", JOptionPane.INFORMATION_MESSAGE);
-            else
-                JOptionPane.showMessageDialog(this, "Não foi possível salvar a categoria "+nomeCat+"!", 
-                        "Algo deu errado!", JOptionPane.ERROR_MESSAGE);
-        }
-
-        lembreteCamposEmBranco();
-    }//GEN-LAST:event_jButtonConcluirActionPerformed
-
-        /**
-     * Coloca a cor dos componentes para uma cor vermelho claro 
-     * para mostrar que o usuario não os preencheu
-     */
-    private void lembreteCamposEmBranco(){
-        Color cor = new Color(248, 220, 219);
-
-        if(jTextFieldNomeCategoria.getText().isEmpty())
-            jTextFieldNomeCategoria.setBackground(cor);
-        else
-            jTextFieldNomeCategoria.setBackground(Color.WHITE);
-
-        if(jTextAreaDescCategoria.getText().isEmpty())
-            jTextAreaDescCategoria.setBackground(cor);
-        else
-            jTextAreaDescCategoria.setBackground(Color.WHITE);
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler fillerCenter;
