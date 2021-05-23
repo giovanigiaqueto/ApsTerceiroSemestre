@@ -1,10 +1,9 @@
-package widget;
+package widget.dados;
 
 import widget.support.IComponenteLivro;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Dimension;
 
 import model.Livro;
 
