@@ -1,5 +1,8 @@
 package widget.listas;
 
+// awt
+import java.awt.Dimension;
+
 // java util
 import java.util.List;
 
@@ -19,13 +22,13 @@ public class JListaUsuarios extends javax.swing.JPanel {
     }
     
     private void init() {
-        var dim = jPanelUsuarios.getPreferredSize();
+        Dimension dim = jPanelUsuarios.getPreferredSize();
         dim.height = 0;
         jPanelUsuarios.setPreferredSize(dim);
     }
     
     public void inserirUsuarios(List<Usuario> usuarios) {
-        var dim = jPanelUsuarios.getPreferredSize();
+        Dimension dim = jPanelUsuarios.getPreferredSize();
         
         for (Usuario p : usuarios) {
             JDadosUsuario usuario = new JDadosUsuario(p);

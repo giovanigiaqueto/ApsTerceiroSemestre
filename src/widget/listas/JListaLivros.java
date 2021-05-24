@@ -68,7 +68,7 @@ public class JListaLivros extends javax.swing.JPanel {
     }
     
     private void init() {
-        var dim = jPanelLivros.getPreferredSize();
+        Dimension dim = jPanelLivros.getPreferredSize();
         dim.height = 0;
         jPanelLivros.setPreferredSize(dim);
         
@@ -118,7 +118,7 @@ public class JListaLivros extends javax.swing.JPanel {
     // permite a adição de qualquer JPanel que implemente a interface IComponenteLivro
     public <T extends JPanel & IComponenteLivro>
     void inserirLivros(List<Livro> livros, Class<T> cls) {
-        var dim = jPanelLivros.getPreferredSize();
+        Dimension dim = jPanelLivros.getPreferredSize();
         Constructor<T> constructor;
         try {
             constructor = cls.getDeclaredConstructor(Livro.class);
@@ -153,8 +153,8 @@ public class JListaLivros extends javax.swing.JPanel {
         int idx = 0;
         do {
             Component comp = jPanelLivros.getComponent(idx);
-            var pos = comp.getLocation();
-            var dim = comp.getSize();
+            Point pos = comp.getLocation();
+            Dimension dim = comp.getSize();
             len /= 2;
             // DEBUG System.out.println("curr line: " + idx);
             if (pt.y < pos.y) {
@@ -179,9 +179,9 @@ public class JListaLivros extends javax.swing.JPanel {
     // força o JPanel dentro do JScrollPane a ter o tamanho necessário
     // para comportar todos os componentes, mesmo que haja redimensionamento
     public void conteudoRedimensionado() {
-        var dim = new Dimension(0, 0);
+        Dimension dim = new Dimension(0, 0);
         for (Component comp : jPanelLivros.getComponents()) {
-            var tmp = comp.getPreferredSize();
+            Dimension tmp = comp.getPreferredSize();
             dim.height += tmp.height;
             dim.width = (tmp.width > dim.width ? tmp.width:dim.width);
         }

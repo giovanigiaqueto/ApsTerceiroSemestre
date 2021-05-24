@@ -1,12 +1,14 @@
 package widget.listas;
 
+// awt
+import java.awt.Dimension;
+
 // java util
 import java.util.List;
 
 // modelos
 import model.Cliente;
 import widget.dados.JDadosCliente;
-
 
 public class JListaClientes extends javax.swing.JPanel {
     
@@ -19,13 +21,13 @@ public class JListaClientes extends javax.swing.JPanel {
     }
     
     private void init() {
-        var dim = jPanelClientes.getPreferredSize();
+        Dimension dim = jPanelClientes.getPreferredSize();
         dim.height = 0;
         jPanelClientes.setPreferredSize(dim);
     }
     
     public void inserirClientes(List<Cliente> clientes) {
-        var dim = jPanelClientes.getPreferredSize();
+        Dimension dim = jPanelClientes.getPreferredSize();
         
         for (Cliente p : clientes) {
             JDadosCliente cliente = new JDadosCliente(p);

@@ -1,5 +1,8 @@
 package widget.listas;
 
+// awt
+import java.awt.Dimension;
+
 // java util
 import java.util.List;
 
@@ -19,13 +22,13 @@ public class JListaMultas extends javax.swing.JPanel {
     }
     
     private void init() {
-        var dim = jPanelLivros.getPreferredSize();
+        Dimension dim = jPanelLivros.getPreferredSize();
         dim.height = 0;
         jPanelLivros.setPreferredSize(dim);
     }
     
     public void inserirMultas(List<Multa> multas) {
-        var dim = jPanelLivros.getPreferredSize();
+        Dimension dim = jPanelLivros.getPreferredSize();
         
         for (Multa p : multas) {
             JDadosMulta multa = new JDadosMulta(p);

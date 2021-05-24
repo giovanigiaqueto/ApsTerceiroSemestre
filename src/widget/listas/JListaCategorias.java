@@ -15,6 +15,7 @@ import java.awt.FlowLayout;
 
 // java util
 import java.util.List;
+import java.util.Iterator;
 
 // modelos
 import model.Categoria;
@@ -37,21 +38,21 @@ public class JListaCategorias extends javax.swing.JPanel {
     }
     
     private void init() {
-        var dim = jPanelLivros.getPreferredSize();
+        Dimension dim = jPanelLivros.getPreferredSize();
         dim.height = 10;
         jPanelLivros.setPreferredSize(dim);
         _jPanelParCategoriaRef = null;
     }
     
     public void inserirCategorias(List<Categoria> categorias) {
-        var dim = jPanelLivros.getPreferredSize();
+        Dimension dim = jPanelLivros.getPreferredSize();
         
         int w_gap = 20;
         int h_gap = 5;
         
         // itera de dois em dois se possível e dispõe as categorias lado a lado
         // (categorias sem par são mostradas na esquerda com um espaço em branco na direita)
-        var iter = categorias.iterator();
+        Iterator<Categoria> iter = categorias.iterator();
         JPanel panel = null;
         if (iter.hasNext()) {
             if (this._jPanelParCategoriaRef != null) {
@@ -111,9 +112,9 @@ public class JListaCategorias extends javax.swing.JPanel {
     // força o JPanel dentro do JScrollPane a ter o tamanho necessário
     // para comportar todos os componentes, mesmo que haja redimensionamento
     public void conteudoRedimensionado() {
-        var dim = new Dimension(0, 0);
+        Dimension dim = new Dimension(0, 0);
         for (Component comp : jPanelLivros.getComponents()) {
-            var tmp = comp.getPreferredSize();
+            Dimension tmp = comp.getPreferredSize();
             dim.height += tmp.height;
             dim.width = (tmp.width > dim.width ? tmp.width:dim.width);
         }

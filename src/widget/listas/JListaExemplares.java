@@ -3,6 +3,7 @@ package widget.listas;
 // java util
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Iterator;
 
 // java awt
 import java.awt.Component;
@@ -55,7 +56,7 @@ public class JListaExemplares extends javax.swing.JPanel {
     }
     
     private void init() {
-        var dim = jPanelExemplares.getPreferredSize();
+        Dimension dim = jPanelExemplares.getPreferredSize();
         dim.height = 0;
         jPanelExemplares.setPreferredSize(dim);
         
@@ -96,14 +97,14 @@ public class JListaExemplares extends javax.swing.JPanel {
     }
     
     public void inserirExemplares(List<Exemplar> exemplares) {
-        var dim = jPanelExemplares.getPreferredSize();
+        Dimension dim = jPanelExemplares.getPreferredSize();
         
         int w_gap = 20;
         int h_gap = 5;
         
         // itera de dois em dois se possível e dispõe as categorias lado a lado
         // (categorias sem par são mostradas na esquerda com um espaço em branco na direita)
-        var iter = exemplares.iterator();
+        Iterator<Exemplar> iter = exemplares.iterator();
         JPanel panel = null;
         if (iter.hasNext()) {
             if (this._jPanelLinhaExemplarRef != null) {
@@ -174,7 +175,7 @@ public class JListaExemplares extends javax.swing.JPanel {
         bordaSalva = null;
         
         // reseta o comprimento do conteudo dentro do ScrollPane
-        var dim = jPanelExemplares.getPreferredSize();
+        Dimension dim = jPanelExemplares.getPreferredSize();
         dim.height = 0;
         jPanelExemplares.setPreferredSize(dim);
     }
@@ -203,8 +204,8 @@ public class JListaExemplares extends javax.swing.JPanel {
         int idx = 0;
         do {
             Component comp = jPanelExemplares.getComponent(idx);
-            var pos = comp.getLocation();
-            var dim = comp.getSize();
+            Point pos = comp.getLocation();
+            Dimension dim = comp.getSize();
             len /= 2;
             // DEBUG System.out.println("curr line: " + idx);
             if (pt.y < pos.y) {
@@ -217,7 +218,7 @@ public class JListaExemplares extends javax.swing.JPanel {
                 idx += len;
             } else {
                 // linha encontrada, retorna o componente dentro da linha que colidir
-                var p = comp.getComponentAt(
+                Component p = comp.getComponentAt(
                     new Point(pt.x - pos.x, pt.y - pos.y)
                 );
                 if (p != comp) {

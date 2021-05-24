@@ -3,6 +3,7 @@ package graphic.cadastro;
 // swing
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -28,7 +29,7 @@ public class JCadastroCliente extends javax.swing.JPanel {
         public void insertString(DocumentFilter.FilterBypass fb, int offset,
             String text, AttributeSet attr) throws BadLocationException {
 
-            var doc = fb.getDocument();
+            Document doc = fb.getDocument();
             StringBuilder sb = new StringBuilder();
             sb.append(doc.getText(0, doc.getLength()));
             sb.insert(offset, text);
@@ -42,7 +43,7 @@ public class JCadastroCliente extends javax.swing.JPanel {
         public void replace(DocumentFilter.FilterBypass fb, int offset,
             int length, String text, AttributeSet attr) throws BadLocationException {
 
-            var doc = fb.getDocument();
+            Document doc = fb.getDocument();
             StringBuilder sb = new StringBuilder();
             sb.append(doc.getText(0, doc.getLength()));
             sb.replace(offset, offset + length, text);
@@ -60,7 +61,7 @@ public class JCadastroCliente extends javax.swing.JPanel {
         public void insertString(DocumentFilter.FilterBypass fb, int offset,
             String text, AttributeSet attr) throws BadLocationException {
 
-            var doc = fb.getDocument();
+            Document doc = fb.getDocument();
             StringBuilder sb = new StringBuilder();
             sb.append(doc.getText(0, doc.getLength()));
             sb.insert(offset, text);
@@ -74,7 +75,7 @@ public class JCadastroCliente extends javax.swing.JPanel {
         public void replace(DocumentFilter.FilterBypass fb, int offset,
             int length, String text, AttributeSet attr) throws BadLocationException {
 
-            var doc = fb.getDocument();
+            Document doc = fb.getDocument();
             StringBuilder sb = new StringBuilder();
             sb.append(doc.getText(0, doc.getLength()));
             sb.replace(offset, offset + length, text);
