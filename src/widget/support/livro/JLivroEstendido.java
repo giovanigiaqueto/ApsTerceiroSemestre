@@ -1,6 +1,6 @@
 package widget.support.livro;
 
-import widget.JDadosLivro;
+import widget.dados.JDadosLivro;
 import model.Livro;
 
 public class JLivroEstendido extends javax.swing.JPanel {

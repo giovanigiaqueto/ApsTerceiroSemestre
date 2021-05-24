@@ -31,7 +31,7 @@ public class JBarraPesquisa extends javax.swing.JPanel {
         jTextFieldPesquisa = new javax.swing.JTextField();
         jComboBoxTipoPesquisa = new javax.swing.JComboBox<>();
 
-        jButtonPesquisar.setText("?");
+        jButtonPesquisar.setText("Pesquisar");
 
         jTextFieldPesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

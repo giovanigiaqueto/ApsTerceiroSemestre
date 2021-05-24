@@ -17,7 +17,7 @@ import graphic.DescricaoLivroJPanel;
 import model.Livro;
 
 // suporte
-import graphic.util.livro.JDadosLivro;
+import widget.dados.JDadosLivro;
 
 // java.util
 import java.util.List;
@@ -53,7 +53,7 @@ public class Main {
         // livros.add(livro4);
         
         MainJPanel mainPanel = (MainJPanel) panel;
-        mainPanel.inserir_livros(livros);
+        mainPanel.inserirLivros(livros);
         
         frame.add(panel);
         frame.pack();
