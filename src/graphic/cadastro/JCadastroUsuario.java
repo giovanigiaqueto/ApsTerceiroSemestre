@@ -15,7 +15,7 @@ import model.Usuario;
 
 public class JCadastroUsuario extends javax.swing.JPanel {
     
-    private int id_usuario;
+    private int idUsuario;
     
     private static final DocumentFilter jTextFieldNumeroDocumentFilter =
         new DocumentFilter() {
@@ -132,7 +132,7 @@ public class JCadastroUsuario extends javax.swing.JPanel {
             }
             
             Usuario usuario = new Usuario();
-            usuario.setIdUsuario(id_usuario);
+            usuario.setIdUsuario(idUsuario);
             usuario.setNomeUsuario(nome);
             usuario.setCPFUsuario(cpf);
             usuario.setTelefoneUsuario(telefone);
@@ -220,7 +220,7 @@ public class JCadastroUsuario extends javax.swing.JPanel {
             
             jTextFieldEmail.setText(usuario.getEmailUsuario());
             
-            id_usuario = usuario.getIdUsuario();
+            idUsuario = usuario.getIdUsuario();
             
         } else {
             

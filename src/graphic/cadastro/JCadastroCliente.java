@@ -15,7 +15,7 @@ import model.Cliente;
 
 public class JCadastroCliente extends javax.swing.JPanel {
     
-    private int id_cliente;
+    private int idCliente;
     
     private static final DocumentFilter jTextFieldNumeroDocumentFilter =
         new DocumentFilter() {
@@ -132,7 +132,7 @@ public class JCadastroCliente extends javax.swing.JPanel {
             }
             
             Cliente cliente = new Cliente();
-            cliente.setIdCliente(id_cliente);
+            cliente.setIdCliente(idCliente);
             cliente.setNomeCliente(nome);
             cliente.setCPFCliente(cpf);
             cliente.setTelefoneCliente(telefone);
@@ -220,7 +220,7 @@ public class JCadastroCliente extends javax.swing.JPanel {
             
             jTextFieldEmail.setText(cliente.getEmailCliente());
             
-            id_cliente = cliente.getIdCliente();
+            idCliente = cliente.getIdCliente();
             
         } else {
             
