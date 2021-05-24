@@ -8,14 +8,14 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 
 // dao
-import dao.UsuarioDAO;
+import dao.ClienteDAO;
 
 // modelo
-import model.Usuario;
+import model.Cliente;
 
-public class JCadastroUsuario extends javax.swing.JPanel {
+public class JCadastroCliente extends javax.swing.JPanel {
     
-    private int id_usuario;
+    private int id_cliente;
     
     private static final DocumentFilter jTextFieldNumeroDocumentFilter =
         new DocumentFilter() {
@@ -86,18 +86,18 @@ public class JCadastroUsuario extends javax.swing.JPanel {
     };
     
     /** Creates new form JCadastroUsuario */
-    public JCadastroUsuario() {
+    public JCadastroCliente() {
         initComponents();
     }
     
-    public JCadastroUsuario(Usuario usuario) {
+    public JCadastroCliente(Cliente cliente) {
         this(); // chama o construtor padrão
-        setUsuario(usuario);
+        setCliente(cliente);
     }
     
     // ========== GETTERS ==========
     
-    private Usuario __innerGetUsuario(boolean mostrarErros) {
+    private Cliente __innerGetCliente(boolean mostrarErros) {
         
         String nome = jTextFieldNome.getText().trim();
         String cpf = jTextFieldCPF.getText().trim();
@@ -131,16 +131,16 @@ public class JCadastroUsuario extends javax.swing.JPanel {
                 endereco = complemento + ", " + endereco;
             }
             
-            Usuario usuario = new Usuario();
-            usuario.setIdUsuario(id_usuario);
-            usuario.setNomeUsuario(nome);
-            usuario.setCPFUsuario(cpf);
-            usuario.setTelefoneUsuario(telefone);
-            usuario.setSexoUsuario(sexo);
-            usuario.setEnderecoUsuario(endereco);
-            usuario.setEmailUsuario(email);
+            Cliente cliente = new Cliente();
+            cliente.setIdCliente(id_cliente);
+            cliente.setNomeCliente(nome);
+            cliente.setCPFCliente(cpf);
+            cliente.setTelefoneCliente(telefone);
+            cliente.setSexoCliente(sexo);
+            cliente.setEnderecoCliente(endereco);
+            cliente.setEmailCliente(email);
             
-            return usuario;
+            return cliente;
         }
         
         if (mostrarErros) {
@@ -152,29 +152,29 @@ public class JCadastroUsuario extends javax.swing.JPanel {
         return null;
     }
     
-    public Usuario getUsuario() {
-        return __innerGetUsuario(false);
+    public Cliente getCliente() {
+        return __innerGetCliente(false);
     }
     
     // ========== SETTERS ==========
     
-    public final void setUsuario(Usuario usuario) {
+    public final void setCliente(Cliente cliente) {
         
-        if (usuario != null) {
+        if (cliente != null) {
             
-            jTextFieldNome.setText(usuario.getNomeUsuario());
-            jTextFieldCPF.setText(usuario.getCPFUsuario());
-            jTextFieldTelefone.setText(usuario.getTelefoneUsuario());
-            String sexo = usuario.getSexoUsuario().trim();
+            jTextFieldNome.setText(cliente.getNomeCliente());
+            jTextFieldCPF.setText(cliente.getCPFCliente());
+            jTextFieldTelefone.setText(cliente.getTelefoneCliente());
+            String sexo = cliente.getSexoCliente().trim();
             if (sexo.isEmpty() || sexo.equals("masculino") || sexo.equals("feminino")) {
                 jComboBoxSexo.setSelectedItem(sexo);
                 jTextFieldSexo.setText("");
             } else {
                 jComboBoxSexo.setSelectedItem("outro");
-                jTextFieldSexo.setText(usuario.getSexoUsuario());
+                jTextFieldSexo.setText(cliente.getSexoCliente());
             }
             
-            String[] endereco = usuario.getEnderecoUsuario().split(",");
+            String[] endereco = cliente.getEnderecoCliente().split(",");
             
             boolean sucesso;
             switch (endereco.length) {
@@ -218,9 +218,9 @@ public class JCadastroUsuario extends javax.swing.JPanel {
                 jComboBoxEstado.setSelectedItem("");
             }
             
-            jTextFieldEmail.setText(usuario.getEmailUsuario());
+            jTextFieldEmail.setText(cliente.getEmailCliente());
             
-            id_usuario = usuario.getIdUsuario();
+            id_cliente = cliente.getIdCliente();
             
         } else {
             
@@ -544,15 +544,13 @@ public class JCadastroUsuario extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmarActionPerformed
-        Usuario usuario = this.__innerGetUsuario(true);
-        if (usuario != null) {
-            UsuarioDAO dao = new UsuarioDAO();
-            if (usuario.getIdUsuario() == 0) {
-                // TODO: pegar e confirmar senha para cadastro do usuário
-                dao.salvar(usuario);
+        Cliente cliente = this.__innerGetCliente(true);
+        if (cliente != null) {
+            ClienteDAO dao = new ClienteDAO();
+            if (cliente.getIdCliente() == 0) {
+                dao.salvar(cliente);
             } else {
-                // TODO: pegar senha do usuário para alterar o cadastro
-                dao.alterar(usuario);
+                dao.alterar(cliente);
             }
         }
     }//GEN-LAST:event_jButtonConfirmarActionPerformed
