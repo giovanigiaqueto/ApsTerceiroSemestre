@@ -162,13 +162,11 @@
                               <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jComboBoxCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jFormattedTextFieldPaginas" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jFormattedTextFieldPreco" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="jTextFieldISBN" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jComboBoxCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jFormattedTextFieldPaginas" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jFormattedTextFieldPreco" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextFieldISBN" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">

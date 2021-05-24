@@ -7,6 +7,9 @@ import javax.swing.text.DocumentFilter;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 
+// awt
+import java.awt.Color;
+
 // dao
 import dao.UsuarioDAO;
 
@@ -291,7 +294,6 @@ public class JCadastroUsuario extends javax.swing.JPanel {
         jLabelNome.setText("Nome Completo");
 
         jTextFieldNome.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextFieldNome.setMargin(new java.awt.Insets(2, 2, 2, 2));
         jTextFieldNome.setMinimumSize(new java.awt.Dimension(520, 25));
         jTextFieldNome.setPreferredSize(new java.awt.Dimension(520, 25));
 
@@ -300,19 +302,28 @@ public class JCadastroUsuario extends javax.swing.JPanel {
 
         jTextFieldCPF.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jTextFieldCPF.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        jTextFieldCPF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldCPFKeyTyped(evt);
+            }
+        });
 
         jLabelTelefone.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabelTelefone.setText("Telefone");
 
         jTextFieldTelefone.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jTextFieldTelefone.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        jTextFieldTelefone.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldTelefoneKeyTyped(evt);
+            }
+        });
 
         jLabelSexo.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabelSexo.setText("Sexo");
 
         jTextFieldSexo.setEditable(false);
         jTextFieldSexo.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextFieldSexo.setMargin(new java.awt.Insets(2, 2, 2, 2));
         jTextFieldSexo.setMinimumSize(new java.awt.Dimension(122, 25));
         jTextFieldSexo.setPreferredSize(new java.awt.Dimension(122, 25));
 
@@ -342,9 +353,13 @@ public class JCadastroUsuario extends javax.swing.JPanel {
         ((javax.swing.text.PlainDocument) jTextFieldNumero.getDocument()).setDocumentFilter(jTextFieldNumeroDocumentFilter);
         jTextFieldNumero.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jTextFieldNumero.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextFieldNumero.setMargin(new java.awt.Insets(2, 2, 2, 2));
         jTextFieldNumero.setMinimumSize(new java.awt.Dimension(32, 25));
         jTextFieldNumero.setPreferredSize(new java.awt.Dimension(32, 25));
+        jTextFieldNumero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldNumeroKeyTyped(evt);
+            }
+        });
 
         jLabelEmail.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabelEmail.setText("E-mail");
@@ -569,6 +584,71 @@ public class JCadastroUsuario extends javax.swing.JPanel {
             jTextFieldSexo.setText("");
         }
     }//GEN-LAST:event_jComboBoxSexoItemStateChanged
+
+    private void jTextFieldNumeroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNumeroKeyTyped
+        String charsPermitidos = "0123456789";
+            if(!charsPermitidos.contains(evt.getKeyChar()+""))
+                evt.consume();
+    }//GEN-LAST:event_jTextFieldNumeroKeyTyped
+
+    private void jTextFieldCPFKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldCPFKeyTyped
+        String charsPermitidos = "0123456789";
+            if(!charsPermitidos.contains(evt.getKeyChar()+"") ||
+                    jTextFieldCPF.getText().length() >= 11)
+                evt.consume();
+    }//GEN-LAST:event_jTextFieldCPFKeyTyped
+
+    private void jTextFieldTelefoneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldTelefoneKeyTyped
+        String charsPermitidos = "0123456789";
+            if(!charsPermitidos.contains(evt.getKeyChar()+""))
+                evt.consume();
+    }//GEN-LAST:event_jTextFieldTelefoneKeyTyped
+
+    private void lembreteCamposEmBranco(){
+        Color cor = new Color(248, 220, 219);
+        
+        if (jTextFieldNome.getText().isEmpty()){
+            jTextFieldNome.setBackground(cor);
+        } else {
+            jTextFieldNome.setBackground(Color.WHITE);
+        }
+        
+        if (jTextFieldCidade.getText().isEmpty()){
+            jTextFieldCidade.setBackground(cor);
+        } else {
+            jTextFieldCidade.setBackground(Color.WHITE);
+        }
+        
+        if (jTextFieldRua.getText().isEmpty()){
+            jTextFieldRua.setBackground(cor);
+        } else {
+            jTextFieldRua.setBackground(Color.WHITE);
+        }
+        
+        if (jTextFieldNumero.getText().isEmpty()){
+            jTextFieldNumero.setBackground(cor);
+        } else {
+            jTextFieldNumero.setBackground(Color.WHITE);
+        }
+        
+        if (jTextFieldCPF.getText().isEmpty()){
+            jTextFieldCPF.setBackground(cor);
+        } else {
+            jTextFieldCPF.setBackground(Color.WHITE);
+        }
+        
+        if (jTextFieldTelefone.getText().isEmpty()){
+            jTextFieldTelefone.setBackground(cor);
+        } else {
+            jTextFieldTelefone.setBackground(Color.WHITE);
+        }
+        
+        if (jTextFieldEmail.getText().isEmpty()){
+            jTextFieldEmail.setBackground(cor);
+        } else {
+            jTextFieldEmail.setBackground(Color.WHITE);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancelar;
