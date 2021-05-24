@@ -15,11 +15,18 @@ import model.Categoria;
 
 public class JCadastroCategoria extends javax.swing.JPanel {
 
+    private int idCategoria;
+    
     /**
      * Creates new form JCadastroCategoria
      */
     public JCadastroCategoria() {
         initComponents();
+    }
+    
+    public JCadastroCategoria(Categoria categoria) {
+        this(); // chama o costrutor padrão
+        setCategoria(categoria);
     }
 
     /**
@@ -204,25 +211,77 @@ public class JCadastroCategoria extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public Categoria __innerGetCategoria(boolean mostrarErros) {
+        String nome = jTextFieldNomeCategoria.getText().trim();
+        String desc = jTextAreaDescCategoria.getText().trim();
+        
+        String msg;
+        if (nome.isEmpty()) {
+            msg = "o campo \"Nome da Categoria\" não foi preenchido";
+        } else if (desc.isEmpty()) {
+            msg = "o campo \"Descrição da Categoria\" não foi preenchido";
+        } else {
+            return new Categoria(idCategoria, nome, desc);
+        }
+        
+        if (mostrarErros) {
+            JOptionPane.showMessageDialog(new JFrame(), 
+                msg, "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
+    }
+    
+    // ========== GETTER ==========
+    
+    public Categoria getCategoria() {
+        return __innerGetCategoria(false);
+    }
+    
+    // ========== SETTER ==========
+    
+    public final void setCategoria(Categoria categoria) {
+        
+        if (categoria != null) {
+            jTextFieldNomeCategoria.setText(categoria.getNomeCategoria().trim());
+            jTextAreaDescCategoria.setText(categoria.getDescricaoCategoria().trim());
+        } else {
+            jTextFieldNomeCategoria.setText("");
+            jTextAreaDescCategoria.setText("");
+        }
+        
+        this.idCategoria = categoria.getIdCategoria();
+    }
+    
     private void jButtonConcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConcluirActionPerformed
+        
+        Categoria categoria = this.__innerGetCategoria(true);
         CategoriaDAO dao = new CategoriaDAO();
-        Categoria categoria = new Categoria();
-
-        String nomeCat = jTextFieldNomeCategoria.getText();
-        String descCat = jTextAreaDescCategoria.getText();
-
-        if(!(nomeCat.isEmpty() || descCat.isEmpty())){
-            categoria.setNomeCategoria(nomeCat);
-            categoria.setDescricaoCategoria(descCat);
-
-            if (dao.salvar(categoria)) {
-                JOptionPane.showMessageDialog(new JFrame(), 
-                    "Categoria " + jTextFieldNomeCategoria.getText() + " salva com sucesso!",
-                        "Categoria salva!", JOptionPane.INFORMATION_MESSAGE);
+        if (categoria != null) {
+            
+            if (categoria.getIdCategoria() == 0) {
+                if (dao.salvar(categoria)) {
+                    JOptionPane.showMessageDialog(new JFrame(), 
+                        "Categoria \"" + categoria.getNomeCategoria() 
+                            + "\" salva com sucesso!", "Categoria salva!",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                        "Não foi possível salvar a categoria \"" + 
+                            categoria.getNomeCategoria() + "\"!",
+                            "Algo deu errado!", JOptionPane.ERROR_MESSAGE);   
+                }
             } else {
-                JOptionPane.showMessageDialog(new JFrame(),
-                    "Não foi possível salvar a categoria " + nomeCat + "!",
-                        "Algo deu errado!", JOptionPane.ERROR_MESSAGE);   
+                if (dao.alterar(categoria)) {
+                    JOptionPane.showMessageDialog(new JFrame(), 
+                        "Categoria \"" + categoria.getNomeCategoria() 
+                            + "\" alterada com sucesso!", "Categoria alterada!",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                        "Não foi possível alterar a categoria \"" + 
+                            categoria.getNomeCategoria() + "\"!",
+                            "Algo deu errado!", JOptionPane.ERROR_MESSAGE);   
+                }
             }
         }
 
