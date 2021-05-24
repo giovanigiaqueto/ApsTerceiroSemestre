@@ -1,25 +1,28 @@
 package graphic.cadastro;
 
-import dao.CategoriaDAO;
-import dao.LivroDAO;
+// Main
 import internal.Main;
-import java.awt.Color;
+
+// java.util
 import java.util.Comparator;
 import java.util.List;
-import javax.swing.JOptionPane;
+
+// awt
+import java.awt.Color;
+
+// dao
+import dao.CategoriaDAO;
+import dao.LivroDAO;
+
+// model
 import model.Categoria;
 import model.Livro;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// swing
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
-/**
- *
- * @author giovani
- */
+
 public class JCadastroLivro extends javax.swing.JPanel {
 
     /**
@@ -388,16 +391,16 @@ public class JCadastroLivro extends javax.swing.JPanel {
         String preco = jFormattedTextFieldPreco.getText().replace(",", ".");
         String sinopse = jTextAreaSinopse.getText();
 
-        if(!nome.isEmpty() &&
-                !isbn.equals("   - -   -     - ") &&
-                !autor.isEmpty() &&
-                !editora.isEmpty() &&
-                !edicao.isEmpty() &&
-                !dataLancamento.equals("  /  /    ") &&
-                !categoria.isEmpty() &&
-                !paginas.isEmpty() &&
-                !preco.isEmpty() &&
-                !sinopse.isEmpty()){
+        if (!(nome.isEmpty() ||
+            isbn.equals("   - -   -     - ") ||
+            autor.isEmpty() ||
+            editora.isEmpty() ||
+            edicao.isEmpty() ||
+            dataLancamento.equals("  /  /    ") ||
+            categoria.isEmpty() ||
+            paginas.isEmpty() ||
+            preco.isEmpty() ||
+            sinopse.isEmpty())) {
 
             livro.setNomeLivro(nome);
             livro.setISBNLivro(isbn);
@@ -410,13 +413,15 @@ public class JCadastroLivro extends javax.swing.JPanel {
             livro.setPrecoLivro(Double.parseDouble(preco));
             livro.setSinopseLivro(sinopse);
 
-            if(livroDao.salvar(livro))
-                JOptionPane.showMessageDialog(this, "Livro "+nome+" salvo com sucesso!", "Livro salvo!", 
-                        JOptionPane.INFORMATION_MESSAGE);
-            else
-                JOptionPane.showMessageDialog(this, "Não foi possível salvar o livro", "Algo deu errado!", 
-                        JOptionPane.ERROR_MESSAGE);
-
+            if (livroDao.salvar(livro)) {
+                JOptionPane.showMessageDialog(new JFrame(),
+                    "Livro " + nome + " salvo com sucesso!", "Livro salvo!", 
+                    JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(new JFrame(),
+                    "Não foi possível salvar o livro", "Algo deu errado!", 
+                    JOptionPane.ERROR_MESSAGE);
+            }
         }
 
         lembreteCamposEmBranco();
@@ -429,55 +434,65 @@ public class JCadastroLivro extends javax.swing.JPanel {
     private void lembreteCamposEmBranco(){
         Color cor = new Color(248, 220, 219);
 
-        if(jTextFieldNomeLivro.getText().isEmpty())
+        if (jTextFieldNomeLivro.getText().isEmpty()) {
             jTextFieldNomeLivro.setBackground(cor);
-        else
+        } else {
             jTextFieldNomeLivro.setBackground(Color.WHITE);
+        }
 
-        if(jFormattedTextFieldISBN.getText().equals("   - -   -     - "))
+        if (jFormattedTextFieldISBN.getText().equals("   - -   -     - ")) {
             jFormattedTextFieldISBN.setBackground(cor);
-        else
+        } else {
             jFormattedTextFieldISBN.setBackground(Color.WHITE);
+        }
 
-        if(jTextFieldNomeAutor.getText().isEmpty())
+        if (jTextFieldNomeAutor.getText().isEmpty()) {
             jTextFieldNomeAutor.setBackground(cor);
-        else
+        } else {
             jTextFieldNomeAutor.setBackground(Color.WHITE);
+        }
 
-        if(jTextFieldNomeEditora.getText().isEmpty())
+        if(jTextFieldNomeEditora.getText().isEmpty()) {
             jTextFieldNomeEditora.setBackground(cor);
-        else
+        } else {
             jTextFieldNomeEditora.setBackground(Color.WHITE);
+        }
 
-        if(jFormattedTextFieldEdicao.getText().isEmpty())
+        if (jFormattedTextFieldEdicao.getText().isEmpty()) {
             jFormattedTextFieldEdicao.setBackground(cor);
-        else
+        } else {
             jFormattedTextFieldEdicao.setBackground(Color.WHITE);
+        }
 
-        if(jFormattedTextFieldDataLancamento.getText().equals("  /  /    "))
+        if (jFormattedTextFieldDataLancamento.getText().equals("  /  /    ")) {
             jFormattedTextFieldDataLancamento.setBackground(cor);
-        else
+        } else {
             jFormattedTextFieldDataLancamento.setBackground(Color.WHITE);
+        }
 
-        if(jComboBoxCategoria.getSelectedItem() == null)
+        if (jComboBoxCategoria.getSelectedItem() == null) {
             jComboBoxCategoria.setBackground(cor);
-        else
+        } else {
             jComboBoxCategoria.setBackground(Color.WHITE);
+        }
 
-        if(jFormattedTextFieldPaginas.getText().isEmpty())
+        if (jFormattedTextFieldPaginas.getText().isEmpty()) {
             jFormattedTextFieldPaginas.setBackground(cor);
-        else
+        } else {
             jFormattedTextFieldPaginas.setBackground(Color.WHITE);
+        }
 
-        if(jFormattedTextFieldPreco.getText().isEmpty())
+        if (jFormattedTextFieldPreco.getText().isEmpty()) {
             jFormattedTextFieldPreco.setBackground(cor);
-        else
+        } else {
             jFormattedTextFieldPreco.setBackground(Color.WHITE);
+        }
 
-        if(jTextAreaSinopse.getText().isEmpty())
+        if (jTextAreaSinopse.getText().isEmpty()) {
             jTextAreaSinopse.setBackground(cor);
-        else
+        } else {
             jTextAreaSinopse.setBackground(Color.WHITE);
+        }
     }
     
     private void jFormattedTextFieldPaginasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextFieldPaginasKeyTyped
@@ -506,12 +521,11 @@ public class JCadastroLivro extends javax.swing.JPanel {
      * @param s a String para ver quantas vezes ela possui o char c
      * @return  a quantidade de vezes que c aparece em s
      */
-    private int quantidadeCaracteres(char c, String s){
+    private int quantidadeCaracteres(char c, String s) {
         int quantidade = 0;
         
         for (int i = 0; i < s.length(); i++) {
-            if(s.charAt(i) == c)
-                quantidade++;
+            if (s.charAt(i) == c) quantidade++;
         }
         
         return quantidade;

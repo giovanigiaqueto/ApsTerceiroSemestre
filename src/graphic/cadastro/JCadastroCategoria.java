@@ -1,19 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package graphic.cadastro;
 
+// dao
 import dao.CategoriaDAO;
+
+// awt
 import java.awt.Color;
+
+// swing
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+// modelo
 import model.Categoria;
 
-/**
- *
- * @author giovani
- */
 public class JCadastroCategoria extends javax.swing.JPanel {
 
     /**
@@ -212,16 +211,19 @@ public class JCadastroCategoria extends javax.swing.JPanel {
         String nomeCat = jTextFieldNomeCategoria.getText();
         String descCat = jTextAreaDescCategoria.getText();
 
-        if(!nomeCat.isEmpty() && !descCat.isEmpty()){
+        if(!(nomeCat.isEmpty() || descCat.isEmpty())){
             categoria.setNomeCategoria(nomeCat);
             categoria.setDescricaoCategoria(descCat);
 
-            if(dao.salvar(categoria))
-                JOptionPane.showMessageDialog(this, "Categoria "+jTextFieldNomeCategoria.getText()+" salva com sucesso!",
+            if (dao.salvar(categoria)) {
+                JOptionPane.showMessageDialog(new JFrame(), 
+                    "Categoria " + jTextFieldNomeCategoria.getText() + " salva com sucesso!",
                         "Categoria salva!", JOptionPane.INFORMATION_MESSAGE);
-            else
-                JOptionPane.showMessageDialog(this, "Não foi possível salvar a categoria "+nomeCat+"!", 
-                        "Algo deu errado!", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(new JFrame(),
+                    "Não foi possível salvar a categoria " + nomeCat + "!",
+                        "Algo deu errado!", JOptionPane.ERROR_MESSAGE);   
+            }
         }
 
         lembreteCamposEmBranco();
@@ -234,15 +236,17 @@ public class JCadastroCategoria extends javax.swing.JPanel {
     private void lembreteCamposEmBranco(){
         Color cor = new Color(248, 220, 219);
 
-        if(jTextFieldNomeCategoria.getText().isEmpty())
+        if (jTextFieldNomeCategoria.getText().isEmpty()) {
             jTextFieldNomeCategoria.setBackground(cor);
-        else
+        } else {
             jTextFieldNomeCategoria.setBackground(Color.WHITE);
+        }
 
-        if(jTextAreaDescCategoria.getText().isEmpty())
+        if (jTextAreaDescCategoria.getText().isEmpty()) {
             jTextAreaDescCategoria.setBackground(cor);
-        else
+        } else {
             jTextAreaDescCategoria.setBackground(Color.WHITE);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

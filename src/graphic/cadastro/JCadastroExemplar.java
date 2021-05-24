@@ -265,11 +265,13 @@ public class JCadastroExemplar extends javax.swing.JPanel {
         String dataObtencao = jFormattedTextFieldDataObtencao.getText();
         String quantidade = jFormattedTextFieldQuantidade.getText();
         
-        if(!isbn.equals("   - -   -     - ") && !dataObtencao.equals("  /  /    ") && !quantidade.isEmpty()){
+        if(!(isbn.equals("   - -   -     - ") ||
+            dataObtencao.equals("  /  /    ") ||
+            quantidade.isEmpty())) {
 
             LivroDAO livroDAO = new LivroDAO();
             Livro livro = livroDAO.procurarPorISBN(isbn);
-            if(livro != null){
+            if (livro != null) {
 
                 for (int i = 0; i < Integer.parseInt(quantidade); i++) {
                     Exemplar exemplar = new Exemplar();
@@ -280,11 +282,14 @@ public class JCadastroExemplar extends javax.swing.JPanel {
                     exemplarDao.salvar(exemplar);
                 }
 
-                JOptionPane.showMessageDialog(this, "Todos os "+quantidade+" exemplares foram cadastrados com sucesso!",
+                JOptionPane.showMessageDialog(new JFrame(), 
+                    "Todos os " + quantidade + " exemplares foram cadastrados com sucesso!",
                         "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
-            } else
-                JOptionPane.showMessageDialog(this, "Não foi possível salvar os exemplares!", "Algo deu errado!", 
-                        JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(new JFrame(), 
+                    "Não foi possível salvar os exemplares!",
+                        "Algo deu errado!", JOptionPane.ERROR_MESSAGE);
+            }
         }
 
         lembreteCamposEmBranco();
