@@ -2,22 +2,24 @@ package graphic;
 
 // java.util
 import java.util.Map;
-import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.List;
-import java.util.LinkedList;
 import java.util.function.Predicate;
 
 // dao
 import dao.ExemplarDAO;
+import dao.EmprestimoDAO;
 
 // model
 import model.Livro;
 import model.Exemplar;
+import model.Usuario;
+import model.Cliente;
 
 // widget
 import widget.dados.JDadosLivro;
-import widget.listas.JListaLivros;
 import widget.dados.JDadosExemplar;
+import widget.listas.JListaLivros;
 import widget.listas.JListaExemplares;
 import widget.support.IComponenteLivro;
 
@@ -25,6 +27,16 @@ public class CheckoutJPanel extends javax.swing.JPanel {
     
     private IComponenteLivro iLivroSelecionado;
     private Map<Integer, Exemplar> exemplares;
+    
+    private Cliente cliente;
+    private Usuario usuario;
+    
+    public interface ObservadorForm {
+        public void concluir();
+        public void cancelar();
+    };
+    
+    private ObservadorForm observadorForm;
     
     /**
      * Creates new form CheckoutJPanel
@@ -34,7 +46,30 @@ public class CheckoutJPanel extends javax.swing.JPanel {
         init();
     }
     
+    @SuppressWarnings("OverridableMethodCallInConstructor")
+    public CheckoutJPanel(Cliente cliente, Usuario usuario, List<Livro> livros) {
+        this(); // chama o construtor padrão
+        this.cliente = cliente;
+        this.usuario = usuario;
+        this.inserirLivros(livros);
+    }
+    
+    private void carregarExemplares(int id_livro) {
+        jListaExemplares.esvaziar();
+        ExemplarDAO dao = new ExemplarDAO();
+        List<Exemplar> lista = dao.listarExemplaresLivro(id_livro);
+        
+        lista.removeIf(new Predicate() {
+            @Override
+            public boolean test(Object obj) {
+                return !((Exemplar) obj).getEstaAlocado();
+            }
+        });
+        jListaExemplares.inserirExemplares(lista);
+    }
+    
     private void init() {
+        // observador de seleção de livros
         jListaLivros.setObservarSelecao(true);
         jListaLivros.addObservadorSelecao(
             new JListaLivros.ObservadorSelecao() {
@@ -45,24 +80,15 @@ public class CheckoutJPanel extends javax.swing.JPanel {
                     if (iLivro == null) return;
                     
                     Livro livro = iLivro.getLivro();
-                    jListaExemplares.esvaziar();
-                    {
-                        ExemplarDAO dao = new ExemplarDAO();
-                        List<Exemplar> lista = dao.listarExemplaresLivro(livro.getIdLivro());
-                        lista.removeIf(new Predicate() {
-                            @Override
-                            public boolean test(Object obj) {
-                                return !((Exemplar) obj).getEstaAlocado();
-                            }
-                        });
-                        jListaExemplares.inserirExemplares(lista);
-                        jListaExemplares.selecionar(livro.getIdLivro());
-                    }
+                    
+                    // carrega os exemplares disponíveis do livro selecionado
                     iLivroSelecionado = iLivro;
+                    carregarExemplares(livro.getIdLivro());
                 }
             }
         );
         
+        // observador de seleção de exemplares do livro selecionado
         jListaExemplares.setObservarSelecao(true);
         jListaExemplares.addObservadorSelecao(
             new JListaExemplares.ObservadorSelecao() {
@@ -72,19 +98,40 @@ public class CheckoutJPanel extends javax.swing.JPanel {
                     // evita seleção de nada (desseleção)
                     if (exemplar == null) return;
                     
+                    // salva o exemplar do livro selecionado atual
                     IComponenteLivro iLivro = iLivroSelecionado;
                     if (iLivro != null) {
-                        int id_livro = iLivro.getLivro().getIdLivro();
-                        exemplares.put(id_livro, exemplar.getExemplar());
+                        int idLivro = iLivroSelecionado.getLivro().getIdLivro();
+                        exemplares.put(idLivro, exemplar.getExemplar());
                     }
                 }
             }
         );
+        
+        // mapeamento de livros (id_livro) e exemplares (id_exemplar)
+        exemplares = new TreeMap<>();
     }
     
+    /**
+     * insere os livros dados para que os seus exemplares possam ser selecionados
+     * @param livros os livros dos quais seus exemplares deve ser selecionados
+     */
     public void inserirLivros(List<Livro> livros) {
         jListaLivros.inserirLivros(livros, JDadosLivro.class);
     }
+    
+    /**
+     * retorna um mapeamento entre os ids dos livros e os exemplares selecionados,
+     * se nehum exemplar for selecionado para um determinado livro ele não sera
+     * incluido no mapeamento
+     * 
+     * @return mapeamento entre os ids dos livros e os exemplares selecionados
+     */
+    public Map<Integer, Exemplar> getExemplares() {
+        return new TreeMap<>(exemplares);
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -96,94 +143,197 @@ public class CheckoutJPanel extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jButtonVoltar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jPanelButtons = new javax.swing.JPanel();
+        jButtonVoltar = new javax.swing.JButton();
+        jButtonConcluir = new javax.swing.JButton();
+        filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
+        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
+        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 32767));
+        filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 32767));
+        jPanel2 = new javax.swing.JPanel();
         jListaLivros = new widget.listas.JListaLivros();
+        jPanel3 = new javax.swing.JPanel();
+        jListaExemplares = new widget.listas.JListaExemplares();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        jListaExemplares = new widget.listas.JListaExemplares();
 
-        jButtonVoltar.setText("Voltar");
+        setPreferredSize(new java.awt.Dimension(1280, 720));
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.18;
+        jPanel1.add(filler5, gridBagConstraints);
 
-        jListaLivros.setPreferredSize(new java.awt.Dimension(500, 500));
+        jPanelButtons.setMaximumSize(new java.awt.Dimension(399, 25));
+        jPanelButtons.setMinimumSize(new java.awt.Dimension(399, 25));
+
+        jButtonVoltar.setText("Voltar");
+        jButtonVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVoltarActionPerformed(evt);
+            }
+        });
+
+        jButtonConcluir.setText("Concluir");
+        jButtonConcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConcluirActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelButtonsLayout = new javax.swing.GroupLayout(jPanelButtons);
+        jPanelButtons.setLayout(jPanelButtonsLayout);
+        jPanelButtonsLayout.setHorizontalGroup(
+            jPanelButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelButtonsLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(75, 75, 75)
+                .addComponent(jButtonConcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanelButtonsLayout.setVerticalGroup(
+            jPanelButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jButtonVoltar)
+                .addComponent(jButtonConcluir))
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 3;
+        jPanel1.add(jPanelButtons, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
+        gridBagConstraints.weighty = 0.045;
+        jPanel1.add(filler8, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weighty = 0.045;
+        jPanel1.add(filler7, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        jPanel1.add(jListaLivros, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        jPanel1.add(filler4, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.gridheight = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 0.4;
-        jPanel1.add(filler1, gridBagConstraints);
+        jPanel1.add(filler6, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.gridheight = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.weightx = 0.4;
-        jPanel1.add(filler2, gridBagConstraints);
+        jPanel1.add(filler9, gridBagConstraints);
+
+        jPanel2.setPreferredSize(new java.awt.Dimension(602, 600));
+
+        jListaLivros.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jListaLivros.setMinimumSize(new java.awt.Dimension(0, 0));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jListaLivros, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jListaLivros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.weighty = 0.1;
-        jPanel1.add(filler3, gridBagConstraints);
+        gridBagConstraints.weightx = 2.0;
+        gridBagConstraints.weighty = 2.0;
+        jPanel1.add(jPanel2, gridBagConstraints);
+
+        jPanel3.setPreferredSize(new java.awt.Dimension(602, 600));
+
+        jListaExemplares.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jListaExemplares.setMinimumSize(new java.awt.Dimension(0, 0));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jListaExemplares, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jListaExemplares, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 2.0;
+        gridBagConstraints.weighty = 2.0;
+        jPanel1.add(jPanel3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
-        gridBagConstraints.weighty = 0.1;
-        jPanel1.add(filler4, gridBagConstraints);
+        gridBagConstraints.weightx = 0.18;
+        jPanel1.add(filler1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.18;
+        jPanel1.add(filler2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.4;
-        jPanel1.add(filler5, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        jPanel1.add(jListaExemplares, gridBagConstraints);
+        gridBagConstraints.weighty = 0.09;
+        jPanel1.add(filler3, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButtonVoltar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1360, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1280, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButtonVoltar)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonConcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConcluirActionPerformed
+        if (observadorForm != null) observadorForm.concluir();
+    }//GEN-LAST:event_jButtonConcluirActionPerformed
+
+    private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed
+        if (observadorForm != null) observadorForm.cancelar();
+    }//GEN-LAST:event_jButtonVoltarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
@@ -191,9 +341,17 @@ public class CheckoutJPanel extends javax.swing.JPanel {
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
+    private javax.swing.Box.Filler filler6;
+    private javax.swing.Box.Filler filler7;
+    private javax.swing.Box.Filler filler8;
+    private javax.swing.Box.Filler filler9;
+    private javax.swing.JButton jButtonConcluir;
     private javax.swing.JButton jButtonVoltar;
     private widget.listas.JListaExemplares jListaExemplares;
     private widget.listas.JListaLivros jListaLivros;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanelButtons;
     // End of variables declaration//GEN-END:variables
 }
