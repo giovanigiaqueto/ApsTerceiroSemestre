@@ -67,4 +67,45 @@ public class Main {
         return pedacosData[2]+"-"+pedacosData[1]+"-"+pedacosData[0];
     }
     
+    //Fica aqui por enquanto, já que várias classes precisam
+    public static boolean ultimoCharIgual(char c, String texto){
+        if (!texto.isEmpty()){
+            return c == texto.charAt(texto.length()-1);
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Essas são as regras que o ISBN deve seguir.
+     * Fica aqui por enquanto, já que várias classes precisam.
+     * 
+     * @param isbn o ISBN para ser verificado
+     * @return true se for válido e caso contrári, retorna false
+     */
+    public static boolean validaISBN(String isbn){
+        int qtdTracos = quantidadeCaracter('-', isbn);
+        String textoPuro = isbn.replace("-", "");
+        
+        if ((qtdTracos == 3 || qtdTracos == 4) &&
+                !isbn.contains("--") &&
+                textoPuro.matches("[0-9]{10}||[0-9]{13}")){
+            return true;
+        }
+        
+        return false;
+    }
+    
+    //Fica aqui por enquanto, já que várias classes precisam
+    public static int quantidadeCaracter(char c, String s){
+        int quantidade = 0;
+        
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == c)
+                quantidade++;
+        }
+        
+        return quantidade;
+    }
+    
 }

@@ -6,6 +6,12 @@
 
 package graphic.cadastro;
 
+import dao.UsuarioDAO;
+import java.awt.Color;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import model.Usuario;
+
 /**
  *
  * @author giovani
@@ -25,7 +31,6 @@ public class JCadastroUsuario extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jLabelHeader = new javax.swing.JLabel();
         jPanelForm = new javax.swing.JPanel();
@@ -38,18 +43,18 @@ public class JCadastroUsuario extends javax.swing.JPanel {
         jLabelSexo = new javax.swing.JLabel();
         jTextFieldSexo = new javax.swing.JTextField();
         jLabelEndereço = new javax.swing.JLabel();
-        jTextFieldEndereço = new javax.swing.JTextField();
+        jTextFieldEndereco = new javax.swing.JTextField();
         jLabelEstado = new javax.swing.JLabel();
         jLabelRua = new javax.swing.JLabel();
         jTextFieldRua = new javax.swing.JTextField();
         jLabelNumero = new javax.swing.JLabel();
         jTextFieldNumero = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jTextFieldEmail = new javax.swing.JTextField();
+        jComboBoxSexo = new javax.swing.JComboBox<>();
         jComboBoxEstado = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jTextFieldComplemento = new javax.swing.JTextField();
         jPanelConfirmacao = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -68,7 +73,6 @@ public class JCadastroUsuario extends javax.swing.JPanel {
         jLabelNome.setText("Nome Completo");
 
         jTextFieldNome.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextFieldNome.setMargin(new java.awt.Insets(2, 2, 2, 2));
         jTextFieldNome.setMinimumSize(new java.awt.Dimension(520, 25));
         jTextFieldNome.setPreferredSize(new java.awt.Dimension(520, 25));
         jTextFieldNome.addActionListener(new java.awt.event.ActionListener() {
@@ -81,28 +85,34 @@ public class JCadastroUsuario extends javax.swing.JPanel {
         jLabelCPF.setText("CPF");
 
         jTextFieldCPF.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextFieldCPF.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        jTextFieldCPF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldCPFKeyTyped(evt);
+            }
+        });
 
         jLabelTelefone.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabelTelefone.setText("Telefone");
 
         jTextFieldTelefone.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextFieldTelefone.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        jTextFieldTelefone.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldTelefoneKeyTyped(evt);
+            }
+        });
 
         jLabelSexo.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabelSexo.setText("Sexo");
 
         jTextFieldSexo.setEditable(false);
         jTextFieldSexo.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextFieldSexo.setMargin(new java.awt.Insets(2, 2, 2, 2));
         jTextFieldSexo.setMinimumSize(new java.awt.Dimension(122, 25));
         jTextFieldSexo.setPreferredSize(new java.awt.Dimension(122, 25));
 
         jLabelEndereço.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabelEndereço.setText("Cidade");
 
-        jTextFieldEndereço.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextFieldEndereço.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        jTextFieldEndereco.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         jLabelEstado.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabelEstado.setText("Estado");
@@ -111,7 +121,6 @@ public class JCadastroUsuario extends javax.swing.JPanel {
         jLabelRua.setText("Rua");
 
         jTextFieldRua.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextFieldRua.setMargin(new java.awt.Insets(2, 2, 2, 2));
 
         jLabelNumero.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabelNumero.setText("Nº");
@@ -121,21 +130,24 @@ public class JCadastroUsuario extends javax.swing.JPanel {
 
         jTextFieldNumero.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jTextFieldNumero.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextFieldNumero.setMargin(new java.awt.Insets(2, 2, 2, 2));
         jTextFieldNumero.setMinimumSize(new java.awt.Dimension(32, 25));
         jTextFieldNumero.setPreferredSize(new java.awt.Dimension(32, 25));
+        jTextFieldNumero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldNumeroKeyTyped(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel2.setText("E-mail");
 
-        jTextField1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextField1.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        jTextFieldEmail.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
-        jComboBox1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "feminino", "masculino", "outro" }));
-        jComboBox1.setMinimumSize(new java.awt.Dimension(90, 26));
-        jComboBox1.setName(""); // NOI18N
-        jComboBox1.setPreferredSize(new java.awt.Dimension(90, 26));
+        jComboBoxSexo.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jComboBoxSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "feminino", "masculino", "outro" }));
+        jComboBoxSexo.setMinimumSize(new java.awt.Dimension(90, 26));
+        jComboBoxSexo.setName(""); // NOI18N
+        jComboBoxSexo.setPreferredSize(new java.awt.Dimension(90, 26));
 
         jComboBoxEstado.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Espírito Santo", "Goiás", "Maranhão", "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro", "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia", "Roraima", "Santa Catarina", "São Paulo", "Sergipe", "Tocantins", "Distrito Federal" }));
@@ -144,8 +156,7 @@ public class JCadastroUsuario extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel3.setText("Complemento");
 
-        jTextField2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextField2.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        jTextFieldComplemento.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanelFormLayout = new javax.swing.GroupLayout(jPanelForm);
         jPanelForm.setLayout(jPanelFormLayout);
@@ -165,7 +176,7 @@ public class JCadastroUsuario extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelFormLayout.createSequentialGroup()
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jComboBoxSexo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jTextFieldSexo, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
                             .addComponent(jLabelSexo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -179,19 +190,19 @@ public class JCadastroUsuario extends javax.swing.JPanel {
                                 .addGroup(jPanelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jTextFieldNumero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabelNumero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(jTextFieldEndereço, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldEndereco, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelEndereço, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextField2)
+                                .addComponent(jTextFieldComplemento)
                                 .addComponent(jComboBoxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabelEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabelNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextFieldNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1))
+                    .addComponent(jTextFieldEmail))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelFormLayout.setVerticalGroup(
@@ -207,7 +218,7 @@ public class JCadastroUsuario extends javax.swing.JPanel {
                         .addGroup(jPanelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelFormLayout.createSequentialGroup()
                                 .addGap(28, 28, 28)
-                                .addComponent(jTextFieldEndereço, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jTextFieldEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabelEndereço)
                             .addGroup(jPanelFormLayout.createSequentialGroup()
                                 .addComponent(jLabelEstado)
@@ -218,7 +229,7 @@ public class JCadastroUsuario extends javax.swing.JPanel {
                             .addGroup(jPanelFormLayout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jTextFieldComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanelFormLayout.createSequentialGroup()
                                 .addComponent(jLabelRua)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -233,7 +244,7 @@ public class JCadastroUsuario extends javax.swing.JPanel {
                                 .addComponent(jLabelSexo)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBoxSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextFieldSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanelFormLayout.createSequentialGroup()
                                 .addComponent(jLabelCPF)
@@ -246,7 +257,7 @@ public class JCadastroUsuario extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -254,6 +265,11 @@ public class JCadastroUsuario extends javax.swing.JPanel {
         jButton1.setMaximumSize(new java.awt.Dimension(90, 25));
         jButton1.setMinimumSize(new java.awt.Dimension(90, 25));
         jButton1.setPreferredSize(new java.awt.Dimension(90, 25));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cancelar");
         jButton2.setMaximumSize(new java.awt.Dimension(90, 25));
@@ -310,12 +326,122 @@ public class JCadastroUsuario extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldNomeActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        UsuarioDAO usuarioDao = new UsuarioDAO();
+        Usuario usuario = new Usuario();
+        
+        String nome = jTextFieldNome.getText();
+        String cidade = jTextFieldEndereco.getText();
+        String estado = (String) jComboBoxEstado.getSelectedItem();
+        String rua = jTextFieldRua.getText();
+        String numero = jTextFieldNumero.getText();
+        String complemento = jTextFieldComplemento.getText();//opcional
+        String cpf = jTextFieldCPF.getText();
+        String telefone = jTextFieldTelefone.getText();
+        String sexo = (String) jComboBoxSexo.getSelectedItem();
+        String email = jTextFieldEmail.getText();
+        
+        if (!nome.isEmpty() &&
+                !cidade.isEmpty() &&
+                !estado.isEmpty() &&
+                !rua.isEmpty() &&
+                !numero.isEmpty() &&
+                !cpf.isEmpty() &&
+                !telefone.isEmpty() &&
+                !sexo.isEmpty() &&
+                !email.isEmpty()){
+            
+            usuario.setNomeUsuario(nome);
+            usuario.setEnderecoUsuario(cidade+" "+estado+" "+rua+", "+numero+" "+complemento);
+            usuario.setCPFUsuario(cpf);
+            usuario.setTelefoneUsuario(telefone);
+            usuario.setSexoUsuario(sexo);
+            usuario.setEmailUsuario(email);
+            
+            if (usuarioDao.salvar(usuario)){
+                JOptionPane.showMessageDialog(new JFrame(),
+                    "Usuário " + nome + " cadastrado com sucesso!", "Cadastro efetuado!", 
+                    JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(new JFrame(),
+                    "Não foi possível cadastrar o usuário", "Algo deu errado!", 
+                    JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
+        lembreteCamposEmBranco();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextFieldNumeroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNumeroKeyTyped
+        String charsPermitidos = "0123456789";
+            if(!charsPermitidos.contains(evt.getKeyChar()+""))
+                evt.consume();
+    }//GEN-LAST:event_jTextFieldNumeroKeyTyped
+
+    private void jTextFieldCPFKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldCPFKeyTyped
+        String charsPermitidos = "0123456789";
+            if(!charsPermitidos.contains(evt.getKeyChar()+"") ||
+                    jTextFieldCPF.getText().length() >= 11)
+                evt.consume();
+    }//GEN-LAST:event_jTextFieldCPFKeyTyped
+
+    private void jTextFieldTelefoneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldTelefoneKeyTyped
+        String charsPermitidos = "0123456789";
+            if(!charsPermitidos.contains(evt.getKeyChar()+""))
+                evt.consume();
+    }//GEN-LAST:event_jTextFieldTelefoneKeyTyped
+
+    private void lembreteCamposEmBranco(){
+        Color cor = new Color(248, 220, 219);
+        
+        if (jTextFieldNome.getText().isEmpty()){
+            jTextFieldNome.setBackground(cor);
+        } else {
+            jTextFieldNome.setBackground(Color.WHITE);
+        }
+        
+        if (jTextFieldEndereco.getText().isEmpty()){
+            jTextFieldEndereco.setBackground(cor);
+        } else {
+            jTextFieldEndereco.setBackground(Color.WHITE);
+        }
+        
+        if (jTextFieldRua.getText().isEmpty()){
+            jTextFieldRua.setBackground(cor);
+        } else {
+            jTextFieldRua.setBackground(Color.WHITE);
+        }
+        
+        if (jTextFieldNumero.getText().isEmpty()){
+            jTextFieldNumero.setBackground(cor);
+        } else {
+            jTextFieldNumero.setBackground(Color.WHITE);
+        }
+        
+        if (jTextFieldCPF.getText().isEmpty()){
+            jTextFieldCPF.setBackground(cor);
+        } else {
+            jTextFieldCPF.setBackground(Color.WHITE);
+        }
+        
+        if (jTextFieldTelefone.getText().isEmpty()){
+            jTextFieldTelefone.setBackground(cor);
+        } else {
+            jTextFieldTelefone.setBackground(Color.WHITE);
+        }
+        
+        if (jTextFieldEmail.getText().isEmpty()){
+            jTextFieldEmail.setBackground(cor);
+        } else {
+            jTextFieldEmail.setBackground(Color.WHITE);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBoxEstado;
+    private javax.swing.JComboBox<String> jComboBoxSexo;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelCPF;
@@ -329,10 +455,10 @@ public class JCadastroUsuario extends javax.swing.JPanel {
     private javax.swing.JLabel jLabelTelefone;
     private javax.swing.JPanel jPanelConfirmacao;
     private javax.swing.JPanel jPanelForm;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextFieldCPF;
-    private javax.swing.JTextField jTextFieldEndereço;
+    private javax.swing.JTextField jTextFieldComplemento;
+    private javax.swing.JTextField jTextFieldEmail;
+    private javax.swing.JTextField jTextFieldEndereco;
     private javax.swing.JTextField jTextFieldNome;
     private javax.swing.JTextField jTextFieldNumero;
     private javax.swing.JTextField jTextFieldRua;
