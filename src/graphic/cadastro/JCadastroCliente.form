@@ -53,7 +53,7 @@
           <Font name="Dialog" size="24" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Cadastro Usu&#xe1;rio"/>
+        <Property name="text" type="java.lang.String" value="Cadastro Cliente"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanelForm">

@@ -282,7 +282,7 @@ public class JCadastroCliente extends javax.swing.JPanel {
 
         jLabelHeader.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabelHeader.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelHeader.setText("Cadastro Usuário");
+        jLabelHeader.setText("Cadastro Cliente");
 
         jPanelForm.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanelForm.setMinimumSize(new java.awt.Dimension(548, 342));
