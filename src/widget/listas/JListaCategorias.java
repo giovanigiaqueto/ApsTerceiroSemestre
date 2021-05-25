@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package widget.listas;
 
 // swing
@@ -17,15 +12,16 @@ import java.awt.FlowLayout;
 import java.util.List;
 import java.util.Iterator;
 
+// dao
+import dao.CategoriaDAO;
+
 // modelos
 import model.Categoria;
+
+// widget
 import widget.dados.JDadosCategoria;
 
-/**
- *
- * @author giovani
- */
-public class JListaCategorias extends javax.swing.JPanel {
+public class JListaCategorias extends javax.swing.JPanel implements IListaDados {
     
     private JPanel _jPanelParCategoriaRef;
     
@@ -123,6 +119,59 @@ public class JListaCategorias extends javax.swing.JPanel {
             jPanelLivros.setPreferredSize(dim);
             jPanelLivros.revalidate();
         }
+    }
+    
+    // ==================== implements IListaDados ====================
+    
+    /**
+     * carrega as categorias do banco na lista se ela estiver vazia e
+     * retorna se o conteúdo foi alterado
+     * 
+     * @return true se o conteúdo da lista for alterado, do contrario false
+     */
+    @Override
+    public boolean carregar() {
+        // previne duplicação de dados
+        if (jScrollPaneLivros.getComponentCount() > 0) return false;
+        
+        // carrega os dados
+        CategoriaDAO dao = new CategoriaDAO();
+        inserirCategorias(dao.listarCategorias());
+        return true;
+    }
+    
+    /**
+     * carrega mais categorias do banco de dados, inserindo-os na lista
+     * 
+     * @param contagem número de categorias para carregar
+     */
+    @Override
+    public void carregar(int contagem) {
+        CategoriaDAO dao = new CategoriaDAO();
+        inserirCategorias(dao.listarCategorias(this.comprimento(), contagem));
+    }
+    
+    /**
+     * remove todos as categorias da lista, tornando-a vazia
+     */
+    @Override
+    public void esvaziar() {
+        jPanelLivros.removeAll();
+        jPanelLivros.setPreferredSize(
+            new Dimension(jPanelLivros.getPreferredSize().width, 10)
+        );
+        _jPanelParCategoriaRef = null;
+    }
+    
+    /**
+     * retorna o comprimento da lista em número de categorias
+     * 
+     * @return o comprimento da lista
+     */
+    @Override
+    public int comprimento() {
+        int cnt = jPanelLivros.getComponentCount() * 2;
+        return (_jPanelParCategoriaRef != null ? cnt-1:cnt);
     }
 
     /**

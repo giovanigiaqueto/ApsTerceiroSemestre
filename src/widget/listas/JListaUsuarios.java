@@ -6,12 +6,16 @@ import java.awt.Dimension;
 // java util
 import java.util.List;
 
+// dao
+import dao.UsuarioDAO;
+
 // modelos
 import model.Usuario;
+
+// widget
 import widget.dados.JDadosUsuario;
 
-
-public class JListaUsuarios extends javax.swing.JPanel {
+public class JListaUsuarios extends javax.swing.JPanel implements IListaDados {
     
     /**
      * Creates new form JListaLivros
@@ -37,6 +41,57 @@ public class JListaUsuarios extends javax.swing.JPanel {
         }
         jPanelUsuarios.setPreferredSize(dim);
         jPanelUsuarios.revalidate();
+    }
+    
+    // ==================== implements IListaDados ====================
+    
+    /**
+     * carrega os usuários do banco na lista se a lista estiver vazia e
+     * retorna se o conteúdo da lista foi alterado
+     * 
+     * @return true se o conteúdo da lista for alterado, do contrario false
+     */
+    @Override
+    public boolean carregar() {
+        // previne duplicação de dados
+        if (jPanelUsuarios.getComponentCount() > 0) return false;
+        
+        // carrega os dados
+        UsuarioDAO dao = new UsuarioDAO();
+        inserirUsuarios(dao.listarUsuarios());
+        return true;
+    }
+    
+    /**
+     * carrega mais usuários do banco de dados, inserindo-os na lista
+     * 
+     * @param contagem número de usuários para carregar
+     */
+    @Override
+    public void carregar(int contagem) {
+        UsuarioDAO dao = new UsuarioDAO();
+        inserirUsuarios(dao.listarUsuarios(this.comprimento(), contagem));
+    }
+    
+    /**
+     * remove todos os usuários da lista, tornando-a vazia
+     */
+    @Override
+    public void esvaziar() {
+        jPanelUsuarios.removeAll();
+        jPanelUsuarios.setPreferredSize(
+            new Dimension(jPanelUsuarios.getPreferredSize().width, 0)
+        );
+    }
+    
+    /**
+     * retorna o comprimento da lista em número de usuários
+     * 
+     * @return o comprimento da lista
+     */
+    @Override
+    public int comprimento() {
+        return jPanelUsuarios.getComponentCount();
     }
 
     /**
@@ -66,11 +121,14 @@ public class JListaUsuarios extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPaneUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPaneUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -6,12 +6,16 @@ import java.awt.Dimension;
 // java util
 import java.util.List;
 
+// dao
+import dao.MultaDAO;
+
 // modelos
 import model.Multa;
+
+// widget
 import widget.dados.JDadosMulta;
 
-
-public class JListaMultas extends javax.swing.JPanel {
+public class JListaMultas extends javax.swing.JPanel implements IListaDados {
     
     /**
      * Creates new form JListaLivros
@@ -37,6 +41,57 @@ public class JListaMultas extends javax.swing.JPanel {
         }
         jPanelLivros.setPreferredSize(dim);
         jPanelLivros.revalidate();
+    }
+    
+    // ==================== implements IListaDados ====================
+    
+    /**
+     * carrega as multas do banco na lista se ela estiver vazia e
+     * retorna se o conteúdo foi alterado
+     * 
+     * @return true se o conteúdo da lista for alterado, do contrario false
+     */
+    @Override
+    public boolean carregar() {
+        // previne duplicação de dados
+        if (jPanelLivros.getComponentCount() > 0) return false;
+        
+        // carrega os dados
+        MultaDAO dao = new MultaDAO();
+        inserirMultas(dao.listarMultas());
+        return true;
+    }
+    
+    /**
+     * carrega mais multas do banco de dados, inserindo-os na lista
+     * 
+     * @param contagem número de multas para carregar
+     */
+    @Override
+    public void carregar(int contagem) {
+        MultaDAO dao = new MultaDAO();
+        inserirMultas(dao.listarMultas(this.comprimento(), contagem));
+    }
+    
+    /**
+     * remove todos as multas da lista, tornando-a vazia
+     */
+    @Override
+    public void esvaziar() {
+        jPanelLivros.removeAll();
+        jPanelLivros.setPreferredSize(
+            new Dimension(jPanelLivros.getPreferredSize().width, 0)
+        );
+    }
+    
+    /**
+     * retorna o comprimento da lista em número de multas
+     * 
+     * @return o comprimento da lista
+     */
+    @Override
+    public int comprimento() {
+        return jPanelLivros.getComponentCount();
     }
 
     /**

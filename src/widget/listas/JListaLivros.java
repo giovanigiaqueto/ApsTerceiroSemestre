@@ -1,26 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package widget.listas;
 
 // swing
-import java.awt.Color;
 import javax.swing.JPanel;
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
 
 // awt
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.Color;
 
 // java util
 import java.util.List;
 import java.util.LinkedList;
+
+// dao
+import dao.LivroDAO;
 
 // modelos
 import model.Livro;
@@ -32,14 +32,9 @@ import widget.support.IComponenteLivro;
 // java lang.reflect
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import javax.swing.BorderFactory;
-import javax.swing.border.Border;
 
-/**
- *
- * @author giovani
- */
-public class JListaLivros extends javax.swing.JPanel {
+
+public class JListaLivros extends javax.swing.JPanel implements IListaDados {
     
     private ComponentAdapter resizeListener;
     
@@ -220,6 +215,88 @@ public class JListaLivros extends javax.swing.JPanel {
         if (observadoresSelecao != null && obs != null) {
             observadoresSelecao.remove(obs);
         }
+    }
+    
+    // ==================== implements IListaDados ====================
+    
+    /**
+     * carrega os livros do banco na lista se ela estiver vazia e
+     * retorna se o conteúdo foi alterado
+     * 
+     * @return true se o conteúdo da lista for alterado, do contrario false
+     */
+    @Override
+    public boolean carregar() {
+        // previne duplicação de dados
+        if (jScrollPaneLivros.getComponentCount() > 0) return false;
+        
+        // carrega os dados
+        LivroDAO dao = new LivroDAO();
+        inserirLivros(dao.listarLivros(), JDadosLivro.class);
+        return true;
+    }
+    
+    /**
+     * carrega mais livros do banco de dados, inserindo-os na lista
+     * 
+     * @param contagem número de livros para carregar
+     */
+    @Override
+    public void carregar(int contagem) {
+        LivroDAO dao = new LivroDAO();
+        inserirLivros(dao.listarLivros(this.comprimento(), contagem), JDadosLivro.class);
+    }
+    
+    /**
+     * carrega os livros do banco na lista se a lista estiver vazia e
+     * retorna se o conteúdo da lista foi alterado
+     * 
+     * @param <T> tipo do componente usuado para a visualização
+     * @param cls tipo do componente ...
+     * 
+     * @return true se o conteúdo da lista for alterado, do contrario false
+     */
+    public <T extends JPanel & IComponenteLivro> boolean carregar(Class<T> cls) {
+        // previne duplicação de dados
+        if (jScrollPaneLivros.getComponentCount() > 0) return false;
+        
+        // carrega os dados
+        LivroDAO dao = new LivroDAO();
+        inserirLivros(dao.listarLivros(), cls);
+        return true;
+    }
+    
+    /**
+     * carrega mais livros do banco de dados, inserindo-os na lista
+     * 
+     * @param contagem número de livros para carregar
+     * @param <T> tipo do componente usuado para a visualização
+     * @param cls tipo do componente ...
+     */
+    public <T extends JPanel & IComponenteLivro> void carregar(int contagem, Class<T> cls) {
+        LivroDAO dao = new LivroDAO();
+        inserirLivros(dao.listarLivros(this.comprimento(), contagem), cls);
+    }
+    
+    /**
+     * remove todos os livros da lista, tornando-a vazia
+     */
+    @Override
+    public void esvaziar() {
+        jPanelLivros.removeAll();
+        jPanelLivros.setPreferredSize(
+            new Dimension(jPanelLivros.getPreferredSize().width, 0)
+        );
+    }
+    
+    /**
+     * retorna o comprimento da lista em número de livros
+     * 
+     * @return o comprimento da lista
+     */
+    @Override
+    public int comprimento() {
+        return jPanelLivros.getComponentCount();
     }
 
     /**

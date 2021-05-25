@@ -19,13 +19,16 @@ import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 import javax.swing.JPanel;
 
+// dao
+import dao.ExemplarDAO;
+
 // modelos
 import model.Exemplar;
 
 // widget.dados
 import widget.dados.JDadosExemplar;
 
-public class JListaExemplares extends javax.swing.JPanel {
+public class JListaExemplares extends javax.swing.JPanel implements IListaDados {
     
     private static final int EXEMPLARES_POR_LINHA = 2;
     
@@ -165,22 +168,6 @@ public class JListaExemplares extends javax.swing.JPanel {
     }
     
     /**
-     * remove todos os exemplares da lista
-     */
-    public void esvaziar() {
-        jPanelExemplares.removeAll();
-        
-        _jPanelLinhaExemplarRef = null;
-        exemplarSelecionado = null;
-        bordaSalva = null;
-        
-        // reseta o comprimento do conteudo dentro do ScrollPane
-        Dimension dim = jPanelExemplares.getPreferredSize();
-        dim.height = 0;
-        jPanelExemplares.setPreferredSize(dim);
-    }
-    
-    /**
      * retorna o exemplar no indice dado, pode gerar uma exceção
      * 
      * @param indice o indice do exmplar
@@ -270,6 +257,67 @@ public class JListaExemplares extends javax.swing.JPanel {
                 }
             }
         }
+    }
+    
+    // ==================== implements JListaDados ====================
+    
+    /**
+     * carrega os exemplares do banco na lista se ela estiver vazia e
+     * retorna se o conteúdo foi alterado
+     * 
+     * @return true se o conteúdo da lista for alterado, do contrario false
+     */
+    @Override
+    public boolean carregar() {
+        // previne duplicação de dados
+        if (jScrollPaneExemplares.getComponentCount() > 0) return false;
+        
+        // carrega os dados
+        ExemplarDAO dao = new ExemplarDAO();
+        inserirExemplares(dao.listarExemplares());
+        return true;
+    }
+    
+    /**
+     * carrega mais exemplares do banco de dados, inserindo-os na lista
+     * 
+     * @param contagem número de items para carregar
+     */
+    @Override
+    public void carregar(int contagem) {
+        ExemplarDAO dao = new ExemplarDAO();
+        inserirExemplares(dao.listarExemplares(this.comprimento(), contagem));
+    }
+    
+    /**
+     * remove todos os exemplares da lista, tornando-a vazia
+     */
+    @Override
+    public void esvaziar() {
+        jPanelExemplares.removeAll();
+        
+        _jPanelLinhaExemplarRef = null;
+        exemplarSelecionado = null;
+        bordaSalva = null;
+        
+        // reseta o comprimento do conteudo dentro do ScrollPane
+        jPanelExemplares.setPreferredSize(
+            new Dimension(jPanelExemplares.getPreferredSize().width, 0)
+        );
+    }
+    
+    /**
+     * retorna o comprimento da lista em número de exemplares
+     * 
+     * @return o comprimento da lista
+     */
+    @Override
+    public int comprimento() {
+        int cnt = jPanelExemplares.getComponentCount() * EXEMPLARES_POR_LINHA;
+        if (_jPanelLinhaExemplarRef != null) {
+            cnt += _jPanelLinhaExemplarRef.getComponentCount() - EXEMPLARES_POR_LINHA;
+        }
+        return cnt;
     }
     
     /**

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package widget.listas;
 
 // swing
@@ -24,17 +19,17 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.LinkedList;
 
+// dao
+import dao.EmprestimoDAO;
+
 // modelos
 import model.Emprestimo;
 
 // widget
 import widget.dados.JDadosEmprestimo;
 
-/**
- *
- * @author giovani
- */
-public class JListaEmprestimos extends javax.swing.JPanel {
+
+public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados {
     
     // se está observando seleções
     private boolean observarSelecao;
@@ -99,9 +94,9 @@ public class JListaEmprestimos extends javax.swing.JPanel {
         };
     }
     /**
-     * insere emprestimos na lista, exibindo-os gráficamente
+     * insere empréstimos na lista, exibindo-os gráficamente
      * 
-     * @param emprestimos os emprestimos a serem inseridos
+     * @param emprestimos os empréstimos a serem inseridos
      */
     public void inserirEmprestimos(List<Emprestimo> emprestimos) {
         Dimension dim = jPanelLivros.getPreferredSize();
@@ -195,6 +190,56 @@ public class JListaEmprestimos extends javax.swing.JPanel {
         if (observadoresSelecao != null && obs != null) {
             observadoresSelecao.remove(obs);
         }
+    }
+    
+    // ==================== implements JListaDados ====================
+    
+    /**
+     * carrega os empréstimos do banco na lista se ela estiver vazia e
+     * retorna se o conteúdo foi alterado
+     * 
+     * @return true se o conteúdo da lista for alterado, do contrario false
+     */
+    @Override
+    public boolean carregar() {
+        // previne duplicação de dados
+        if (jScrollPaneLivros.getComponentCount() > 0) return false;
+        
+        // carrega os dados
+        EmprestimoDAO dao = new EmprestimoDAO();
+        inserirEmprestimos(dao.listarEmprestimos());
+        return true;
+    }
+    
+    /**
+     * carrega mais empréstimos do banco de dados, inserindo-os na lista
+     * 
+     * @param contagem número de empréstimos para carregar
+     */
+    @Override
+    public void carregar(int contagem) {
+        EmprestimoDAO dao = new EmprestimoDAO();
+        inserirEmprestimos(dao.listarEmprestimos(this.comprimento(), contagem));
+    }
+    
+    /**
+     * remove todos os empréstimos da lista, tornando-a vazia
+     */
+    @Override
+    public void esvaziar() {
+        jPanelLivros.setPreferredSize(
+            new Dimension(jPanelLivros.getPreferredSize().width, 0)
+        );
+    }
+    
+    /**
+     * retorna o comprimento da lista em número de empréstimos
+     * 
+     * @return o comprimento da lista
+     */
+    @Override
+    public int comprimento() {
+        return jPanelLivros.getComponentCount();
     }
 
     /**
