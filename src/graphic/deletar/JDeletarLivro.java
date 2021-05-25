@@ -5,12 +5,18 @@
  */
 package graphic.deletar;
 
-/**
- *
- * @author giovani
- */
-public class JDeletarLivro extends javax.swing.JPanel {
+// suporte
+import widget.support.IPanelCRUD;
 
+
+public class JDeletarLivro extends javax.swing.JPanel implements IPanelCRUD {
+
+    @Override
+    public boolean mostrarComoPopup() { return true; }
+    
+    @Override
+    public String getTituloCRUD() { return "Remover Livro"; }
+    
     /**
      * Creates new form JDeletarLivro
      */

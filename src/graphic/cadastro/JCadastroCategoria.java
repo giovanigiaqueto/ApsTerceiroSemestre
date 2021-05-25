@@ -13,7 +13,16 @@ import javax.swing.JOptionPane;
 // modelo
 import model.Categoria;
 
-public class JCadastroCategoria extends javax.swing.JPanel {
+// suporte
+import widget.support.IPanelCRUD;
+
+public class JCadastroCategoria extends javax.swing.JPanel implements IPanelCRUD {
+    
+    @Override
+    public boolean mostrarComoPopup() { return true; }
+    
+    @Override
+    public String getTituloCRUD() { return "Cadastrar Categoria"; }
 
     private int idCategoria;
     

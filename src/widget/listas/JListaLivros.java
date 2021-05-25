@@ -33,8 +33,16 @@ import widget.support.IComponenteLivro;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+// suporte
+import widget.support.IPanelCRUD;
 
-public class JListaLivros extends javax.swing.JPanel implements IListaDados {
+public class JListaLivros extends javax.swing.JPanel implements IListaDados, IPanelCRUD {
+    
+    @Override
+    public boolean mostrarComoPopup() { return false; }
+    
+    @Override
+    public String getTituloCRUD() { return "Lista de Livros"; }
     
     private ComponentAdapter resizeListener;
     

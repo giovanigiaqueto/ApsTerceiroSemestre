@@ -17,7 +17,16 @@ import dao.UsuarioDAO;
 // modelo
 import model.Usuario;
 
-public class JCadastroUsuario extends javax.swing.JPanel {
+// suporte
+import widget.support.IPanelCRUD;
+
+public class JCadastroUsuario extends javax.swing.JPanel implements IPanelCRUD {
+    
+    @Override
+    public boolean mostrarComoPopup() { return false; }
+    
+    @Override
+    public String getTituloCRUD() { return "Cadastrar Usuário"; }
     
     private int idUsuario;
     

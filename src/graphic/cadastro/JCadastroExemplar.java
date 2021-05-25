@@ -14,12 +14,21 @@ import javax.swing.JOptionPane;
 import model.Exemplar;
 import model.Livro;
 
+// suporte
+import widget.support.IPanelCRUD;
+
 /**
  *
  * @author giovani
  */
-public class JCadastroExemplar extends javax.swing.JPanel {
+public class JCadastroExemplar extends javax.swing.JPanel implements IPanelCRUD {
 
+    @Override
+    public boolean mostrarComoPopup() { return true; }
+    
+    @Override
+    public String getTituloCRUD() { return "Cadastrar Exemplar"; }
+    
     /**
      * Creates new form JCadastroExemplar
      */

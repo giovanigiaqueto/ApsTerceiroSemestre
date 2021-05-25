@@ -1,16 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package graphic.deletar;
 
-/**
- *
- * @author giovani
- */
-public class JDeletarCategoria extends javax.swing.JPanel {
+// suporte
+import widget.support.IPanelCRUD;
 
+public class JDeletarCategoria extends javax.swing.JPanel implements IPanelCRUD {
+    
+    @Override
+    public boolean mostrarComoPopup() { return true; }
+
+    @Override
+    public String getTituloCRUD() { return "Remover Categoria"; }
+    
     /**
      * Creates new form JDeletarCategoria
      */

@@ -15,7 +15,16 @@ import model.Multa;
 // widget
 import widget.dados.JDadosMulta;
 
-public class JListaMultas extends javax.swing.JPanel implements IListaDados {
+// suporte
+import widget.support.IPanelCRUD;
+
+public class JListaMultas extends javax.swing.JPanel implements IListaDados, IPanelCRUD {
+    
+    @Override
+    public boolean mostrarComoPopup() { return false; }
+    
+    @Override
+    public String getTituloCRUD() { return "Lista de Multas"; }
     
     /**
      * Creates new form JListaLivros

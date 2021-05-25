@@ -28,7 +28,16 @@ import model.Exemplar;
 // widget.dados
 import widget.dados.JDadosExemplar;
 
-public class JListaExemplares extends javax.swing.JPanel implements IListaDados {
+// suporte
+import widget.support.IPanelCRUD;
+
+public class JListaExemplares extends javax.swing.JPanel implements IListaDados, IPanelCRUD {
+    
+    @Override
+    public boolean mostrarComoPopup() { return false; }
+    
+    @Override
+    public String getTituloCRUD() { return "Lista de Exemplares"; }
     
     private static final int EXEMPLARES_POR_LINHA = 2;
     

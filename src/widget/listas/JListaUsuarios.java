@@ -15,7 +15,16 @@ import model.Usuario;
 // widget
 import widget.dados.JDadosUsuario;
 
-public class JListaUsuarios extends javax.swing.JPanel implements IListaDados {
+// suporte
+import widget.support.IPanelCRUD;
+
+public class JListaUsuarios extends javax.swing.JPanel implements IListaDados, IPanelCRUD {
+    
+    @Override
+    public boolean mostrarComoPopup() { return false; }
+    
+    @Override
+    public String getTituloCRUD() { return "Lista de Usuários"; }
     
     /**
      * Creates new form JListaLivros

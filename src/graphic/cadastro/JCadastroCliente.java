@@ -14,7 +14,16 @@ import dao.ClienteDAO;
 // modelo
 import model.Cliente;
 
-public class JCadastroCliente extends javax.swing.JPanel {
+// suporte
+import widget.support.IPanelCRUD;
+
+public class JCadastroCliente extends javax.swing.JPanel implements IPanelCRUD {
+    
+    @Override
+    public boolean mostrarComoPopup() { return false; }
+    
+    @Override
+    public String getTituloCRUD() { return "Cadastrar Cliente"; }
     
     private int idCliente;
     

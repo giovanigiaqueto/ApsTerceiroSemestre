@@ -2,35 +2,82 @@ package internal;
 
 // awt
 import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 // swing
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 
+// suporte
+import widget.support.IPanelCRUD;
+
 // cadastro
-import graphic.cadastro.JCadastroUsuario;
-import graphic.cadastro.JCadastroCliente;
-import graphic.cadastro.JCadastroCategoria;
-import graphic.cadastro.JCadastroLivro;
-import graphic.cadastro.JCadastroExemplar;
+import graphic.cadastro.*;
+
+// listar
+import widget.listas.*;
+
+// deletar
+import graphic.deletar.*;
+
+// graphic
+import graphic.CheckoutJPanel;
+import graphic.ContaJUsuario;
+import graphic.ContaJCliente;
+
 
 public class JMain extends javax.swing.JFrame {
     
-    public static enum Janela {
+    public static enum JanelaCRUD {
+        
+        // ========== Cadastro ==========
+        
         CadastroUsuario,
         CadastroCliente,
-        CadastroLivro
-    }
-    
-    public static enum Popup {
         CadastroCategoria,
-        CadastroExemplar
+        CadastroExemplar,
+        CadastroLivro,
+        CadastroEmprestimo,  // vulgo checkout / carrinho
+        CadastroMulta,
+        
+        // ========== Listagem ==========
+
+        ListarUsuario,
+        ListarCliente,
+        ListarCategoria,
+        ListarExemplar,
+        ListarLivro,        // vulgo janela principal
+        ListarEmprestimo,
+        ListarMulta,
+        
+        // ========== Alteração ==========
+        
+        AlterarUsuario,
+        AlterarCliente,
+        AlterarCategoria,
+        AlterarExemplar,
+        AlterarLivro,
+        AlterarEmprestimo,
+        AlterarMulta,
+        
+        // ========== Remoção ==========
+        
+        RemoverUsuario,
+        RemoverCliente,
+        RemoverCategoria,
+        RemoverExemplar,
+        RemoverLivro,
+        RemoverEmprestimo,
+        RemoverMulta,
+        
+        // ========== Extras ==========
+        
+        ContaCliente,
+        ContaUsuario,
+        Checkout
     }
     
-    private Janela janela;
-    private JPanel panelJanela;
-    
-    private Popup popup;
     private JFrame framePopup;
     
     // ======================== Classe Singleton ========================
@@ -53,6 +100,48 @@ public class JMain extends javax.swing.JFrame {
      */
     public JMain() {
         initComponents();
+        initMenus();
+    }
+    
+    private void initMenus() {
+        
+        // -------------------- Cadastro --------------------
+        
+        ActionListener listenerCadastrar = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) { CadastrarCRUD(evt); }
+        };
+        
+        jMenuItemCadastrarUsuario.addActionListener(listenerCadastrar);
+        jMenuItemCadastrarCliente.addActionListener(listenerCadastrar);
+        jMenuItemCadastrarCategoria.addActionListener(listenerCadastrar);
+        jMenuItemCadastrarLivro.addActionListener(listenerCadastrar);
+        jMenuItemCadastrarExemplar.addActionListener(listenerCadastrar);
+        
+        // -------------------- Listagem --------------------
+        
+        ActionListener listenerListagem = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) { ListarCRUD(evt); }
+        };
+        
+        jMenuItemListarUsuario.addActionListener(listenerListagem);
+        jMenuItemListarCliente.addActionListener(listenerListagem);
+        jMenuItemListarCategoria.addActionListener(listenerListagem);
+        jMenuItemListarLivro.addActionListener(listenerListagem);
+        jMenuItemListarExemplar.addActionListener(listenerListagem);
+        jMenuItemListarEmprestimo.addActionListener(listenerListagem);
+        jMenuItemListarMulta.addActionListener(listenerListagem);
+        
+        // -------------------- Remoção --------------------
+        
+        ActionListener listenerRemover = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) { RemoverCRUD(evt); }
+        };
+        
+        jMenuItemRemoverUsuario.addActionListener(listenerRemover);
+        jMenuItemRemoverCliente.addActionListener(listenerRemover);
+        jMenuItemRemoverCategoria.addActionListener(listenerRemover);
+        jMenuItemRemoverLivro.addActionListener(listenerRemover);
+        jMenuItemRemoverExemplar.addActionListener(listenerRemover);
     }
 
     /**
@@ -66,59 +155,113 @@ public class JMain extends javax.swing.JFrame {
 
         jPanelContent = new javax.swing.JPanel();
         jMenuBar = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        jMenuCadastrar = new javax.swing.JMenu();
         jMenuItemCadastrarUsuario = new javax.swing.JMenuItem();
         jMenuItemCadastrarCliente = new javax.swing.JMenuItem();
         jMenuItemCadastrarCategoria = new javax.swing.JMenuItem();
         jMenuItemCadastrarLivro = new javax.swing.JMenuItem();
         jMenuItemCadastrarExemplar = new javax.swing.JMenuItem();
+        jMenuListar = new javax.swing.JMenu();
+        jMenuItemListarUsuario = new javax.swing.JMenuItem();
+        jMenuItemListarCliente = new javax.swing.JMenuItem();
+        jMenuItemListarCategoria = new javax.swing.JMenuItem();
+        jMenuItemListarLivro = new javax.swing.JMenuItem();
+        jMenuItemListarExemplar = new javax.swing.JMenuItem();
+        jMenuItemListarEmprestimo = new javax.swing.JMenuItem();
+        jMenuItemListarMulta = new javax.swing.JMenuItem();
+        jMenuAlterar = new javax.swing.JMenu();
+        jMenuItemAlterarCategoria = new javax.swing.JMenuItem();
+        jMenuItemAlterarLivro = new javax.swing.JMenuItem();
+        jMenuItemAlterarExemplar = new javax.swing.JMenuItem();
+        jMenuRemover = new javax.swing.JMenu();
+        jMenuItemRemoverUsuario = new javax.swing.JMenuItem();
+        jMenuItemRemoverCliente = new javax.swing.JMenuItem();
+        jMenuItemRemoverCategoria = new javax.swing.JMenuItem();
+        jMenuItemRemoverLivro = new javax.swing.JMenuItem();
+        jMenuItemRemoverExemplar = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanelContent.setLayout(new java.awt.CardLayout());
 
-        jMenu1.setText("Cadastrar");
+        jMenuCadastrar.setText("Cadastrar");
 
         jMenuItemCadastrarUsuario.setText("Usuário");
-        jMenuItemCadastrarUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemCadastrarUsuarioActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItemCadastrarUsuario);
+        jMenuCadastrar.add(jMenuItemCadastrarUsuario);
 
         jMenuItemCadastrarCliente.setText("Cliente");
-        jMenuItemCadastrarCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemCadastrarClienteActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItemCadastrarCliente);
+        jMenuCadastrar.add(jMenuItemCadastrarCliente);
 
         jMenuItemCadastrarCategoria.setText("Categoria");
-        jMenuItemCadastrarCategoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemCadastrarCategoriaActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItemCadastrarCategoria);
+        jMenuCadastrar.add(jMenuItemCadastrarCategoria);
 
         jMenuItemCadastrarLivro.setText("Livro");
-        jMenuItemCadastrarLivro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemCadastrarLivroActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItemCadastrarLivro);
+        jMenuCadastrar.add(jMenuItemCadastrarLivro);
 
         jMenuItemCadastrarExemplar.setText("Exemplar");
-        jMenuItemCadastrarExemplar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemCadastrarExemplarActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItemCadastrarExemplar);
+        jMenuCadastrar.add(jMenuItemCadastrarExemplar);
 
+        jMenuBar.add(jMenuCadastrar);
+
+        jMenuListar.setText("Listar");
+
+        jMenuItemListarUsuario.setText("Usuário");
+        jMenuListar.add(jMenuItemListarUsuario);
+
+        jMenuItemListarCliente.setText("Cliente");
+        jMenuListar.add(jMenuItemListarCliente);
+
+        jMenuItemListarCategoria.setText("Categoria");
+        jMenuListar.add(jMenuItemListarCategoria);
+
+        jMenuItemListarLivro.setText("Livro");
+        jMenuListar.add(jMenuItemListarLivro);
+
+        jMenuItemListarExemplar.setText("Exemplar");
+        jMenuListar.add(jMenuItemListarExemplar);
+
+        jMenuItemListarEmprestimo.setText("Empréstimo");
+        jMenuListar.add(jMenuItemListarEmprestimo);
+
+        jMenuItemListarMulta.setText("Multa");
+        jMenuListar.add(jMenuItemListarMulta);
+
+        jMenuBar.add(jMenuListar);
+
+        jMenuAlterar.setText("Alterar");
+
+        jMenuItemAlterarCategoria.setText("Categoria");
+        jMenuAlterar.add(jMenuItemAlterarCategoria);
+
+        jMenuItemAlterarLivro.setText("Livro");
+        jMenuAlterar.add(jMenuItemAlterarLivro);
+
+        jMenuItemAlterarExemplar.setText("Exemplar");
+        jMenuAlterar.add(jMenuItemAlterarExemplar);
+
+        jMenuBar.add(jMenuAlterar);
+
+        jMenuRemover.setText("Remover");
+
+        jMenuItemRemoverUsuario.setText("Usuário");
+        jMenuRemover.add(jMenuItemRemoverUsuario);
+
+        jMenuItemRemoverCliente.setText("Cliente");
+        jMenuRemover.add(jMenuItemRemoverCliente);
+
+        jMenuItemRemoverCategoria.setText("Categoria");
+        jMenuRemover.add(jMenuItemRemoverCategoria);
+
+        jMenuItemRemoverLivro.setText("Livro");
+        jMenuRemover.add(jMenuItemRemoverLivro);
+
+        jMenuItemRemoverExemplar.setText("Exemplar");
+        jMenuRemover.add(jMenuItemRemoverExemplar);
+
+        jMenuBar.add(jMenuRemover);
+
+        jMenu1.setText("Outros");
         jMenuBar.add(jMenu1);
 
         setJMenuBar(jMenuBar);
@@ -137,27 +280,76 @@ public class JMain extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    // ==================== Gerenciadores de Evento =====================
+    private void CadastrarCRUD(ActionEvent evt) {
+        
+        /* DEBUG */ System.out.println("cadastrarCRUD: " + evt.getActionCommand().toLowerCase());
+        
+        switch (evt.getActionCommand().toLowerCase()) {
+            case "usuário":
+                setJanela(JanelaCRUD.CadastroUsuario);
+                break;
+            case "cliente":
+                setJanela(JanelaCRUD.CadastroCliente);
+                break;
+            case "categoria":
+                setJanela(JanelaCRUD.CadastroCategoria);
+                break;
+            case "livro":
+                setJanela(JanelaCRUD.CadastroLivro);
+                break;
+            case "exemplar":
+                setJanela(JanelaCRUD.CadastroExemplar);
+                break;
+        }
+        
+    }
+    private void ListarCRUD(ActionEvent evt) {
     
-    private void jMenuItemCadastrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadastrarUsuarioActionPerformed
-        setJanela(Janela.CadastroUsuario);
-    }//GEN-LAST:event_jMenuItemCadastrarUsuarioActionPerformed
-
-    private void jMenuItemCadastrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadastrarClienteActionPerformed
-        setJanela(Janela.CadastroCliente);
-    }//GEN-LAST:event_jMenuItemCadastrarClienteActionPerformed
-
-    private void jMenuItemCadastrarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadastrarCategoriaActionPerformed
-        setJanela(Popup.CadastroCategoria);
-    }//GEN-LAST:event_jMenuItemCadastrarCategoriaActionPerformed
-
-    private void jMenuItemCadastrarLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadastrarLivroActionPerformed
-        setJanela(Janela.CadastroLivro);
-    }//GEN-LAST:event_jMenuItemCadastrarLivroActionPerformed
-
-    private void jMenuItemCadastrarExemplarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadastrarExemplarActionPerformed
-        setJanela(Popup.CadastroExemplar);
-    }//GEN-LAST:event_jMenuItemCadastrarExemplarActionPerformed
+        switch (evt.getActionCommand().toLowerCase()) {
+            case "usuário":
+                setJanela(JanelaCRUD.ListarUsuario);
+                break;
+            case "cliente":
+                setJanela(JanelaCRUD.ListarCliente);
+                break;
+            case "categoria":
+                setJanela(JanelaCRUD.ListarCategoria);
+                break;
+            case "livro":
+                setJanela(JanelaCRUD.ListarLivro);
+                break;
+            case "exemplar":
+                setJanela(JanelaCRUD.ListarExemplar);
+                break;
+            case "empréstimo":
+                setJanela(JanelaCRUD.ListarEmprestimo);
+                break;
+            case "multa":
+                setJanela(JanelaCRUD.ListarMulta);
+                break;
+        }
+        
+    }
+    private void RemoverCRUD(ActionEvent evt) {
+        
+        switch (evt.getActionCommand().toLowerCase()) {
+            case "usuário":
+                setJanela(JanelaCRUD.RemoverUsuario);
+                break;
+            case "cliente":
+                setJanela(JanelaCRUD.RemoverCliente);
+                break;
+            case "categoria":
+                setJanela(JanelaCRUD.RemoverCategoria);
+                break;
+            case "livro":
+                setJanela(JanelaCRUD.RemoverLivro);
+                break;
+            case "exemplar":
+                setJanela(JanelaCRUD.RemoverExemplar);
+                break;
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -173,57 +365,116 @@ public class JMain extends javax.swing.JFrame {
     
     // ==================== Gerenciadores de Janela =====================
     
-    public boolean setJanela(Janela janela) {
+    private IPanelCRUD gerarJanelaCRUD(JanelaCRUD janela) {
         
-        JPanel panel = null;
-        String tag = null;
+        IPanelCRUD panel = null;
         switch (janela) {
+            
             case CadastroUsuario:
-                panel = new JCadastroUsuario();
-                tag = "CadastroUsuario";
-                break;
+                return new JCadastroUsuario();
             case CadastroCliente:
-                panel = new JCadastroCliente();
-                tag = "CadastroCliente";
-                break;
+                return new JCadastroCliente();
             case CadastroLivro:
-                panel = new JCadastroLivro();
-                tag = "CadastroLivro";
+                return new JCadastroLivro();
+            case CadastroExemplar:
+                return new JCadastroExemplar();
+            case CadastroEmprestimo:
+            case Checkout:
+                return new CheckoutJPanel();
+            // vindo da janela de conta do usuário ou da lista de emprestimos
+            case CadastroMulta:
+                // TODO: adicionar código
                 break;
+            
+            case ListarUsuario:
+                panel = new JListaUsuarios();
+                ((IListaDados) panel).carregar();
+                return panel;
+            case ListarCliente:
+                panel = new JListaClientes();
+                ((IListaDados) panel).carregar();
+                return panel;
+            case ListarCategoria:
+                panel = new JListaCategorias();
+                // ((IListaDados) panel).carregar();
+                return panel;
+            case ListarExemplar:
+                panel = new JListaExemplares();
+                // ((IListaDados) panel).carregar();
+                return panel;
+            case ListarLivro:
+                panel = new JListaLivros();
+                // ((IListaDados) panel).carregar();
+                return panel;
+            case ListarEmprestimo:
+                panel = new JListaEmprestimos();
+                // ((IListaDados) panel).carregar();
+                return panel;
+            case ListarMulta:
+                panel = new JListaMultas();
+                // ((IListaDados) panel).carregar();
+                return panel;
         }
         
-        if (panel != null) {
-            jPanelContent.removeAll();
-            jPanelContent.add(panel, tag);
-            CardLayout layout = (CardLayout) jPanelContent.getLayout();
-            layout.first(jPanelContent);
-            return true;
-        }
-        
-        return false;
+        return null;
     }
     
-    public boolean setJanela(Popup popup) {
+    public boolean setJanela(JanelaCRUD janela) {
         
-        JPanel tmpPanel = null;
-        switch (popup) {
-            case CadastroCategoria:
-                tmpPanel = new JCadastroCategoria();
-                break;
-            case CadastroExemplar:
-                tmpPanel = new JCadastroExemplar();
-                break;
-        }
+        IPanelCRUD panelCRUD = gerarJanelaCRUD(janela);
+        if (panelCRUD == null) return false;
         
-        if (tmpPanel != null) {
-            this.framePopup = new JFrame();
-            this.framePopup.add(tmpPanel);
+        JPanel panel = (JPanel) panelCRUD;    
+        if (panelCRUD.mostrarComoPopup()) {
+            this.framePopup = new JFrame(panelCRUD.getTituloCRUD());
+            this.framePopup.add(panel);
             this.framePopup.pack();
             this.framePopup.setVisible(true);
-            return true;
+        } else {
+            popJanelaCRUD();
+            this.setTitle(panelCRUD.getTituloCRUD());
+            jPanelContent.add(panel, panelCRUD.getTituloCRUD());
+            CardLayout layout = (CardLayout) jPanelContent.getLayout();
+            layout.first(jPanelContent);
+            jPanelContent.setMinimumSize(panel.getMinimumSize());
+            jPanelContent.setMaximumSize(panel.getMaximumSize());
+            jPanelContent.setPreferredSize(panel.getPreferredSize());
         }
-        return false;
+
+        return true;
     }
+    
+    /**
+     * 
+     */
+    public boolean pushJanelaCRUD(JanelaCRUD janela) {
+        
+        IPanelCRUD panel = gerarJanelaCRUD(janela);
+        if (panel == null || panel.mostrarComoPopup()) return false;
+        
+        this.setTitle(panel.getTituloCRUD());
+        jPanelContent.add((JPanel) panel, panel.getTituloCRUD());
+        CardLayout layout = (CardLayout) jPanelContent.getLayout();
+        layout.last(jPanelContent);
+
+        return true;
+    }
+    
+    /**
+     * remove a janela CRUD em exibição atual e mostra a próxima (caso exista)
+     */
+    public void popJanelaCRUD() {
+        int cnt = jPanelContent.getComponentCount();
+        if (cnt > 0) {
+            jPanelContent.remove(0);
+        }
+        if (cnt > 1) {
+            this.setTitle(
+                ((IPanelCRUD) jPanelContent.getComponent(0)).getTituloCRUD()
+            );
+        }
+    }
+    
     
     // ==================== funções estaticas ====================
     
@@ -277,12 +528,31 @@ public class JMain extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenuAlterar;
     private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JMenu jMenuCadastrar;
+    private javax.swing.JMenuItem jMenuItemAlterarCategoria;
+    private javax.swing.JMenuItem jMenuItemAlterarExemplar;
+    private javax.swing.JMenuItem jMenuItemAlterarLivro;
     private javax.swing.JMenuItem jMenuItemCadastrarCategoria;
     private javax.swing.JMenuItem jMenuItemCadastrarCliente;
     private javax.swing.JMenuItem jMenuItemCadastrarExemplar;
     private javax.swing.JMenuItem jMenuItemCadastrarLivro;
     private javax.swing.JMenuItem jMenuItemCadastrarUsuario;
+    private javax.swing.JMenuItem jMenuItemListarCategoria;
+    private javax.swing.JMenuItem jMenuItemListarCliente;
+    private javax.swing.JMenuItem jMenuItemListarEmprestimo;
+    private javax.swing.JMenuItem jMenuItemListarExemplar;
+    private javax.swing.JMenuItem jMenuItemListarLivro;
+    private javax.swing.JMenuItem jMenuItemListarMulta;
+    private javax.swing.JMenuItem jMenuItemListarUsuario;
+    private javax.swing.JMenuItem jMenuItemRemoverCategoria;
+    private javax.swing.JMenuItem jMenuItemRemoverCliente;
+    private javax.swing.JMenuItem jMenuItemRemoverExemplar;
+    private javax.swing.JMenuItem jMenuItemRemoverLivro;
+    private javax.swing.JMenuItem jMenuItemRemoverUsuario;
+    private javax.swing.JMenu jMenuListar;
+    private javax.swing.JMenu jMenuRemover;
     private javax.swing.JPanel jPanelContent;
     // End of variables declaration//GEN-END:variables
 }

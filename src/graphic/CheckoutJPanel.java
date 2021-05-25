@@ -21,7 +21,16 @@ import widget.dados.JDadosExemplar;
 import widget.listas.JListaExemplares;
 import widget.support.IComponenteLivro;
 
-public class CheckoutJPanel extends javax.swing.JPanel {
+// suporte
+import widget.support.IPanelCRUD;
+
+public class CheckoutJPanel extends javax.swing.JPanel implements IPanelCRUD {
+    
+    @Override
+    public boolean mostrarComoPopup() { return false; }
+    
+    @Override
+    public String getTituloCRUD() { return "Checkout"; }
     
     private IComponenteLivro iLivroSelecionado;
     private Map<Integer, Exemplar> exemplares;

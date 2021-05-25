@@ -15,7 +15,16 @@ import model.Cliente;
 // widget
 import widget.dados.JDadosCliente;
 
-public class JListaClientes extends javax.swing.JPanel implements IListaDados {
+// model
+import widget.support.IPanelCRUD;
+
+public class JListaClientes extends javax.swing.JPanel implements IListaDados, IPanelCRUD {
+    
+    @Override
+    public boolean mostrarComoPopup() { return false; }
+    
+    @Override
+    public String getTituloCRUD() { return "Lista de Clientes"; }
     
     /**
      * Creates new form JListaLivros

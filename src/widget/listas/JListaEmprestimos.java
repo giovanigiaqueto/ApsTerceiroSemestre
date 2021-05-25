@@ -28,8 +28,17 @@ import model.Emprestimo;
 // widget
 import widget.dados.JDadosEmprestimo;
 
+// suporte
+import widget.support.IPanelCRUD;
 
-public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados {
+
+public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados, IPanelCRUD {
+    
+    @Override
+    public boolean mostrarComoPopup() { return false; }
+    
+    @Override
+    public String getTituloCRUD() { return "Lista de Empréstimos"; }
     
     // se está observando seleções
     private boolean observarSelecao;

@@ -21,7 +21,16 @@ import model.Categoria;
 // widget
 import widget.dados.JDadosCategoria;
 
-public class JListaCategorias extends javax.swing.JPanel implements IListaDados {
+// suporte
+import widget.support.IPanelCRUD;
+
+public class JListaCategorias extends javax.swing.JPanel implements IListaDados, IPanelCRUD {
+    
+    @Override
+    public boolean mostrarComoPopup() { return false; }
+    
+    @Override
+    public String getTituloCRUD() { return "Lista de Categorias"; }
     
     private JPanel _jPanelParCategoriaRef;
     
