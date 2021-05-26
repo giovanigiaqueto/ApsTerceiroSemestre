@@ -154,6 +154,47 @@ public class UsuarioDAO {
     }
     
     /**
+     * Retorna um Usuario dado seu nome
+     * 
+     * @param nome o nome do usuário a ser procurado
+     * 
+     * @return o usuário com o id
+     */
+    public Usuario procurarUsuarioPorNome(String nome) {
+        String sql = "SELECT * FROM Usuario "
+                + "WHERE ativo=? AND nome_usuario=?";
+        
+        Usuario usuario = null;
+        try {
+            PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, true);
+            stmt.setString(2, nome);
+            ResultSet resultado = stmt.executeQuery();
+            
+            if (resultado.next()) {
+                usuario = new Usuario();
+            
+                usuario.setIdUsuario(resultado.getInt("id_usuario"));
+                usuario.setNomeUsuario(resultado.getString("nome_usuario"));
+                usuario.setCPFUsuario(resultado.getString("cpf_usuario"));
+                usuario.setTelefoneUsuario(resultado.getString("telefone_usuario"));
+                usuario.setSexoUsuario(resultado.getString("sexo_usuario"));
+                usuario.setEnderecoUsuario(resultado.getString("endereco_usuario"));
+                usuario.setEmailUsuario(resultado.getString("email_usuario"));
+                usuario.setSenhaUsuario(resultado.getString("senha_usuario"));
+            }
+            
+            resultado.close();
+            stmt.close();
+            
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        
+        return usuario;
+    }
+    
+    /**
      * Salva o usuario passado pelo parâmetro no banco de dados.
      * 
      * @param usuario o usuario a ser salvo
