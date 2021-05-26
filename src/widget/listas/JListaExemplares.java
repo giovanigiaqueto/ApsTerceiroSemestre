@@ -39,8 +39,10 @@ public class JListaExemplares extends javax.swing.JPanel implements IListaDados,
     @Override
     public String getTituloCRUD() { return "Lista de Exemplares"; }
     
+    // número (máximo) de exemplares por linha
     private static final int EXEMPLARES_POR_LINHA = 2;
     
+    // ultimo panel, que pode conter menos de EXEMPLARES_POR_LINHA exemplares
     private JPanel _jPanelLinhaExemplarRef;
     
     // se está observando seleções
@@ -114,8 +116,8 @@ public class JListaExemplares extends javax.swing.JPanel implements IListaDados,
         int w_gap = 10;
         int h_gap = 10;
         
-        // itera de dois em dois se possível e dispõe as categorias lado a lado
-        // (categorias sem par são mostradas na esquerda com um espaço em branco na direita)
+        // itera EXEMPLARES_POR_LINHA por vez se possível e dispõe eles lado a lado
+        // (os componentes são mostrados de forma centralizada)
         Iterator<Exemplar> iter = exemplares.iterator();
         JPanel panel = null;
         if (iter.hasNext()) {
@@ -134,7 +136,8 @@ public class JListaExemplares extends javax.swing.JPanel implements IListaDados,
             panel = new JPanel();
             panel.setLayout(new FlowLayout());
             
-            // cria um JPanel com duas categorias se possível, ou uma se tiver no fim do loop
+            // cria um JPanel com EXEMPLARES_POR_LINHA exemplares se possível,
+            // ou no mínimo um se tiver no fim do loop
             JDadosExemplar exm0 = new JDadosExemplar(iter.next());
             panel.add(exm0, 0);
             Dimension minDim  = exm0.getMinimumSize();

@@ -42,8 +42,10 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
     @Override
     public String getTituloCRUD() { return "Lista de Empréstimos"; }
     
+    // número (máximo) de empréstimos por linha
     private static final int EMPRESTIMOS_POR_LINHA = 2;
     
+    // ultimo panel, que pode conter menos de EMPRESTIMOS_POR_LINHA empréstimos
     private JPanel _jPanelLinhaEmprestimoRef;
     
     // se está observando seleções
@@ -119,8 +121,8 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
         int w_gap = 10;
         int h_gap = 10;
         
-        // itera de dois em dois se possível e dispõe as emprestimos lado a lado
-        // (emprestimos sem par são mostradas no centro)
+        // itera EMPRESTIMOS_POR_LINHA por vez se possível e dispõe eles lado a lado
+        // (os componentes são mostrados de forma centralizada)
         Iterator<Emprestimo> iter = emprestimos.iterator();
         JPanel panel = null;
         if (iter.hasNext()) {
@@ -140,7 +142,7 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
             panel.setLayout(new FlowLayout());
             
             // cria um JPanel com EMPRESTIMOS_POR_LINHA emprestimos se possível,
-            // ou no minimo uma se tiver no fim do loop
+            // ou no mínimo um se tiver no fim do loop
             JDadosEmprestimo emp0 = new JDadosEmprestimo(iter.next());
             panel.add(emp0, 0);
             Dimension minDim  = emp0.getMinimumSize();
