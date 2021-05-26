@@ -124,7 +124,6 @@ public class JDadosEmprestimo extends javax.swing.JPanel {
         jTextFieldISBN.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldISBN.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jTextFieldISBN.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextFieldISBN.setText("111-11-11-11-11-111");
         jTextFieldISBN.setMargin(new java.awt.Insets(2, 2, 2, 2));
 
         jLabelUsuarioEmissor.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -145,16 +144,20 @@ public class JDadosEmprestimo extends javax.swing.JPanel {
 
         jTextFieldDataEmprestimo.setEditable(false);
         jTextFieldDataEmprestimo.setBackground(new java.awt.Color(255, 255, 255));
+        jTextFieldDataEmprestimo.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jTextFieldDataEmprestimo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextFieldDataEmprestimo.setMargin(new java.awt.Insets(2, 2, 2, 2));
 
         jTextFieldDataDevolucao.setEditable(false);
         jTextFieldDataDevolucao.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldDataDevolucao.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jTextFieldDataDevolucao.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextFieldDataDevolucao.setMargin(new java.awt.Insets(2, 2, 2, 2));
 
         jTextFieldValor.setEditable(false);
         jTextFieldValor.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldValor.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jTextFieldValor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextFieldValor.setMargin(new java.awt.Insets(2, 2, 2, 2));
 
         jLabelValor.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
