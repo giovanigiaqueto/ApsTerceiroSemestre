@@ -178,17 +178,18 @@ public class LivroDAO {
     /**
      * Retorna um Livro dado seu id, gera RuntimeError se esse id não existir
      * 
-     * @param id o id do livro a ser procurado
+     * @param idLivro o id do livro a ser procurado
      * 
-     * @return o livro com o id
+     * @return o livro com o id, ou null
      */
-    public Livro procurarLivro(int id){
+    public Livro procurarLivro(int idLivro){
         String sql = "SELECT * FROM Livro WHERE ativo=? AND id_livro=?";
         
         Livro livro = null;
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
             stmt.setBoolean(1, true);
+            stmt.setInt(2, idLivro);
             ResultSet resultado = stmt.executeQuery();
             
             if (resultado.next()) {
