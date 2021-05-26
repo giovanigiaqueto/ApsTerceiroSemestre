@@ -1,14 +1,20 @@
 package widget.dados;
 
-import widget.support.IComponenteLivro;
+// awt
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Dimension;
 
+// modelo
 import model.Livro;
 
+// suporte
 import widget.support.IDropdown;
-import java.awt.Dimension;
+import widget.support.IComponenteLivro;
+
+// JMain
+import internal.JMain;
 
 public class JDadosLivro extends javax.swing.JPanel implements IDropdown, IComponenteLivro {
 
@@ -50,8 +56,15 @@ public class JDadosLivro extends javax.swing.JPanel implements IDropdown, ICompo
                 }
             }
         };
-        
         jHeaderLivro.addActionListenerDropdown(actionListenerDropdown);
+        
+        ActionListener listenerButtonAdicionar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                JMain.getInstancia().livros.add(livro);
+            }
+        };
+        jHeaderLivro.addActionListenerAdicionarLivro(listenerButtonAdicionar);
     }
     
     @Override

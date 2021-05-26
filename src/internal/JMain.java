@@ -4,10 +4,18 @@ package internal;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Dimension;
 
 // swing
 import javax.swing.JPanel;
 import javax.swing.JFrame;
+
+// java util
+import java.util.List;
+import java.util.LinkedList;
+
+// modelo
+import model.Livro;
 
 // suporte
 import widget.support.IPanelCRUD;
@@ -79,11 +87,12 @@ public class JMain extends javax.swing.JFrame {
     }
     
     private JFrame framePopup;
+    public List<Livro> livros;
     
     // ======================== Classe Singleton ========================
     
     private static JMain instanciaSingleton;
-    private static JMain getInstancia() { return JMain.instanciaSingleton; }
+    public static JMain getInstancia() { return JMain.instanciaSingleton; }
     
     {
         if (instanciaSingleton != null) {
@@ -91,6 +100,10 @@ public class JMain extends javax.swing.JFrame {
         } else {
             instanciaSingleton = this;
         }
+    }
+    
+    {
+        livros = new LinkedList<>();
     }
     
     // ========================== javax.swing ===========================
@@ -142,6 +155,14 @@ public class JMain extends javax.swing.JFrame {
         jMenuItemRemoverCategoria.addActionListener(listenerRemover);
         jMenuItemRemoverLivro.addActionListener(listenerRemover);
         jMenuItemRemoverExemplar.addActionListener(listenerRemover);
+        
+        // --------------------- Misc. ---------------------
+        
+        ActionListener listenerMisc = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) { MiscCRUD(evt); }
+        };
+        
+        jMenuItemMiscCheckout.addActionListener(listenerMisc);
     }
 
     /**
@@ -179,7 +200,8 @@ public class JMain extends javax.swing.JFrame {
         jMenuItemRemoverCategoria = new javax.swing.JMenuItem();
         jMenuItemRemoverLivro = new javax.swing.JMenuItem();
         jMenuItemRemoverExemplar = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        jMenuMisc = new javax.swing.JMenu();
+        jMenuItemMiscCheckout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -261,8 +283,12 @@ public class JMain extends javax.swing.JFrame {
 
         jMenuBar.add(jMenuRemover);
 
-        jMenu1.setText("Outros");
-        jMenuBar.add(jMenu1);
+        jMenuMisc.setText("Outros");
+
+        jMenuItemMiscCheckout.setText("Checkout");
+        jMenuMisc.add(jMenuItemMiscCheckout);
+
+        jMenuBar.add(jMenuMisc);
 
         setJMenuBar(jMenuBar);
 
@@ -270,11 +296,11 @@ public class JMain extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelContent, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelContent, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelContent, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
         );
 
         pack();
@@ -350,6 +376,14 @@ public class JMain extends javax.swing.JFrame {
                 break;
         }
     }
+    private void MiscCRUD(ActionEvent evt) {
+        
+        switch (evt.getActionCommand().toLowerCase()) {
+            case "checkout":
+                setJanela(JanelaCRUD.CadastroEmprestimo);
+                break;
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -380,7 +414,9 @@ public class JMain extends javax.swing.JFrame {
                 return new JCadastroExemplar();
             case CadastroEmprestimo:
             case Checkout:
-                return new CheckoutJPanel();
+                panel = new CheckoutJPanel();
+                ((CheckoutJPanel) panel).inserirLivros(livros);
+                return panel;
             // vindo da janela de conta do usuário ou da lista de emprestimos
             case CadastroMulta:
                 // TODO: adicionar código
@@ -388,31 +424,32 @@ public class JMain extends javax.swing.JFrame {
             
             case ListarUsuario:
                 panel = new JListaUsuarios();
-                ((IListaDados) panel).carregar();
+                ((JListaUsuarios) panel).carregar();
                 return panel;
             case ListarCliente:
                 panel = new JListaClientes();
-                ((IListaDados) panel).carregar();
+                ((JListaClientes) panel).carregar();
                 return panel;
             case ListarCategoria:
                 panel = new JListaCategorias();
-                // ((IListaDados) panel).carregar();
+                System.out.println("HERE");
+                ((JListaCategorias) panel).carregar();
                 return panel;
             case ListarExemplar:
                 panel = new JListaExemplares();
-                // ((IListaDados) panel).carregar();
+                ((JListaExemplares) panel).carregar();
                 return panel;
             case ListarLivro:
                 panel = new JListaLivros();
-                // ((IListaDados) panel).carregar();
+                ((JListaLivros) panel).carregar();
                 return panel;
             case ListarEmprestimo:
                 panel = new JListaEmprestimos();
-                // ((IListaDados) panel).carregar();
+                ((JListaEmprestimos) panel).carregar();
                 return panel;
             case ListarMulta:
                 panel = new JListaMultas();
-                // ((IListaDados) panel).carregar();
+                ((JListaMultas) panel).carregar();
                 return panel;
         }
         
@@ -432,13 +469,27 @@ public class JMain extends javax.swing.JFrame {
             this.framePopup.setVisible(true);
         } else {
             popJanelaCRUD();
+            
+            // muda o titulo da janela
             this.setTitle(panelCRUD.getTituloCRUD());
+            
+            // adição da janela e configuração do layout
             jPanelContent.add(panel, panelCRUD.getTituloCRUD());
             CardLayout layout = (CardLayout) jPanelContent.getLayout();
             layout.first(jPanelContent);
+            
+            // DEBUG START
+            System.out.println(
+                panel.getMinimumSize().toString() + '\n' +
+                panel.getMaximumSize().toString() + '\n' +
+                panel.getPreferredSize().toString());
+            // DEBUG END
+            
+            // configuração do tamanho do painel
             jPanelContent.setMinimumSize(panel.getMinimumSize());
             jPanelContent.setMaximumSize(panel.getMaximumSize());
             jPanelContent.setPreferredSize(panel.getPreferredSize());
+            pack();
         }
 
         return true;
@@ -527,7 +578,6 @@ public class JMain extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenuAlterar;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jMenuCadastrar;
@@ -546,12 +596,14 @@ public class JMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemListarLivro;
     private javax.swing.JMenuItem jMenuItemListarMulta;
     private javax.swing.JMenuItem jMenuItemListarUsuario;
+    private javax.swing.JMenuItem jMenuItemMiscCheckout;
     private javax.swing.JMenuItem jMenuItemRemoverCategoria;
     private javax.swing.JMenuItem jMenuItemRemoverCliente;
     private javax.swing.JMenuItem jMenuItemRemoverExemplar;
     private javax.swing.JMenuItem jMenuItemRemoverLivro;
     private javax.swing.JMenuItem jMenuItemRemoverUsuario;
     private javax.swing.JMenu jMenuListar;
+    private javax.swing.JMenu jMenuMisc;
     private javax.swing.JMenu jMenuRemover;
     private javax.swing.JPanel jPanelContent;
     // End of variables declaration//GEN-END:variables

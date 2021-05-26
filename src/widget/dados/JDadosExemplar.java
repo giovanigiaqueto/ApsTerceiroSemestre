@@ -55,6 +55,8 @@ public class JDadosExemplar extends javax.swing.JPanel {
         jLabelDataObtencao = new javax.swing.JLabel();
         jTextFieldDataObtencao = new javax.swing.JTextField();
 
+        setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         jLabelID.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabelID.setText("ID");
 

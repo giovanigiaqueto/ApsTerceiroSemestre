@@ -65,9 +65,9 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
     }
     
     private void init() {
-        Dimension dim = jPanelLivros.getPreferredSize();
+        Dimension dim = jPanelEmprestimos.getPreferredSize();
         dim.height = 0;
-        jPanelLivros.setPreferredSize(dim);
+        jPanelEmprestimos.setPreferredSize(dim);
         
         observadoresSelecao = new LinkedList<ObservadorSelecao>();
         
@@ -108,15 +108,15 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
      * @param emprestimos os empréstimos a serem inseridos
      */
     public void inserirEmprestimos(List<Emprestimo> emprestimos) {
-        Dimension dim = jPanelLivros.getPreferredSize();
+        Dimension dim = jPanelEmprestimos.getPreferredSize();
         
         for (Emprestimo p : emprestimos) {
             JDadosEmprestimo emprestimo = new JDadosEmprestimo(p);
-            jPanelLivros.add(emprestimo);
+            jPanelEmprestimos.add(emprestimo);
             dim.height += emprestimo.getPreferredSize().height;    
         }
-        jPanelLivros.setPreferredSize(dim);
-        jPanelLivros.revalidate();
+        jPanelEmprestimos.setPreferredSize(dim);
+        jPanelEmprestimos.revalidate();
     }
     
     /**
@@ -128,10 +128,10 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
      * @return o exmplar na localização
      */
     private Component bsearchComponente(Point pt) {
-        int len = jPanelLivros.getComponentCount();
+        int len = jPanelEmprestimos.getComponentCount();
         int idx = 0;
         do {
-            Component comp = jPanelLivros.getComponent(idx);
+            Component comp = jPanelEmprestimos.getComponent(idx);
             Point pos = comp.getLocation();
             Dimension dim = comp.getSize();
             len /= 2;
@@ -159,15 +159,15 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
     // para comportar todos os componentes, mesmo que haja redimensionamento
     public void conteudoRedimensionado() {
         Dimension dim = new Dimension(0, 0);
-        for (Component comp : jPanelLivros.getComponents()) {
+        for (Component comp : jPanelEmprestimos.getComponents()) {
             Dimension tmp = comp.getPreferredSize();
             dim.height += tmp.height;
             dim.width = (tmp.width > dim.width ? tmp.width:dim.width);
         }
-        int delta = dim.height - jPanelLivros.getPreferredSize().height;
+        int delta = dim.height - jPanelEmprestimos.getPreferredSize().height;
         if (Math.abs(delta) > 0) {
-            jPanelLivros.setPreferredSize(dim);
-            jPanelLivros.revalidate();
+            jPanelEmprestimos.setPreferredSize(dim);
+            jPanelEmprestimos.revalidate();
         }
     }
     
@@ -179,9 +179,9 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
         if (this.observarSelecao == observarSelecao) return;
         
         if (observarSelecao) {
-            jPanelLivros.addMouseListener(observadorSelecao);
+            jPanelEmprestimos.addMouseListener(observadorSelecao);
         } else {
-            jPanelLivros.removeMouseListener(observadorSelecao);
+            jPanelEmprestimos.removeMouseListener(observadorSelecao);
         }
         this.observarSelecao = observarSelecao;
     }
@@ -212,7 +212,7 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
     @Override
     public boolean carregar() {
         // previne duplicação de dados
-        if (jScrollPaneLivros.getComponentCount() > 0) return false;
+        if (jPanelEmprestimos.getComponentCount() > 0) return false;
         
         // carrega os dados
         EmprestimoDAO dao = new EmprestimoDAO();
@@ -236,8 +236,8 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
      */
     @Override
     public void esvaziar() {
-        jPanelLivros.setPreferredSize(
-            new Dimension(jPanelLivros.getPreferredSize().width, 0)
+        jPanelEmprestimos.setPreferredSize(
+            new Dimension(jPanelEmprestimos.getPreferredSize().width, 0)
         );
     }
     
@@ -248,7 +248,7 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
      */
     @Override
     public int comprimento() {
-        return jPanelLivros.getComponentCount();
+        return jPanelEmprestimos.getComponentCount();
     }
 
     /**
@@ -260,31 +260,31 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPaneLivros = new javax.swing.JScrollPane();
-        jPanelLivros = new javax.swing.JPanel();
+        jScrollPaneEmprestimos = new javax.swing.JScrollPane();
+        jPanelEmprestimos = new javax.swing.JPanel();
         jBarraPesquisaSimples1 = new widget.JBarraPesquisaSimples();
 
         setPreferredSize(new java.awt.Dimension(602, 600));
 
-        jScrollPaneLivros.setPreferredSize(new java.awt.Dimension(542, 533));
+        jScrollPaneEmprestimos.setPreferredSize(new java.awt.Dimension(542, 533));
 
-        jPanelLivros.setPreferredSize(new java.awt.Dimension(520, 520));
-        jPanelLivros.setLayout(new javax.swing.BoxLayout(jPanelLivros, javax.swing.BoxLayout.Y_AXIS));
-        jScrollPaneLivros.setViewportView(jPanelLivros);
+        jPanelEmprestimos.setPreferredSize(new java.awt.Dimension(520, 520));
+        jPanelEmprestimos.setLayout(new javax.swing.BoxLayout(jPanelEmprestimos, javax.swing.BoxLayout.Y_AXIS));
+        jScrollPaneEmprestimos.setViewportView(jPanelEmprestimos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 35, Short.MAX_VALUE)
                         .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 36, Short.MAX_VALUE))
-                    .addComponent(jScrollPaneLivros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(jScrollPaneEmprestimos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -292,7 +292,7 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
                 .addGap(18, 18, 18)
                 .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPaneLivros, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
+                .addComponent(jScrollPaneEmprestimos, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -300,7 +300,7 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private widget.JBarraPesquisaSimples jBarraPesquisaSimples1;
-    private javax.swing.JPanel jPanelLivros;
-    private javax.swing.JScrollPane jScrollPaneLivros;
+    private javax.swing.JPanel jPanelEmprestimos;
+    private javax.swing.JScrollPane jScrollPaneEmprestimos;
     // End of variables declaration//GEN-END:variables
 }

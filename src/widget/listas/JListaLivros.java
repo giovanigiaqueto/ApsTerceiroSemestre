@@ -159,14 +159,14 @@ public class JListaLivros extends javax.swing.JPanel implements IListaDados, IPa
             Point pos = comp.getLocation();
             Dimension dim = comp.getSize();
             len /= 2;
-            // DEBUG System.out.println("curr line: " + idx);
+            // /* DEBUG */ System.out.println("curr line: " + idx);
             if (pt.y < pos.y) {
                 // falha, procurar na metade de baixo
-                // DEBUG System.out.println("dec");
+                // /* DEBUG */ System.out.println("bsearch: dec");
                 idx -= len;
             } else if (pt.y >= pos.y + dim.height) {
                 // falha, procurar na metade de cima
-                // DEBUG System.out.println("inc");
+                // /* DEBUG */ System.out.println("bsearch: inc");
                 idx += len;
             } else {
                 // componente encontrado por procura binaria, teste de colisao
@@ -236,7 +236,7 @@ public class JListaLivros extends javax.swing.JPanel implements IListaDados, IPa
     @Override
     public boolean carregar() {
         // previne duplicação de dados
-        if (jScrollPaneLivros.getComponentCount() > 0) return false;
+        if (jPanelLivros.getComponentCount() > 0) return false;
         
         // carrega os dados
         LivroDAO dao = new LivroDAO();
@@ -333,12 +333,13 @@ public class JListaLivros extends javax.swing.JPanel implements IListaDados, IPa
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPaneLivros, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneLivros, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(

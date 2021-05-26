@@ -198,19 +198,22 @@ public class JListaExemplares extends javax.swing.JPanel implements IListaDados,
     private Component bsearchComponente(Point pt) {
         int len = jPanelExemplares.getComponentCount();
         int idx = 0;
+        // previne NullPointerException
+        if (len == 0) { return null; }
+        
         do {
             Component comp = jPanelExemplares.getComponent(idx);
             Point pos = comp.getLocation();
             Dimension dim = comp.getSize();
             len /= 2;
-            // DEBUG System.out.println("curr line: " + idx);
+            // /* DEBUG */ System.out.println("curr line: " + idx);
             if (pt.y < pos.y) {
                 // falha, procurar na metade de baixo
-                // DEBUG System.out.println("dec");
+                // /* DEBUG */ System.out.println("dec");
                 idx -= len;
             } else if (pt.y >= pos.y + dim.height) {
                 // falha, procurar na metade de cima
-                // DEBUG System.out.println("inc");
+                // /* DEBUG */ System.out.println("inc");
                 idx += len;
             } else {
                 // linha encontrada, retorna o componente dentro da linha que colidir
@@ -279,7 +282,7 @@ public class JListaExemplares extends javax.swing.JPanel implements IListaDados,
     @Override
     public boolean carregar() {
         // previne duplicação de dados
-        if (jScrollPaneExemplares.getComponentCount() > 0) return false;
+        if (jPanelExemplares.getComponentCount() > 0) return false;
         
         // carrega os dados
         ExemplarDAO dao = new ExemplarDAO();
@@ -338,44 +341,63 @@ public class JListaExemplares extends javax.swing.JPanel implements IListaDados,
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jScrollPaneExemplares = new javax.swing.JScrollPane();
         jPanelExemplares = new javax.swing.JPanel();
         jBarraPesquisaSimples1 = new widget.JBarraPesquisaSimples();
 
-        setPreferredSize(new java.awt.Dimension(602, 600));
+        setMinimumSize(new java.awt.Dimension(464, 0));
+        setPreferredSize(new java.awt.Dimension(464, 600));
+
+        jPanel1.setMaximumSize(new java.awt.Dimension(430, 32767));
+        jPanel1.setMinimumSize(new java.awt.Dimension(430, 0));
+        jPanel1.setPreferredSize(new java.awt.Dimension(430, 600));
 
         jScrollPaneExemplares.setPreferredSize(new java.awt.Dimension(542, 533));
 
-        jPanelExemplares.setPreferredSize(new java.awt.Dimension(520, 520));
+        jPanelExemplares.setPreferredSize(new java.awt.Dimension(410, 520));
         jPanelExemplares.setLayout(new javax.swing.BoxLayout(jPanelExemplares, javax.swing.BoxLayout.Y_AXIS));
         jScrollPaneExemplares.setViewportView(jPanelExemplares);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPaneExemplares, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPaneExemplares, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPaneExemplares, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(17, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPaneExemplares, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private widget.JBarraPesquisaSimples jBarraPesquisaSimples1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelExemplares;
     private javax.swing.JScrollPane jScrollPaneExemplares;
     // End of variables declaration//GEN-END:variables

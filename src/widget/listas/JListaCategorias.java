@@ -2,6 +2,7 @@ package widget.listas;
 
 // swing
 import javax.swing.JPanel;
+// import javax.swing.BorderFactory;
 
 // awt
 import java.awt.Component;
@@ -14,6 +15,7 @@ import java.util.Iterator;
 
 // dao
 import dao.CategoriaDAO;
+import java.awt.Color;
 
 // modelos
 import model.Categoria;
@@ -43,17 +45,17 @@ public class JListaCategorias extends javax.swing.JPanel implements IListaDados,
     }
     
     private void init() {
-        Dimension dim = jPanelLivros.getPreferredSize();
+        Dimension dim = jPanelCategorias.getPreferredSize();
         dim.height = 10;
-        jPanelLivros.setPreferredSize(dim);
+        jPanelCategorias.setPreferredSize(dim);
         _jPanelParCategoriaRef = null;
     }
     
     public void inserirCategorias(List<Categoria> categorias) {
-        Dimension dim = jPanelLivros.getPreferredSize();
+        Dimension dim = jPanelCategorias.getPreferredSize();
         
         int w_gap = 20;
-        int h_gap = 5;
+        int h_gap = 10;
         
         // itera de dois em dois se possível e dispõe as categorias lado a lado
         // (categorias sem par são mostradas na esquerda com um espaço em branco na direita)
@@ -70,6 +72,7 @@ public class JListaCategorias extends javax.swing.JPanel implements IListaDados,
         }
         while (iter.hasNext()) {
             panel = new JPanel();
+            // /*DEBUG*/ panel.setBorder(BorderFactory.createLineBorder(Color.orange));
             panel.setLayout(new FlowLayout());
             
             // cria um JPanel com duas categorias se possível, ou uma se tiver no fim do loop
@@ -95,38 +98,41 @@ public class JListaCategorias extends javax.swing.JPanel implements IListaDados,
                         tmpPrefDim.height : prefDim.height;
             }
             
+            prefDim.height += h_gap;
+            
             // atualiza as dimensões
-            dim.height += prefDim.height + h_gap;
+            dim.height += prefDim.height;
             dim.width = (prefDim.width > dim.width ? prefDim.width : dim.width);
             dim.width = (minDim.width > dim.width ? minDim.width : dim.width);
             
             // configura o tamanho do panel
             panel.setMinimumSize(minDim);
             panel.setPreferredSize(prefDim);
+            panel.setMaximumSize(prefDim);
             
             // adiciona o panel
-            jPanelLivros.add(panel);
+            jPanelCategorias.add(panel);
         }
         // atualiza a referencia ao ultimo panel
         this._jPanelParCategoriaRef = panel;
         
-        jPanelLivros.setPreferredSize(dim);
-        jPanelLivros.revalidate();
+        jPanelCategorias.setPreferredSize(dim);
+        jPanelCategorias.revalidate();
     }
     
     // força o JPanel dentro do JScrollPane a ter o tamanho necessário
     // para comportar todos os componentes, mesmo que haja redimensionamento
     public void conteudoRedimensionado() {
         Dimension dim = new Dimension(0, 0);
-        for (Component comp : jPanelLivros.getComponents()) {
+        for (Component comp : jPanelCategorias.getComponents()) {
             Dimension tmp = comp.getPreferredSize();
             dim.height += tmp.height;
             dim.width = (tmp.width > dim.width ? tmp.width:dim.width);
         }
-        int delta = dim.height - jPanelLivros.getPreferredSize().height;
+        int delta = dim.height - jPanelCategorias.getPreferredSize().height;
         if (Math.abs(delta) > 0) {
-            jPanelLivros.setPreferredSize(dim);
-            jPanelLivros.revalidate();
+            jPanelCategorias.setPreferredSize(dim);
+            jPanelCategorias.revalidate();
         }
     }
     
@@ -141,7 +147,7 @@ public class JListaCategorias extends javax.swing.JPanel implements IListaDados,
     @Override
     public boolean carregar() {
         // previne duplicação de dados
-        if (jScrollPaneLivros.getComponentCount() > 0) return false;
+        if (jPanelCategorias.getComponentCount() > 0) return false;
         
         // carrega os dados
         CategoriaDAO dao = new CategoriaDAO();
@@ -165,9 +171,9 @@ public class JListaCategorias extends javax.swing.JPanel implements IListaDados,
      */
     @Override
     public void esvaziar() {
-        jPanelLivros.removeAll();
-        jPanelLivros.setPreferredSize(
-            new Dimension(jPanelLivros.getPreferredSize().width, 10)
+        jPanelCategorias.removeAll();
+        jPanelCategorias.setPreferredSize(
+            new Dimension(jPanelCategorias.getPreferredSize().width, 10)
         );
         _jPanelParCategoriaRef = null;
     }
@@ -179,7 +185,7 @@ public class JListaCategorias extends javax.swing.JPanel implements IListaDados,
      */
     @Override
     public int comprimento() {
-        int cnt = jPanelLivros.getComponentCount() * 2;
+        int cnt = jPanelCategorias.getComponentCount() * 2;
         return (_jPanelParCategoriaRef != null ? cnt-1:cnt);
     }
 
@@ -192,31 +198,33 @@ public class JListaCategorias extends javax.swing.JPanel implements IListaDados,
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPaneLivros = new javax.swing.JScrollPane();
-        jPanelLivros = new javax.swing.JPanel();
+        jScrollPaneCategorias = new javax.swing.JScrollPane();
+        jPanelCategorias = new javax.swing.JPanel();
         jBarraPesquisaSimples1 = new widget.JBarraPesquisaSimples();
 
-        setPreferredSize(new java.awt.Dimension(600, 600));
+        setPreferredSize(new java.awt.Dimension(700, 600));
 
-        jScrollPaneLivros.setPreferredSize(new java.awt.Dimension(576, 533));
+        jScrollPaneCategorias.setMaximumSize(new java.awt.Dimension(576, 32767));
+        jScrollPaneCategorias.setMinimumSize(new java.awt.Dimension(576, 22));
+        jScrollPaneCategorias.setPreferredSize(new java.awt.Dimension(576, 533));
 
-        jPanelLivros.setPreferredSize(new java.awt.Dimension(573, 530));
-        jPanelLivros.setLayout(new javax.swing.BoxLayout(jPanelLivros, javax.swing.BoxLayout.Y_AXIS));
-        jScrollPaneLivros.setViewportView(jPanelLivros);
+        jPanelCategorias.setMinimumSize(new java.awt.Dimension(650, 0));
+        jPanelCategorias.setPreferredSize(new java.awt.Dimension(650, 530));
+        jPanelCategorias.setLayout(new javax.swing.BoxLayout(jPanelCategorias, javax.swing.BoxLayout.Y_AXIS));
+        jScrollPaneCategorias.setViewportView(jPanelCategorias);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPaneLivros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPaneCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 694, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,7 +232,7 @@ public class JListaCategorias extends javax.swing.JPanel implements IListaDados,
                 .addGap(18, 18, 18)
                 .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPaneLivros, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
+                .addComponent(jScrollPaneCategorias, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -232,7 +240,7 @@ public class JListaCategorias extends javax.swing.JPanel implements IListaDados,
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private widget.JBarraPesquisaSimples jBarraPesquisaSimples1;
-    private javax.swing.JPanel jPanelLivros;
-    private javax.swing.JScrollPane jScrollPaneLivros;
+    private javax.swing.JPanel jPanelCategorias;
+    private javax.swing.JScrollPane jScrollPaneCategorias;
     // End of variables declaration//GEN-END:variables
 }

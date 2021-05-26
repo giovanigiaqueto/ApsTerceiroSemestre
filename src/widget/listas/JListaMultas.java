@@ -35,21 +35,21 @@ public class JListaMultas extends javax.swing.JPanel implements IListaDados, IPa
     }
     
     private void init() {
-        Dimension dim = jPanelLivros.getPreferredSize();
+        Dimension dim = jPanelMultas.getPreferredSize();
         dim.height = 0;
-        jPanelLivros.setPreferredSize(dim);
+        jPanelMultas.setPreferredSize(dim);
     }
     
     public void inserirMultas(List<Multa> multas) {
-        Dimension dim = jPanelLivros.getPreferredSize();
+        Dimension dim = jPanelMultas.getPreferredSize();
         
         for (Multa p : multas) {
             JDadosMulta multa = new JDadosMulta(p);
-            jPanelLivros.add(multa);
+            jPanelMultas.add(multa);
             dim.height += multa.getPreferredSize().height;
         }
-        jPanelLivros.setPreferredSize(dim);
-        jPanelLivros.revalidate();
+        jPanelMultas.setPreferredSize(dim);
+        jPanelMultas.revalidate();
     }
     
     // ==================== implements IListaDados ====================
@@ -63,7 +63,7 @@ public class JListaMultas extends javax.swing.JPanel implements IListaDados, IPa
     @Override
     public boolean carregar() {
         // previne duplicação de dados
-        if (jPanelLivros.getComponentCount() > 0) return false;
+        if (jPanelMultas.getComponentCount() > 0) return false;
         
         // carrega os dados
         MultaDAO dao = new MultaDAO();
@@ -87,9 +87,9 @@ public class JListaMultas extends javax.swing.JPanel implements IListaDados, IPa
      */
     @Override
     public void esvaziar() {
-        jPanelLivros.removeAll();
-        jPanelLivros.setPreferredSize(
-            new Dimension(jPanelLivros.getPreferredSize().width, 0)
+        jPanelMultas.removeAll();
+        jPanelMultas.setPreferredSize(
+            new Dimension(jPanelMultas.getPreferredSize().width, 0)
         );
     }
     
@@ -100,7 +100,7 @@ public class JListaMultas extends javax.swing.JPanel implements IListaDados, IPa
      */
     @Override
     public int comprimento() {
-        return jPanelLivros.getComponentCount();
+        return jPanelMultas.getComponentCount();
     }
 
     /**
@@ -112,32 +112,32 @@ public class JListaMultas extends javax.swing.JPanel implements IListaDados, IPa
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPaneLivros = new javax.swing.JScrollPane();
-        jPanelLivros = new javax.swing.JPanel();
+        jScrollPaneMultas = new javax.swing.JScrollPane();
+        jPanelMultas = new javax.swing.JPanel();
         jBarraPesquisaSimples1 = new widget.JBarraPesquisaSimples();
 
         setPreferredSize(new java.awt.Dimension(566, 600));
 
-        jScrollPaneLivros.setMinimumSize(new java.awt.Dimension(537, 22));
-        jScrollPaneLivros.setPreferredSize(new java.awt.Dimension(542, 533));
+        jScrollPaneMultas.setMinimumSize(new java.awt.Dimension(537, 22));
+        jScrollPaneMultas.setPreferredSize(new java.awt.Dimension(542, 533));
 
-        jPanelLivros.setPreferredSize(new java.awt.Dimension(520, 520));
-        jPanelLivros.setLayout(new javax.swing.BoxLayout(jPanelLivros, javax.swing.BoxLayout.Y_AXIS));
-        jScrollPaneLivros.setViewportView(jPanelLivros);
+        jPanelMultas.setPreferredSize(new java.awt.Dimension(520, 520));
+        jPanelMultas.setLayout(new javax.swing.BoxLayout(jPanelMultas, javax.swing.BoxLayout.Y_AXIS));
+        jScrollPaneMultas.setViewportView(jPanelMultas);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPaneLivros, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(jScrollPaneMultas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,7 +145,7 @@ public class JListaMultas extends javax.swing.JPanel implements IListaDados, IPa
                 .addGap(18, 18, 18)
                 .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPaneLivros, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
+                .addComponent(jScrollPaneMultas, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -153,7 +153,7 @@ public class JListaMultas extends javax.swing.JPanel implements IListaDados, IPa
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private widget.JBarraPesquisaSimples jBarraPesquisaSimples1;
-    private javax.swing.JPanel jPanelLivros;
-    private javax.swing.JScrollPane jScrollPaneLivros;
+    private javax.swing.JPanel jPanelMultas;
+    private javax.swing.JScrollPane jScrollPaneMultas;
     // End of variables declaration//GEN-END:variables
 }

@@ -107,6 +107,16 @@ public class JHeaderLivro extends javax.swing.JPanel {
     public ActionListener[] getActionListenersDropdown() {
         return jButtonDropdown.getActionListeners();
     }
+    
+    public void addActionListenerAdicionarLivro(ActionListener l) {
+        jButtonAdicionar.addActionListener(l);
+    }
+    public void removeActionListenerAdicionarLivro(ActionListener l) {
+        jButtonDropdown.removeActionListener(l);
+    }
+    public ActionListener[] getActionListenersAdicionarLivro() {
+        return jButtonDropdown.getActionListeners();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAdicionar;

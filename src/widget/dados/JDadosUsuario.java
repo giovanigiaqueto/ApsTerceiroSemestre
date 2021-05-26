@@ -91,6 +91,7 @@ public class JDadosUsuario extends javax.swing.JPanel {
         jLabelSexo = new javax.swing.JLabel();
         jTextFieldSexo = new javax.swing.JTextField();
 
+        setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setMinimumSize(new java.awt.Dimension(524, 307));
         setPreferredSize(new java.awt.Dimension(524, 307));
 

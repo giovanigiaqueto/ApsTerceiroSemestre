@@ -8,7 +8,7 @@
       </Border>
     </Property>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[324, 242]"/>
+      <Dimension value="[324, 230]"/>
     </Property>
   </Properties>
   <AuxValues>
@@ -42,10 +42,10 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="146" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="140" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -75,6 +75,9 @@
               <Font name="Dialog" size="14" style="0"/>
             </Property>
             <Property name="rows" type="int" value="5"/>
+            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+              <Insets value="[3, 3, 3, 3]"/>
+            </Property>
           </Properties>
         </Component>
       </SubComponents>

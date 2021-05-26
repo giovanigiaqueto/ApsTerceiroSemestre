@@ -67,7 +67,7 @@ public class JDadosCategoria extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        setMinimumSize(new java.awt.Dimension(324, 242));
+        setMinimumSize(new java.awt.Dimension(324, 230));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel1.setText("Categoria");
@@ -76,6 +76,7 @@ public class JDadosCategoria extends javax.swing.JPanel {
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jTextArea1.setRows(5);
+        jTextArea1.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jScrollPane1.setViewportView(jTextArea1);
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -98,10 +99,10 @@ public class JDadosCategoria extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents

@@ -46,7 +46,9 @@ public class JListaClientes extends javax.swing.JPanel implements IListaDados, I
         for (Cliente p : clientes) {
             JDadosCliente cliente = new JDadosCliente(p);
             jPanelClientes.add(cliente);
-            dim.height += cliente.getPreferredSize().height;
+            Dimension tmp = cliente.getPreferredSize();
+            dim.height += tmp.height;
+            dim.width = (tmp.width > dim.width ? tmp.width:dim.width);
         }
         jPanelClientes.setPreferredSize(dim);
         jPanelClientes.revalidate();
@@ -116,6 +118,7 @@ public class JListaClientes extends javax.swing.JPanel implements IListaDados, I
         jPanelClientes = new javax.swing.JPanel();
         jBarraPesquisaSimples1 = new widget.JBarraPesquisaSimples();
 
+        setMinimumSize(new java.awt.Dimension(566, 50));
         setPreferredSize(new java.awt.Dimension(566, 600));
 
         jScrollPaneClientes.setMinimumSize(new java.awt.Dimension(542, 22));
@@ -130,14 +133,14 @@ public class JListaClientes extends javax.swing.JPanel implements IListaDados, I
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPaneClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(jScrollPaneClientes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

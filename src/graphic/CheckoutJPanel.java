@@ -2,9 +2,8 @@ package graphic;
 
 // java.util
 import java.util.Map;
-import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.List;
-import java.util.LinkedList;
 import java.util.function.Predicate;
 
 // dao
@@ -43,6 +42,10 @@ public class CheckoutJPanel extends javax.swing.JPanel implements IPanelCRUD {
         init();
     }
     
+    {
+        exemplares = new TreeMap<>();
+    }
+    
     private void init() {
         jListaLivros.setObservarSelecao(true);
         jListaLivros.addObservadorSelecao(
@@ -53,21 +56,12 @@ public class CheckoutJPanel extends javax.swing.JPanel implements IPanelCRUD {
                     // evita seleção de nada (desseleção)
                     if (iLivro == null) return;
                     
+                    // seleção do livro
                     Livro livro = iLivro.getLivro();
-                    jListaExemplares.esvaziar();
-                    {
-                        ExemplarDAO dao = new ExemplarDAO();
-                        List<Exemplar> lista = dao.listarExemplaresLivro(livro.getIdLivro());
-                        lista.removeIf(new Predicate() {
-                            @Override
-                            public boolean test(Object obj) {
-                                return !((Exemplar) obj).getEstaAlocado();
-                            }
-                        });
-                        jListaExemplares.inserirExemplares(lista);
-                        jListaExemplares.selecionar(livro.getIdLivro());
-                    }
                     iLivroSelecionado = iLivro;
+                    
+                    // carregamento dos exemplares
+                    __innerCarregarExemplares(livro.getIdLivro());
                 }
             }
         );
@@ -84,11 +78,46 @@ public class CheckoutJPanel extends javax.swing.JPanel implements IPanelCRUD {
                     IComponenteLivro iLivro = iLivroSelecionado;
                     if (iLivro != null) {
                         int id_livro = iLivro.getLivro().getIdLivro();
+                        /* // DEBUG START
+                        System.out.println("Checkout seleção exemplar:" +
+                            id_livro + ", " + exemplar.getExemplar().getIdExemplar());
+                        */ // DEBUG END
                         exemplares.put(id_livro, exemplar.getExemplar());
                     }
                 }
             }
         );
+    }
+    
+    /**
+     * função interna, carrega os exemplares do banco
+     * pertencentes ao livro de id idLivro
+     * 
+     * @param idLivro o id do livro para carregar os exemplares 
+     */
+    private void __innerCarregarExemplares(int idLivro) {
+        
+        // carregamento dos exemplares do banco
+        ExemplarDAO dao = new ExemplarDAO();
+        List<Exemplar> lista = dao.listarExemplaresLivro(idLivro);
+        
+        // filtragem (remoção de exemplares já alocados)
+        lista.removeIf(new Predicate() {
+            @Override
+            public boolean test(Object obj) {
+                return !((Exemplar) obj).getEstaAlocado();
+            }
+        });
+        
+        // substituição dos exemplares (esvaziamento seguido de inserção)
+        jListaExemplares.esvaziar();
+        jListaExemplares.inserirExemplares(lista);
+        
+        // seleção do exemplar (se houver)
+        Exemplar exemplar = exemplares.get(idLivro);
+        if (exemplar != null) {
+            jListaExemplares.selecionar(exemplar.getIdExemplar());
+        }
     }
     
     public void inserirLivros(List<Livro> livros) {
@@ -124,7 +153,7 @@ public class CheckoutJPanel extends javax.swing.JPanel implements IPanelCRUD {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weightx = 1.6;
         gridBagConstraints.weighty = 1.0;
         jPanel1.add(jListaLivros, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -169,7 +198,7 @@ public class CheckoutJPanel extends javax.swing.JPanel implements IPanelCRUD {
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weightx = 0.4;
         gridBagConstraints.weighty = 1.0;
         jPanel1.add(jListaExemplares, gridBagConstraints);
 
