@@ -104,6 +104,7 @@ public class JDadosEmprestimo extends javax.swing.JPanel {
         jTextFieldValor = new javax.swing.JTextField();
         jLabelValor = new javax.swing.JLabel();
 
+        setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setMaximumSize(new java.awt.Dimension(400, 290));
         setMinimumSize(new java.awt.Dimension(400, 290));
 
@@ -177,7 +178,7 @@ public class JDadosEmprestimo extends javax.swing.JPanel {
                             .addComponent(jLabelDataEmprestimo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                             .addComponent(jTextFieldDataEmprestimo)
                             .addComponent(jTextFieldDataDevolucao))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabelISBN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jTextFieldISBN)
@@ -214,7 +215,7 @@ public class JDadosEmprestimo extends javax.swing.JPanel {
                 .addComponent(jLabelUsuarioEmissor)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextFieldUsuarioEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 

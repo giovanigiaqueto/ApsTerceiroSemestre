@@ -2,7 +2,6 @@ package widget.listas;
 
 // swing
 import javax.swing.JPanel;
-// import javax.swing.BorderFactory;
 
 // awt
 import java.awt.Component;
@@ -15,7 +14,6 @@ import java.util.Iterator;
 
 // dao
 import dao.CategoriaDAO;
-import java.awt.Color;
 
 // modelos
 import model.Categoria;
@@ -72,7 +70,6 @@ public class JListaCategorias extends javax.swing.JPanel implements IListaDados,
         }
         while (iter.hasNext()) {
             panel = new JPanel();
-            // /*DEBUG*/ panel.setBorder(BorderFactory.createLineBorder(Color.orange));
             panel.setLayout(new FlowLayout());
             
             // cria um JPanel com duas categorias se possível, ou uma se tiver no fim do loop

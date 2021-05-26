@@ -111,8 +111,8 @@ public class JListaExemplares extends javax.swing.JPanel implements IListaDados,
     public void inserirExemplares(List<Exemplar> exemplares) {
         Dimension dim = jPanelExemplares.getPreferredSize();
         
-        int w_gap = 20;
-        int h_gap = 5;
+        int w_gap = 10;
+        int h_gap = 10;
         
         // itera de dois em dois se possível e dispõe as categorias lado a lado
         // (categorias sem par são mostradas na esquerda com um espaço em branco na direita)
