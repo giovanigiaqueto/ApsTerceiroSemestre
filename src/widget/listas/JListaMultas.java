@@ -3,6 +3,10 @@ package widget.listas;
 // awt
 import java.awt.Dimension;
 
+// swing
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+
 // java util
 import java.util.List;
 
@@ -43,11 +47,23 @@ public class JListaMultas extends javax.swing.JPanel implements IListaDados, IPa
     public void inserirMultas(List<Multa> multas) {
         Dimension dim = jPanelMultas.getPreferredSize();
         
+        final int w_gap = 10;
+        final int h_gap = 10;
+        
         for (Multa p : multas) {
+            JPanel panel = new JPanel();
             JDadosMulta multa = new JDadosMulta(p);
-            jPanelMultas.add(multa);
-            dim.height += multa.getPreferredSize().height;
+            panel.add(multa);
+            
+            Dimension tmp = multa.getPreferredSize();
+            tmp.width  += w_gap;
+            tmp.height += h_gap;
+            panel.setPreferredSize(tmp);
+            
+            jPanelMultas.add(panel);
+            dim.height += tmp.height;
         }
+        
         jPanelMultas.setPreferredSize(dim);
         jPanelMultas.revalidate();
     }
