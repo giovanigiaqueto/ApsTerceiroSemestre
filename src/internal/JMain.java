@@ -432,7 +432,6 @@ public class JMain extends javax.swing.JFrame {
                 return panel;
             case ListarCategoria:
                 panel = new JListaCategorias();
-                System.out.println("HERE");
                 ((JListaCategorias) panel).carregar();
                 return panel;
             case ListarExemplar:
@@ -478,12 +477,12 @@ public class JMain extends javax.swing.JFrame {
             CardLayout layout = (CardLayout) jPanelContent.getLayout();
             layout.first(jPanelContent);
             
-            // DEBUG START
+            /* // DEBUG START
             System.out.println(
                 panel.getMinimumSize().toString() + '\n' +
                 panel.getMaximumSize().toString() + '\n' +
                 panel.getPreferredSize().toString());
-            // DEBUG END
+            */ // DEBUG END
             
             // configuração do tamanho do painel
             jPanelContent.setMinimumSize(panel.getMinimumSize());
