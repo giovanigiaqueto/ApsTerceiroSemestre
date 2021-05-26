@@ -118,7 +118,7 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
     public void inserirEmprestimos(List<Emprestimo> emprestimos) {
         Dimension dim = jPanelEmprestimos.getPreferredSize();
         
-        int w_gap = 10;
+        int w_gap = 0;
         int h_gap = 10;
         
         // itera EMPRESTIMOS_POR_LINHA por vez se possível e dispõe eles lado a lado
@@ -140,6 +140,7 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
         while (iter.hasNext()) {
             panel = new JPanel();
             panel.setLayout(new FlowLayout());
+            // /* DEBUG */ panel.setBorder(BorderFactory.createLineBorder(Color.green));
             
             // cria um JPanel com EMPRESTIMOS_POR_LINHA emprestimos se possível,
             // ou no mínimo um se tiver no fim do loop
@@ -325,17 +326,38 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanelMargem = new javax.swing.JPanel();
         jScrollPaneEmprestimos = new javax.swing.JScrollPane();
         jPanelEmprestimos = new javax.swing.JPanel();
         jBarraPesquisaSimples1 = new widget.JBarraPesquisaSimples();
 
-        setPreferredSize(new java.awt.Dimension(602, 600));
+        setPreferredSize(new java.awt.Dimension(874, 600));
 
-        jScrollPaneEmprestimos.setPreferredSize(new java.awt.Dimension(542, 533));
+        jScrollPaneEmprestimos.setPreferredSize(new java.awt.Dimension(850, 533));
 
-        jPanelEmprestimos.setPreferredSize(new java.awt.Dimension(520, 520));
+        jPanelEmprestimos.setPreferredSize(new java.awt.Dimension(830, 520));
         jPanelEmprestimos.setLayout(new javax.swing.BoxLayout(jPanelEmprestimos, javax.swing.BoxLayout.Y_AXIS));
         jScrollPaneEmprestimos.setViewportView(jPanelEmprestimos);
+
+        javax.swing.GroupLayout jPanelMargemLayout = new javax.swing.GroupLayout(jPanelMargem);
+        jPanelMargem.setLayout(jPanelMargemLayout);
+        jPanelMargemLayout.setHorizontalGroup(
+            jPanelMargemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPaneEmprestimos, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanelMargemLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanelMargemLayout.setVerticalGroup(
+            jPanelMargemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMargemLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPaneEmprestimos, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -343,22 +365,12 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 35, Short.MAX_VALUE)
-                        .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 36, Short.MAX_VALUE))
-                    .addComponent(jScrollPaneEmprestimos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanelMargem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jBarraPesquisaSimples1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPaneEmprestimos, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanelMargem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -366,6 +378,7 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private widget.JBarraPesquisaSimples jBarraPesquisaSimples1;
     private javax.swing.JPanel jPanelEmprestimos;
+    private javax.swing.JPanel jPanelMargem;
     private javax.swing.JScrollPane jScrollPaneEmprestimos;
     // End of variables declaration//GEN-END:variables
 }
