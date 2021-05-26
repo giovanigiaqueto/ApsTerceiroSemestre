@@ -5,9 +5,9 @@ CREATE TABLE Usuario(
     cpf_usuario             char(11)        NOT NULL UNIQUE,
     telefone_usuario        char(13)        NOT NULL,
     sexo_usuario            varchar(12)     NOT NULL,
-    endereco_usuario        varchar(60)     NOT NULL,
+    endereco_usuario        varchar(80)     NOT NULL,
     email_usuario           varchar(256)    NOT NULL,
-    senha_usuario           varchar(128),
+    senha_usuario           char(128),
     ativo                   boolean         NOT NULL DEFAULT 'true'
 );
 
@@ -17,7 +17,7 @@ CREATE TABLE Cliente(
     cpf_cliente              char(11)        NOT NULL UNIQUE,
     telefone_cliente         char(13)        NOT NULL,
     sexo_cliente             varchar(12)     NOT NULL,
-    endereco_cliente         varchar(60)     NOT NULL,
+    endereco_cliente         varchar(80)     NOT NULL,
     email_cliente            varchar(256)    NOT NULL,
     ativo                    boolean         NOT NULL DEFAULT 'true'
 );

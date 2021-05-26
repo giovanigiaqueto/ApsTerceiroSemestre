@@ -8,11 +8,11 @@ INSERT INTO Usuario(
 	senha_usuario
 )
 VALUES
-('Laura', '05983591096', '730-9419', 'f', 'Rua Tadeu Rangel Pestana, 506', 'eu.tellus@venenatisvel.edu', '3563c7e4f50fbd04b0cc3bbe6721b136f506cadb59f76aafe1f07ae01a253343'),
-('Mário', '19076557004', '651-8231', 'm', 'Rua Francisco Olandim, 204', 'magna.Lorem@nasceturridiculus.com', '1d258ebe3bfe472e280319ab43f26afdafbff36b6b5abba4814bbaa2ad710e61'),
-('Renata', '29715931006', '535-2202', 'f', 'Avenida José Antonio de Paula e Silva, 1028', 'ut.quam@aliquamarcu.com', '25557bde1da038db410e197232a11e3301c5d7997cace54739f3792ce95bad8b'),
-('Paulo', '71871900000', '447-9066', 'm', 'Avenida Jorge Guilherme Senger, 2007', 'a.arcu.Sed@Quisque.com', 'dc29337435c7c2d881e964551550a7c10981a403f349c0f3a51c0d469bc18ca6'),
-('Clarke', '24731104092', '202-4448', 'm', 'Rua Engenheiro Reynaldo Cajado, 760', 'metus.In@imperdiet.edu', 'd5c2af68b917deda25ede67c645cc4ff8b9166d4635ae01f66417caa7291e7c2');
+('Laura', '05983591096', '3730-9419', 'feminino', 'Rua Tadeu Rangel Pestana, 506, Rio de Janeiro, São Paulo', 'eu.tellus@venenatisvel.edu', 'fc8252c8dc55839967c58b9ad755a59b61b67c13227ddae4bd3f78a38bf394f7'), /* senha=adimin */
+('Mário', '19076557004', '1651-8231', 'masculino', 'Rua Francisco Olandim, 204, São Jose do Rio Preto, São Paulo', 'magna.Lorem@nasceturridiculus.com', '606b7d0891b4db74edb21c241c302f298bf6ca4a6158deca6b58c15c950ab5f2'), /* senha=62 */
+('Renata', '29715931006', '7535-2202', 'feminino', 'Avenida José Antonio de Paula e Silva, 1028, Barretos, São Paulo', 'ut.quam@aliquamarcu.com', 'f33ae3bc9a22cd7564990a794789954409977013966fb1a8f43c35776b833a95'), /* senha=12345 */
+('Paulo', '71871900000', '8447-9066', 'masculino', 'Avenida Jorge Guilherme Senger, 2007, São Paulo, São Paulo', 'a.arcu.Sed@Quisque.com', '606b7d0891b4db74edb21c241c302f298bf6ca4a6158deca6b58c15c950ab5f2'), /* senha=62 */
+('Clarke', '24731104092', '6202-4448', 'masculino', 'Rua João Marcos, 760, Brasília, Distrito Federal', 'metus.In@imperdiet.edu', '654ee9da442fa353f59f11beb688fc7f76c8de62a6c18b2a181fdde2a27cc3ef'); /* senha=48 */
 
 INSERT INTO Cliente(
 	nome_cliente,
@@ -23,11 +23,11 @@ INSERT INTO Cliente(
 	email_cliente
 )
 VALUES
-('Pedro', '07643771081', '456-0877', 'm', 'Rua Deputado Cássio Ciampolini, 650', 'sagittis@augueeutempor.net'),
-('Cassandra', '26059347053', '753-4834', 'f', 'Rua João Correia, 110', 'diam.luctus@augue.com'),
-('Camila', '14420375043', '468-9597', 'f', 'Avenida dos Remédios, 940', 'Nullam@Nunc.edu'),
-('Kevin', '46802447045', '664-2122', 'm', 'Rua Barão de Vallim, 886', 'Donec@ipsumCurabitur.ca'),
-('Maria', '54510944039', '896-7647', 'f', 'Rua Maria Natália Teodoro, 251', 'eget@Mauris.ca');
+('Pedro', '07643771081', '7456-0877', 'masculino', 'Rua Deputado Cássio Ciampolini, 650, Cravinhos, São Paulo', 'sagittis@augueeutempor.net'),
+('Cassandra', '26059347053', '1753-4834', 'feminino', 'Rua João Correia, 110, Uberaba, Minas Gerais', 'diam.luctus@augue.com'),
+('Camila', '14420375043', '3468-9597', 'feminino', 'Avenida dos Remédios, 940, Belo Horizonte, Minas Gerais', 'Nullam@Nunc.edu'),
+('Kevin', '46802447045', '2664-2122', 'masculino', 'Rua Barão de Vallim, 886, Belém, Pará', 'Donec@ipsumCurabitur.ca'),
+('Maria', '54510944039', '3896-7647', 'feminino', 'Rua Maria Natália Teodoro, 251, Salvador, Bahia', 'eget@Mauris.ca');
 
 INSERT INTO Categoria(nome_categoria, descricao_categoria)
 VALUES
