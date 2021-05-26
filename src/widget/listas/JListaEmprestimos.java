@@ -6,6 +6,7 @@ import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 
 // awt
+import java.awt.FlowLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -18,6 +19,7 @@ import java.awt.event.MouseEvent;
 // java.util
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Iterator;
 
 // dao
 import dao.EmprestimoDAO;
@@ -39,6 +41,10 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
     
     @Override
     public String getTituloCRUD() { return "Lista de Empréstimos"; }
+    
+    private static final int EMPRESTIMOS_POR_LINHA = 2;
+    
+    private JPanel _jPanelLinhaEmprestimoRef;
     
     // se está observando seleções
     private boolean observarSelecao;
@@ -110,11 +116,68 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
     public void inserirEmprestimos(List<Emprestimo> emprestimos) {
         Dimension dim = jPanelEmprestimos.getPreferredSize();
         
-        for (Emprestimo p : emprestimos) {
-            JDadosEmprestimo emprestimo = new JDadosEmprestimo(p);
-            jPanelEmprestimos.add(emprestimo);
-            dim.height += emprestimo.getPreferredSize().height;    
+        int w_gap = 10;
+        int h_gap = 10;
+        
+        // itera de dois em dois se possível e dispõe as emprestimos lado a lado
+        // (emprestimos sem par são mostradas no centro)
+        Iterator<Emprestimo> iter = emprestimos.iterator();
+        JPanel panel = null;
+        if (iter.hasNext()) {
+            if (this._jPanelLinhaEmprestimoRef != null) {
+                int i = 0;
+                do {
+                    this._jPanelLinhaEmprestimoRef.add(new JDadosEmprestimo(iter.next()), i);
+                } while ((--i < EMPRESTIMOS_POR_LINHA) && iter.hasNext());
+                this._jPanelLinhaEmprestimoRef = null;
+            }
+        } else {
+            // nada adicionado, retorna para evitar revalidação desnecessaria do swing
+            return;
         }
+        while (iter.hasNext()) {
+            panel = new JPanel();
+            panel.setLayout(new FlowLayout());
+            
+            // cria um JPanel com EMPRESTIMOS_POR_LINHA emprestimos se possível,
+            // ou no minimo uma se tiver no fim do loop
+            JDadosEmprestimo emp0 = new JDadosEmprestimo(iter.next());
+            panel.add(emp0, 0);
+            Dimension minDim  = emp0.getMinimumSize();
+            Dimension prefDim = emp0.getPreferredSize();
+            for (int i = 1; i < EMPRESTIMOS_POR_LINHA && iter.hasNext(); ++i) {
+                JDadosEmprestimo emp1 = new JDadosEmprestimo(iter.next());
+                panel.add(emp1, i);
+                
+                Dimension tmpMinDim = emp1.getMinimumSize();
+                Dimension tmpPrefDim = emp1.getPreferredSize();
+                
+                minDim.width  += tmpMinDim.width + w_gap;
+                prefDim.width += tmpPrefDim.width + w_gap;
+                
+                minDim.height  =
+                    tmpMinDim.height > minDim.height ?
+                        tmpMinDim.height : minDim.height;
+                prefDim.height = 
+                    tmpPrefDim.height > prefDim.height ?
+                        tmpPrefDim.height : prefDim.height;
+            }
+            
+            // atualiza as dimensões
+            dim.height += prefDim.height + h_gap;
+            dim.width = (prefDim.width > dim.width ? prefDim.width : dim.width);
+            dim.width = (minDim.width > dim.width ? minDim.width : dim.width);
+            
+            // configura o tamanho do panel
+            panel.setMinimumSize(minDim);
+            panel.setPreferredSize(prefDim);
+            
+            // adiciona o panel
+            jPanelEmprestimos.add(panel);
+        }
+        // atualiza a referencia ao ultimo panel
+        this._jPanelLinhaEmprestimoRef = panel;
+        
         jPanelEmprestimos.setPreferredSize(dim);
         jPanelEmprestimos.revalidate();
     }
