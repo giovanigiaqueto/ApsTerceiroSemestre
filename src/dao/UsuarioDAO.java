@@ -123,23 +123,25 @@ public class UsuarioDAO {
         String sql = "SELECT * FROM Usuario "
                 + "WHERE ativo=? AND id_usuario=?";
         
-        Usuario usuario;
+        Usuario usuario = null;
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
             stmt.setBoolean(1, true);
             stmt.setInt(2, id);
             ResultSet resultado = stmt.executeQuery();
             
-            usuario = new Usuario();
+            if (resultado.next()) {
+                usuario = new Usuario();
             
-            usuario.setIdUsuario(id);
-            usuario.setNomeUsuario(resultado.getString("nome_usuario"));
-            usuario.setCPFUsuario(resultado.getString("cpf_usuario"));
-            usuario.setTelefoneUsuario(resultado.getString("telefone_usuario"));
-            usuario.setSexoUsuario(resultado.getString("sexo_usuario"));
-            usuario.setEnderecoUsuario(resultado.getString("endereco_usuario"));
-            usuario.setEmailUsuario(resultado.getString("email_usuario"));
-            usuario.setSenhaUsuario(resultado.getString("senha_usuario"));
+                usuario.setIdUsuario(id);
+                usuario.setNomeUsuario(resultado.getString("nome_usuario"));
+                usuario.setCPFUsuario(resultado.getString("cpf_usuario"));
+                usuario.setTelefoneUsuario(resultado.getString("telefone_usuario"));
+                usuario.setSexoUsuario(resultado.getString("sexo_usuario"));
+                usuario.setEnderecoUsuario(resultado.getString("endereco_usuario"));
+                usuario.setEmailUsuario(resultado.getString("email_usuario"));
+                usuario.setSenhaUsuario(resultado.getString("senha_usuario"));
+            }
             
             resultado.close();
             stmt.close();

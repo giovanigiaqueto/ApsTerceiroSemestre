@@ -164,19 +164,21 @@ public class ExemplarDAO {
         String sql = "SELECT * FROM Exemplar "
                 + "WHERE ativo=? AND id_exemplar=?";
         
-        Exemplar exemplar;
+        Exemplar exemplar = null;
         try{
             PreparedStatement stmt = conecta.prepareStatement(sql);
             stmt.setBoolean(1, true);
             stmt.setInt(2, id);
             ResultSet resultado = stmt.executeQuery();
             
-            exemplar = new Exemplar();
+            if (resultado.next()) {
+                exemplar = new Exemplar();
             
-            exemplar.setIdExemplar(resultado.getInt("id_exemplar"));
-            exemplar.setIdExemplarLivro(resultado.getInt("id_exemplarLivro"));
-            exemplar.setEstaAlocado(resultado.getBoolean("esta_alocado"));
-            exemplar.setDataObtencao(resultado.getString("data_obtencao"));
+                exemplar.setIdExemplar(resultado.getInt("id_exemplar"));
+                exemplar.setIdExemplarLivro(resultado.getInt("id_exemplarLivro"));
+                exemplar.setEstaAlocado(resultado.getBoolean("esta_alocado"));
+                exemplar.setDataObtencao(resultado.getString("data_obtencao"));
+            }
             
             resultado.close();
             stmt.close();

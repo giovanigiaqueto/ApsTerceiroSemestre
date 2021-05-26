@@ -121,22 +121,24 @@ public class ClienteDAO {
         String sql = "SELECT * FROM Cliente "
                 + "WHERE ativo=? AND id_cliente=?";
         
-        Cliente cliente;
+        Cliente cliente = null;
         try {
             PreparedStatement stmt = conecta.prepareStatement(sql);
             stmt.setBoolean(1, true);
             stmt.setInt(2, id);
             ResultSet resultado = stmt.executeQuery();
             
-            cliente = new Cliente();
+            if (resultado.next()) {
+                cliente = new Cliente();
             
-            cliente.setIdCliente(id);
-            cliente.setNomeCliente(resultado.getString("nome_cliente"));
-            cliente.setCPFCliente(resultado.getString("cpf_cliente"));
-            cliente.setTelefoneCliente(resultado.getString("telefone_cliente"));
-            cliente.setSexoCliente(resultado.getString("sexo_cliente"));
-            cliente.setEnderecoCliente(resultado.getString("endereco_cliente"));
-            cliente.setEmailCliente(resultado.getString("email_cliente"));
+                cliente.setIdCliente(id);
+                cliente.setNomeCliente(resultado.getString("nome_cliente"));
+                cliente.setCPFCliente(resultado.getString("cpf_cliente"));
+                cliente.setTelefoneCliente(resultado.getString("telefone_cliente"));
+                cliente.setSexoCliente(resultado.getString("sexo_cliente"));
+                cliente.setEnderecoCliente(resultado.getString("endereco_cliente"));
+                cliente.setEmailCliente(resultado.getString("email_cliente"));
+            }
             
             resultado.close();
             stmt.close();
