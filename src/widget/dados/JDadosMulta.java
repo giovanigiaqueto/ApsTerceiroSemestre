@@ -49,6 +49,7 @@ public class JDadosMulta extends javax.swing.JPanel {
         jTextFieldEstado = new javax.swing.JTextField();
         jLabelDescricao = new javax.swing.JLabel();
 
+        setMaximumSize(new java.awt.Dimension(400, 281));
         setMinimumSize(new java.awt.Dimension(400, 281));
         setPreferredSize(new java.awt.Dimension(400, 281));
 
