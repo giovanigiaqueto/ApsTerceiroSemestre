@@ -281,6 +281,56 @@ public class ExemplarDAO {
     }
     
     /**
+     * dealoca o exemplar
+     * 
+     * @param idExemplar o id do exemplar a ser dealocado
+     * @return true, se conseguir dealocar, e false se não conseguir
+     */
+    public boolean dealocar(int idExemplar){
+        String sql = "UPDATE Exemplar SET esta_alocado=? "
+                + "WHERE id_exemplar=?";
+        
+        try {
+            PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, false);
+            stmt.setInt(2, idExemplar);
+            
+            stmt.execute();
+            stmt.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * aloca o exemplar
+     * 
+     * @param idExemplar o id do exemplar a ser alocado
+     * @return true, se conseguir alocar, e false se não conseguir
+     */
+    public boolean alocar(int idExemplar){
+        String sql = "UPDATE Exemplar SET esta_alocado=? "
+                + "WHERE id_exemplar=?";
+        
+        try {
+            PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, true);
+            stmt.setInt(2, idExemplar);
+            
+            stmt.execute();
+            stmt.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
      * Coloca o campo ativo como falso
      * 
      * @param idExemplar o id do exemplar a ser desativado

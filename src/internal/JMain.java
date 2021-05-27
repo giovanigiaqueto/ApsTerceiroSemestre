@@ -229,14 +229,6 @@ public class JMain extends javax.swing.JFrame {
         jMenuItemRemoverCategoria.addActionListener(listenerRemover);
         jMenuItemRemoverLivro.addActionListener(listenerRemover);
         jMenuItemRemoverExemplar.addActionListener(listenerRemover);
-        
-        // --------------------- Misc. ---------------------
-        
-        ActionListener listenerMisc = new ActionListener() {
-            public void actionPerformed(ActionEvent evt) { MiscCRUD(evt); }
-        };
-        
-        jMenuItemMiscCheckout.addActionListener(listenerMisc);
     }
 
     /**
@@ -280,8 +272,7 @@ public class JMain extends javax.swing.JFrame {
         jMenuItemRemoverLivro = new javax.swing.JMenuItem();
         jMenuItemRemoverExemplar = new javax.swing.JMenuItem();
         jMenuMisc = new javax.swing.JMenu();
-        jMenuItemMiscCheckout = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItemPagarMulta = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -380,16 +371,13 @@ public class JMain extends javax.swing.JFrame {
 
         jMenuMisc.setText("Outros");
 
-        jMenuItemMiscCheckout.setText("Checkout");
-        jMenuMisc.add(jMenuItemMiscCheckout);
-
-        jMenuItem1.setText("Selecionar Cliente");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemPagarMulta.setText("Pagar multa");
+        jMenuItemPagarMulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jMenuItemPagarMultaActionPerformed(evt);
             }
         });
-        jMenuMisc.add(jMenuItem1);
+        jMenuMisc.add(jMenuItemPagarMulta);
 
         jMenuBar.add(jMenuMisc);
 
@@ -409,15 +397,24 @@ public class JMain extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        try {
-            Cliente cliente = ((JListaClientes) this.panelCRUD).getClienteSelecionado().getCliente();
-            if (cliente != null) {
-                this.cliente = cliente;
-                System.out.println("novo cliente: " + cliente.getNomeCliente());
+    private void jMenuItemPagarMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPagarMultaActionPerformed
+        IPanelCRUD panel = new JListaMultas();
+        ((JListaMultas) panel).addObservadorSelecao(
+            new JListaMultas.ObservadorSelecao() {
+                @Override
+                public void selecao(JDadosMulta multa) {
+                    if (multa != null) {
+                        pagarMulta(multa.getMulta());
+                    }
+                }
             }
-        } catch(ClassCastException cst) {}
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+        );
+        ((JListaMultas) panel).setObservarSelecao(true);
+        ((JListaMultas) panel).carregar();
+        this.mensagemCRUD = new MessageDialogPrimer(
+            "selecione uma multa para pagar", "Aviso");
+        setJanelaCRUD(panel);
+    }//GEN-LAST:event_jMenuItemPagarMultaActionPerformed
 
     private void CadastrarCRUD(ActionEvent evt) {
         
@@ -937,10 +934,10 @@ public class JMain extends javax.swing.JFrame {
             v == JOptionPane.OK_OPTION) {
             
             UsuarioDAO dao = new UsuarioDAO();
-            if (!dao.desativar(usuario)) {
+            if (!dao.deletar(usuario)) {
                 JOptionPane.showMessageDialog(null,
-                    "não foi possivel remover o usuário pois" +
-                    "ele provavelmente possui um cliente com emprestimos ou multas ativas",
+                    "não foi possivel remover o usuário pois\n" +
+                    "ele provavelmente possui um cliente com\nemprestimos ou multas ativas",
                     "Erro", JOptionPane.ERROR_MESSAGE);
                 
             } else return true;
@@ -960,9 +957,9 @@ public class JMain extends javax.swing.JFrame {
             v == JOptionPane.OK_OPTION) {
             
             ClienteDAO dao = new ClienteDAO();
-            if (!dao.desativar(cliente)) {
+            if (!dao.deletar(cliente)) {
                 JOptionPane.showMessageDialog(null,
-                    "não foi possivel remover o cliente pois" +
+                    "não foi possivel remover o cliente pois\n" +
                     "ele provavelmente possui empréstimos ou multas ativas",
                     "Erro", JOptionPane.ERROR_MESSAGE);
                 
@@ -983,9 +980,9 @@ public class JMain extends javax.swing.JFrame {
             v == JOptionPane.OK_OPTION) {
             
             CategoriaDAO dao = new CategoriaDAO();
-            if (!dao.desativar(categoria)) {
+            if (!dao.deletar(categoria)) {
                 JOptionPane.showMessageDialog(null,
-                    "não foi possivel remover a categoria pois" +
+                    "não foi possivel remover a categoria pois " +
                     "ela provavelmente possui livros que pertencem a ela",
                     "Erro", JOptionPane.ERROR_MESSAGE);
                 
@@ -1006,9 +1003,9 @@ public class JMain extends javax.swing.JFrame {
             v == JOptionPane.OK_OPTION) {
             
             LivroDAO dao = new LivroDAO();
-            if (!dao.desativar(livro)) {
+            if (!dao.deletar(livro)) {
                 JOptionPane.showMessageDialog(null,
-                    "não foi possivel remover o livro pois" +
+                    "não foi possivel remover o livro pois " +
                     "ele provavelmente possui exemplares ativos",
                     "Erro", JOptionPane.ERROR_MESSAGE);
                 
@@ -1029,7 +1026,7 @@ public class JMain extends javax.swing.JFrame {
             v == JOptionPane.OK_OPTION) {
             
             ExemplarDAO daoExemplar = new ExemplarDAO();
-            if (!daoExemplar.desativar(exemplar.getIdExemplar())) {
+            if (!daoExemplar.deletar(exemplar)) {
                 JOptionPane.showMessageDialog(null,
                     "não foi possivel remover o exemplar pois " + 
                     "ele provavelmente está emprestado",
@@ -1054,24 +1051,24 @@ public class JMain extends javax.swing.JFrame {
             EmprestimoDAO daoEmprestimo = new EmprestimoDAO();
             ExemplarDAO daoExemplar = new ExemplarDAO();
 
-            if (!daoExemplar.ativar(emprestimo.getIdEmprestimoExemplar())) {
+            if (!daoExemplar.alocar(emprestimo.getIdEmprestimoExemplar())) {
                 JOptionPane.showMessageDialog(null,
                     "não foi possivel remover o emprestimo pois " + 
                     "seu exemplar não pode ser retornado corretamente",
                     "Erro", JOptionPane.ERROR_MESSAGE);
 
-            } else if (!daoEmprestimo.desativar(emprestimo)) {
+            } else if (!daoEmprestimo.deletar(emprestimo)) {
                 
                 JOptionPane.showMessageDialog(null,
                     "não foi possivel remover o emprestimo pois " + 
                     "ele provavelmente tem multas não pagas",
                     "Erro", JOptionPane.ERROR_MESSAGE);
                 
-                if (!daoExemplar.desativar(emprestimo.getIdEmprestimoExemplar())) {
+                if (!daoExemplar.dealocar(emprestimo.getIdEmprestimoExemplar())) {
                     JOptionPane.showMessageDialog(null,
                         "o banco entrou em um estado inconsistente",
                         "Erro", JOptionPane.ERROR_MESSAGE);
-                    
+                
                 } else return true;
             }
         }
@@ -1097,12 +1094,46 @@ public class JMain extends javax.swing.JFrame {
             v == JOptionPane.OK_OPTION) {
             
             MultaDAO dao = new MultaDAO();
-            if (!dao.desativar(multa)) {
+            if (!dao.deletar(multa)) {
                 JOptionPane.showMessageDialog(null,
                     "não foi possivel remover a multa",
                     "Erro", JOptionPane.ERROR_MESSAGE);
                 
             } else return true;
+        }
+        
+        return false;
+    }
+    
+    public boolean pagarMulta(Multa multa) {
+        
+        if (multa.getPagamentoMulta()) {
+            JOptionPane.showMessageDialog(null,
+                "essa multa já foi paga",
+                "Erro", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        int v = JOptionPane.showConfirmDialog(null,
+            "tem certeza que deseja pagar a multa?",
+            "Confirmação", JOptionPane.PLAIN_MESSAGE);
+        
+        if (v == JOptionPane.YES_OPTION ||
+            v == JOptionPane.OK_OPTION) {
+            
+            MultaDAO dao = new MultaDAO();
+            multa.setPagamentoMulta(true);
+            if (!dao.salvar(multa)) {
+                JOptionPane.showMessageDialog(null,
+                    "não foi possivel pagar a multa",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+                
+            } else {
+                JOptionPane.showMessageDialog(null,
+                    "multa paga com sucesso",
+                    "Aviso", JOptionPane.PLAIN_MESSAGE);
+                popJanelaCRUD();
+            }
         }
         
         return false;
@@ -1251,7 +1282,6 @@ public class JMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuAlterar;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jMenuCadastrar;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemAlterarCategoria;
     private javax.swing.JMenuItem jMenuItemAlterarCliente;
     private javax.swing.JMenuItem jMenuItemAlterarExemplar;
@@ -1272,7 +1302,7 @@ public class JMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemListarLivro;
     private javax.swing.JMenuItem jMenuItemListarMulta;
     private javax.swing.JMenuItem jMenuItemListarUsuario;
-    private javax.swing.JMenuItem jMenuItemMiscCheckout;
+    private javax.swing.JMenuItem jMenuItemPagarMulta;
     private javax.swing.JMenuItem jMenuItemRemoverCategoria;
     private javax.swing.JMenuItem jMenuItemRemoverCliente;
     private javax.swing.JMenuItem jMenuItemRemoverExemplar;

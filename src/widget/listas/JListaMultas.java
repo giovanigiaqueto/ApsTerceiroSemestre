@@ -160,6 +160,18 @@ public class JListaMultas extends javax.swing.JPanel implements IListaDados, IPa
                 }
             }
         } while (len > 0);
+        
+        // linha não encontrada, retorna o componente na ultima linha se colidir
+        Component linha = jPanelMultas.getComponent(jPanelMultas.getComponentCount() - 1);
+        Point pos = linha.getLocation();
+        
+        Component p = linha.getComponentAt(
+            new Point(pt.x - pos.x, pt.y - pos.y)
+        );
+        if (p != linha) {
+            return p;
+        }
+        
         return null;
     }
     

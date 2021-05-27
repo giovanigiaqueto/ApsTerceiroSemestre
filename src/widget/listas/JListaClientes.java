@@ -158,6 +158,18 @@ public class JListaClientes extends javax.swing.JPanel implements IListaDados, I
                 }
             }
         } while (len > 0);
+        
+        // linha não encontrada, retorna o componente na ultima linha se colidir
+        Component linha = jPanelClientes.getComponent(jPanelClientes.getComponentCount() - 1);
+        Point pos = linha.getLocation();
+        
+        Component p = linha.getComponentAt(
+            new Point(pt.x - pos.x, pt.y - pos.y)
+        );
+        if (p != linha) {
+            return p;
+        }
+        
         return null;
     }
     

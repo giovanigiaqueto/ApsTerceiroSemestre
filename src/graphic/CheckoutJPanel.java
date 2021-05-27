@@ -441,6 +441,7 @@ public class CheckoutJPanel extends javax.swing.JPanel implements IPanelCRUD {
                 }
             }
             
+            main.livros.clear();
             main.popJanelaCRUD();
         }
     }//GEN-LAST:event_jButtonConcluirActionPerformed
