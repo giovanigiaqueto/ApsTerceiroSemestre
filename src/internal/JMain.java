@@ -9,13 +9,33 @@ import java.awt.Dimension;
 // swing
 import javax.swing.JPanel;
 import javax.swing.JFrame;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import javax.swing.JLabel;
 
 // java util
 import java.util.List;
 import java.util.LinkedList;
 
+// java security
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+// java charset
+import java.nio.charset.StandardCharsets;
+
+// dao
+import dao.UsuarioDAO;
+
 // modelo
+import model.Usuario;
+import model.Cliente;
 import model.Livro;
+
+// dados
+import widget.dados.*;
 
 // suporte
 import widget.support.IPanelCRUD;
@@ -34,8 +54,29 @@ import graphic.CheckoutJPanel;
 import graphic.ContaJUsuario;
 import graphic.ContaJCliente;
 
-
 public class JMain extends javax.swing.JFrame {
+    
+    // sauce: https://www.baeldung.com/sha-256-hashing-java
+    private static String bytesToHex(byte[] hash) {
+        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        for (int i = 0; i < hash.length; i++) {
+            String hex = Integer.toHexString(0xff & hash[i]);
+            if(hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+    
+    // sauce: https://www.baeldung.com/sha-256-hashing-java, modificado levemente
+    public static byte[] sha256(String senha) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] encodedhash = digest.digest(
+            senha.getBytes(StandardCharsets.UTF_8)
+        );
+        return encodedhash;
+    }
     
     public static enum JanelaCRUD {
         
@@ -86,8 +127,29 @@ public class JMain extends javax.swing.JFrame {
         Checkout
     }
     
+    private class MessageDialogPrimer {
+        
+        private String msg;
+        private String title;
+        
+        public MessageDialogPrimer(String msg, String title) {
+            this.msg = msg;
+            this.title = title;
+        }
+        
+        public void prime() {
+            JOptionPane.showMessageDialog(null, msg, title, JOptionPane.PLAIN_MESSAGE);
+        }
+    }
+    
     private JFrame framePopup;
+    private IPanelCRUD panelCRUD;
     public List<Livro> livros;
+    
+    public Cliente cliente;
+    public Usuario usuario;
+    
+    private MessageDialogPrimer mensagemCRUD;
     
     // ======================== Classe Singleton ========================
     
@@ -121,6 +183,7 @@ public class JMain extends javax.swing.JFrame {
         // -------------------- Cadastro --------------------
         
         ActionListener listenerCadastrar = new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) { CadastrarCRUD(evt); }
         };
         
@@ -133,6 +196,7 @@ public class JMain extends javax.swing.JFrame {
         // -------------------- Listagem --------------------
         
         ActionListener listenerListagem = new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) { ListarCRUD(evt); }
         };
         
@@ -144,9 +208,23 @@ public class JMain extends javax.swing.JFrame {
         jMenuItemListarEmprestimo.addActionListener(listenerListagem);
         jMenuItemListarMulta.addActionListener(listenerListagem);
         
+        // -------------------- Listagem --------------------
+        
+        ActionListener alterarListagem = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) { AlterarCRUD(evt); }
+        };
+        
+        jMenuItemAlterarUsuario.addActionListener(alterarListagem);
+        jMenuItemAlterarCliente.addActionListener(alterarListagem);
+        jMenuItemAlterarCategoria.addActionListener(alterarListagem);
+        jMenuItemAlterarLivro.addActionListener(alterarListagem);
+        jMenuItemAlterarExemplar.addActionListener(alterarListagem);
+        
         // -------------------- Remoção --------------------
         
         ActionListener listenerRemover = new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) { RemoverCRUD(evt); }
         };
         
@@ -191,6 +269,8 @@ public class JMain extends javax.swing.JFrame {
         jMenuItemListarEmprestimo = new javax.swing.JMenuItem();
         jMenuItemListarMulta = new javax.swing.JMenuItem();
         jMenuAlterar = new javax.swing.JMenu();
+        jMenuItemAlterarUsuario = new javax.swing.JMenuItem();
+        jMenuItemAlterarCliente = new javax.swing.JMenuItem();
         jMenuItemAlterarCategoria = new javax.swing.JMenuItem();
         jMenuItemAlterarLivro = new javax.swing.JMenuItem();
         jMenuItemAlterarExemplar = new javax.swing.JMenuItem();
@@ -202,6 +282,7 @@ public class JMain extends javax.swing.JFrame {
         jMenuItemRemoverExemplar = new javax.swing.JMenuItem();
         jMenuMisc = new javax.swing.JMenu();
         jMenuItemMiscCheckout = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -253,6 +334,12 @@ public class JMain extends javax.swing.JFrame {
 
         jMenuAlterar.setText("Alterar");
 
+        jMenuItemAlterarUsuario.setText("Usuário");
+        jMenuAlterar.add(jMenuItemAlterarUsuario);
+
+        jMenuItemAlterarCliente.setText("Cliente");
+        jMenuAlterar.add(jMenuItemAlterarCliente);
+
         jMenuItemAlterarCategoria.setText("Categoria");
         jMenuAlterar.add(jMenuItemAlterarCategoria);
 
@@ -288,6 +375,14 @@ public class JMain extends javax.swing.JFrame {
         jMenuItemMiscCheckout.setText("Checkout");
         jMenuMisc.add(jMenuItemMiscCheckout);
 
+        jMenuItem1.setText("Selecionar Cliente");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenuMisc.add(jMenuItem1);
+
         jMenuBar.add(jMenuMisc);
 
         setJMenuBar(jMenuBar);
@@ -305,6 +400,16 @@ public class JMain extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        try {
+            Cliente cliente = ((JListaClientes) this.panelCRUD).getClienteSelecionado().getCliente();
+            if (cliente != null) {
+                this.cliente = cliente;
+                System.out.println("novo cliente: " + cliente.getNomeCliente());
+            }
+        } catch(ClassCastException cst) {}
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void CadastrarCRUD(ActionEvent evt) {
         
@@ -376,6 +481,27 @@ public class JMain extends javax.swing.JFrame {
                 break;
         }
     }
+    private void AlterarCRUD(ActionEvent evt) {
+        
+        switch (evt.getActionCommand().toLowerCase()) {
+            case "usuário":
+                setJanela(JanelaCRUD.AlterarUsuario);
+                break;
+            case "cliente":
+                setJanela(JanelaCRUD.AlterarCliente);
+                break;
+            case "categoria":
+                setJanela(JanelaCRUD.AlterarCategoria);
+                break;
+            case "livro":
+                setJanela(JanelaCRUD.AlterarLivro);
+                break;
+            case "exemplar":
+                setJanela(JanelaCRUD.AlterarExemplar);
+                break;
+        }
+    }
+    
     private void MiscCRUD(ActionEvent evt) {
         
         switch (evt.getActionCommand().toLowerCase()) {
@@ -392,7 +518,63 @@ public class JMain extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JMain().setVisible(true);
+                
+                UsuarioDAO dao;
+                try {
+                    dao = new UsuarioDAO();
+                } catch (RuntimeException e) {
+                    JOptionPane.showMessageDialog(null, "não foi possível conectar com o banco",
+                        "Erro de Conexão", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                final JComponent[] inputs = new JComponent[] {
+                    new JLabel("Usuário"), new JTextField(),
+                    new JLabel("Senha"), new JPasswordField()
+                };
+                
+                Usuario usuario = null;
+                while (true) {
+                    // ler usuário e senha
+                    int resultado = JOptionPane.showConfirmDialog(null, inputs,
+                        "Login", JOptionPane.PLAIN_MESSAGE);    
+                    
+                    // cancelamento
+                    if (resultado != JOptionPane.OK_OPTION) return;
+                    
+                    String nome = ((JTextField) inputs[1]).getText();
+                    String senhaHash = "";
+                    
+                    try {
+                        senhaHash = bytesToHex(sha256(
+                            new String(((JPasswordField) inputs[3]).getPassword())
+                        ));
+                    } catch(NoSuchAlgorithmException e) {
+                        JOptionPane.showMessageDialog(null, "SHA-256 não suportado",
+                            "Erro", JOptionPane.PLAIN_MESSAGE);    
+                    }
+                    
+                    usuario = dao.procurarUsuarioPorNome(nome);
+                    if (usuario != null) {
+                        
+                        System.out.println(senhaHash);
+                        System.out.println(usuario.getSenhaUsuario());
+                        
+                        if (senhaHash.trim().equals(usuario.getSenhaUsuario().trim())) {
+                            System.out.println("LOGIN");
+                            break;
+                        }
+                    }
+                    
+                    JOptionPane.showMessageDialog(null, "usuário ou senha incorretos",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                
+                if (usuario != null) {
+                    new JMain().setVisible(true);
+                    getInstancia().usuario = usuario;
+                    // getInstancia().setJanela(JanelaCRUD.ListarLivro);
+                }
             }
         });
     }
@@ -408,6 +590,8 @@ public class JMain extends javax.swing.JFrame {
                 return new JCadastroUsuario();
             case CadastroCliente:
                 return new JCadastroCliente();
+            case CadastroCategoria:
+                return new JCadastroCategoria();
             case CadastroLivro:
                 return new JCadastroLivro();
             case CadastroExemplar:
@@ -429,6 +613,7 @@ public class JMain extends javax.swing.JFrame {
             case ListarCliente:
                 panel = new JListaClientes();
                 ((JListaClientes) panel).carregar();
+                ((JListaClientes) panel).setObservarSelecao(true);
                 return panel;
             case ListarCategoria:
                 panel = new JListaCategorias();
@@ -450,6 +635,66 @@ public class JMain extends javax.swing.JFrame {
                 panel = new JListaMultas();
                 ((JListaMultas) panel).carregar();
                 return panel;
+                
+            case AlterarUsuario:
+                panel = new JListaUsuarios();
+                ((JListaUsuarios) panel).addObservadorSelecao(
+                    new JListaUsuarios.ObservadorSelecao() {
+                        @Override
+                        public void selecao(JDadosUsuario usuario) {
+                            if (usuario != null) {
+                                IPanelCRUD panel = new JCadastroUsuario(usuario.getUsuario());
+                                setJanelaCRUD(panel);
+                            }
+                        }
+                    }
+                );
+                ((JListaUsuarios) panel).setObservarSelecao(true);
+                ((JListaUsuarios) panel).carregar();
+                this.mensagemCRUD = new MessageDialogPrimer("selecione um usuário", "Aviso");
+                return panel;
+            case AlterarCliente:
+                panel = new JListaClientes();
+                ((JListaClientes) panel).addObservadorSelecao(
+                    new JListaClientes.ObservadorSelecao() {
+                        @Override
+                        public void selecao(JDadosCliente cliente) {
+                            if (cliente != null) {
+                                IPanelCRUD panel = new JCadastroCliente(cliente.getCliente());
+                                setJanelaCRUD(panel);
+                            }
+                        }
+                    }
+                );
+                ((JListaClientes) panel).setObservarSelecao(true);
+                ((JListaClientes) panel).carregar();
+                this.mensagemCRUD = new MessageDialogPrimer("selecione um cliente", "Aviso");
+                return panel;
+            case AlterarCategoria:
+                panel = new JListaCategorias();
+                ((JListaCategorias) panel).addObservadorSelecao(
+                    new JListaCategorias.ObservadorSelecao() {
+                        @Override
+                        public void selecao(JDadosCategoria categoria) {
+                            if (cliente != null) {
+                                IPanelCRUD panel = new JCadastroCategoria(categoria.getCategoria());
+                                setJanelaCRUD(panel);
+                            }
+                        }
+                    }
+                );
+                ((JListaCategoria) panel).setObservarSelecao(true);
+                ((JListaCategoria) panel).carregar();
+                this.mensagemCRUD = new MessageDialogPrimer("selecione uma categoria", "Aviso");
+                return panel;
+            case AlterarExemplar:
+                return null;
+            case AlterarLivro:
+                return null;
+            case AlterarEmprestimo:
+                return null;
+            case AlterarMulta:
+                return null;
         }
         
         return null;
@@ -460,7 +705,19 @@ public class JMain extends javax.swing.JFrame {
         IPanelCRUD panelCRUD = gerarJanelaCRUD(janela);
         if (panelCRUD == null) return false;
         
-        JPanel panel = (JPanel) panelCRUD;    
+        setJanelaCRUD(panelCRUD);
+        return true;
+    }
+    
+    private void setJanelaCRUD(IPanelCRUD panelCRUD) {
+        
+        if (this.mensagemCRUD != null) {
+            this.mensagemCRUD.prime();
+            this.mensagemCRUD = null;
+        }
+        
+        JPanel panel = (JPanel) panelCRUD;
+        
         if (panelCRUD.mostrarComoPopup()) {
             this.framePopup = new JFrame(panelCRUD.getTituloCRUD());
             this.framePopup.add(panel);
@@ -477,6 +734,8 @@ public class JMain extends javax.swing.JFrame {
             CardLayout layout = (CardLayout) jPanelContent.getLayout();
             layout.first(jPanelContent);
             
+            this.panelCRUD = panelCRUD;
+            
             /* // DEBUG START
             System.out.println(
                 panel.getMinimumSize().toString() + '\n' +
@@ -490,9 +749,8 @@ public class JMain extends javax.swing.JFrame {
             jPanelContent.setPreferredSize(panel.getPreferredSize());
             pack();
         }
-
-        return true;
     }
+    
     
     /**
      * 
@@ -514,17 +772,22 @@ public class JMain extends javax.swing.JFrame {
      * remove a janela CRUD em exibição atual e mostra a próxima (caso exista)
      */
     public void popJanelaCRUD() {
-        int cnt = jPanelContent.getComponentCount();
-        if (cnt > 0) {
-            jPanelContent.remove(0);
-        }
-        if (cnt > 1) {
-            this.setTitle(
-                ((IPanelCRUD) jPanelContent.getComponent(0)).getTituloCRUD()
-            );
+        
+        if (this.framePopup != null && this.framePopup.isDisplayable()) {
+            this.framePopup.dispose();
+            this.framePopup = null;
+        } else {
+            int cnt = jPanelContent.getComponentCount();
+            if (cnt > 0) {
+                jPanelContent.remove(0);
+            }
+            if (cnt > 1) {
+                this.setTitle(
+                    ((IPanelCRUD) jPanelContent.getComponent(0)).getTituloCRUD()
+                );
+            }
         }
     }
-    
     
     // ==================== funções estaticas ====================
     
@@ -580,9 +843,12 @@ public class JMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuAlterar;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jMenuCadastrar;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemAlterarCategoria;
+    private javax.swing.JMenuItem jMenuItemAlterarCliente;
     private javax.swing.JMenuItem jMenuItemAlterarExemplar;
     private javax.swing.JMenuItem jMenuItemAlterarLivro;
+    private javax.swing.JMenuItem jMenuItemAlterarUsuario;
     private javax.swing.JMenuItem jMenuItemCadastrarCategoria;
     private javax.swing.JMenuItem jMenuItemCadastrarCliente;
     private javax.swing.JMenuItem jMenuItemCadastrarExemplar;

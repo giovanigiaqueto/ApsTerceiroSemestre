@@ -15,6 +15,7 @@ import dao.ClienteDAO;
 import model.Cliente;
 
 // suporte
+import internal.JMain;
 import widget.support.IPanelCRUD;
 
 public class JCadastroCliente extends javax.swing.JPanel implements IPanelCRUD {
@@ -188,36 +189,36 @@ public class JCadastroCliente extends javax.swing.JPanel implements IPanelCRUD {
             
             boolean sucesso;
             switch (endereco.length) {
-            case 4:
-                jTextFieldComplemento.setText(endereco[0]);
-                jTextFieldRua.setText(endereco[1]);
-                jTextFieldNumero.setText(endereco[2]);
-                jTextFieldCidade.setText(endereco[3]);
+            case 5:
+                jTextFieldComplemento.setText(endereco[0].strip());
+                jTextFieldRua.setText(endereco[1].strip());
+                jTextFieldNumero.setText(endereco[2].strip());
+                jTextFieldCidade.setText(endereco[3].strip());
                 sucesso = false;
                 for (int i = 0; i < jComboBoxEstado.getItemCount(); ++i) {
-                    if (endereco.equals(jComboBoxEstado.getItemAt(WIDTH))) {
+                    if (endereco[4].strip().equals(jComboBoxEstado.getItemAt(WIDTH))) {
                         jComboBoxEstado.setSelectedIndex(i);
                         sucesso = true;
                     }
                 }
                 if (!sucesso) {
-                    jComboBoxEstado.setSelectedItem("");
+                    jComboBoxEstado.setSelectedItem(endereco[4].strip());
                 }
                 break;
-            case 3:
+            case 4:
                 jTextFieldComplemento.setText("");
-                jTextFieldRua.setText(endereco[0]);
-                jTextFieldNumero.setText(endereco[1]);
-                jTextFieldCidade.setText(endereco[2]);
+                jTextFieldRua.setText(endereco[0].strip());
+                jTextFieldNumero.setText(endereco[1].strip());
+                jTextFieldCidade.setText(endereco[2].strip());
                 sucesso = false;
                 for (int i = 0; i < jComboBoxEstado.getItemCount(); ++i) {
-                    if (endereco.equals(jComboBoxEstado.getItemAt(WIDTH))) {
+                    if (endereco[3].strip().equals(jComboBoxEstado.getItemAt(WIDTH))) {
                         jComboBoxEstado.setSelectedIndex(i);
                         sucesso = true;
                     }
                 }
                 if (!sucesso) {
-                    jComboBoxEstado.setSelectedItem("");
+                    jComboBoxEstado.setSelectedItem(endereco[3].strip());
                 }
                 break;
             default:
@@ -558,15 +559,33 @@ public class JCadastroCliente extends javax.swing.JPanel implements IPanelCRUD {
         if (cliente != null) {
             ClienteDAO dao = new ClienteDAO();
             if (cliente.getIdCliente() == 0) {
-                dao.salvar(cliente);
+                if (dao.salvar(cliente)) {
+                    JOptionPane.showMessageDialog(null, 
+                        "cliente cadastrado com sucesso", "Aviso",
+                    JOptionPane.PLAIN_MESSAGE);
+                    JMain.getInstancia().popJanelaCRUD();
+                } else {
+                    JOptionPane.showMessageDialog(null, 
+                        "não foi possível salvar o usuário", "Erro",
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            } else if (dao.alterar(cliente)) {
+                
+                JOptionPane.showMessageDialog(null, 
+                    "cliente alterado com sucesso", "Aviso",
+                    JOptionPane.PLAIN_MESSAGE);
+                JMain.getInstancia().popJanelaCRUD();
+                
             } else {
-                dao.alterar(cliente);
+                JOptionPane.showMessageDialog(null, 
+                    "não foi possível alterar o usuário", "Erro",
+                    JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_jButtonConfirmarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
-        // TODO add your handling code here:
+        JMain.getInstancia().popJanelaCRUD();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jComboBoxSexoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxSexoItemStateChanged

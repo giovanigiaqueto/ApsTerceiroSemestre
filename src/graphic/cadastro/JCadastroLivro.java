@@ -13,6 +13,7 @@ import java.awt.Color;
 // dao
 import dao.CategoriaDAO;
 import dao.LivroDAO;
+import internal.JMain;
 
 // model
 import model.Categoria;
@@ -40,6 +41,22 @@ public class JCadastroLivro extends javax.swing.JPanel implements IPanelCRUD {
     public JCadastroLivro() {
         initComponents();
         listarCategorias();
+    }
+    
+    public JCadastroLivro(Livro livro) {
+        this();
+        if (livro != null) {
+            jTextFieldNomeLivro.setText(livro.getNomeLivro());
+            jTextFieldISBN.setText(livro.getISBNLivro());
+            jTextFieldNomeAutor.setText(livro.getAutorLivro());
+            jTextFieldNomeEditora.setText(livro.getEditoraLivro());
+            jFormattedTextFieldEdicao.setText(String.valueOf(livro.getEdicaoLivro()));
+            jFormattedTextFieldDataLancamento.setText(livro.getDataLancamentoLivro());
+            jComboBoxCategoria.setSelectedItem(livro.getNomeLivroCategoria());
+            jFormattedTextFieldPaginas.setText(String.valueOf(livro.getPaginasLivro()));
+            jFormattedTextFieldPreco.setText(String.valueOf(livro.getPrecoLivro()).replace(".", ","));
+            jTextAreaSinopse.setText(livro.getSinopseLivro());
+        }
     }
     
     private void listarCategorias(){
@@ -296,6 +313,11 @@ public class JCadastroLivro extends javax.swing.JPanel implements IPanelCRUD {
         jButtonCancelar.setText("Cancelar");
         jButtonCancelar.setMaximumSize(new java.awt.Dimension(125, 25));
         jButtonCancelar.setMinimumSize(new java.awt.Dimension(125, 25));
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelButtonsLayout = new javax.swing.GroupLayout(jPanelButtons);
         jPanelButtons.setLayout(jPanelButtonsLayout);
@@ -405,14 +427,28 @@ public class JCadastroLivro extends javax.swing.JPanel implements IPanelCRUD {
             livro.setPrecoLivro(Double.parseDouble(preco));
             livro.setSinopseLivro(sinopse);
 
-            if (livroDao.salvar(livro)) {
-                JOptionPane.showMessageDialog(new JFrame(),
-                    "Livro " + nome + " salvo com sucesso!", "Livro salvo!", 
-                    JOptionPane.INFORMATION_MESSAGE);
+            if (livro.getIdLivro() == 0) {
+                if (livroDao.salvar(livro)) {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                        "Livro " + nome + " salvo com sucesso!", "Livro salvo!", 
+                        JOptionPane.INFORMATION_MESSAGE);
+                    JMain.getInstancia().popJanelaCRUD();
+                } else {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                        "Não foi possível salvar o livro", "Algo deu errado!", 
+                        JOptionPane.ERROR_MESSAGE);
+                }
             } else {
-                JOptionPane.showMessageDialog(new JFrame(),
-                    "Não foi possível salvar o livro", "Algo deu errado!", 
-                    JOptionPane.ERROR_MESSAGE);
+                if (livroDao.alterar(livro)) {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                        "Livro " + nome + " alterado com sucesso!", "Livro salvo!", 
+                        JOptionPane.INFORMATION_MESSAGE);
+                    JMain.getInstancia().popJanelaCRUD();
+                } else {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                        "Não foi possível alterado o livro", "Algo deu errado!", 
+                        JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
 
@@ -514,6 +550,10 @@ public class JCadastroLivro extends javax.swing.JPanel implements IPanelCRUD {
                 jTextFieldISBN.getText().length() >= 17)//13 números + 4 traçõs no máximo = 17 caracteres
             evt.consume();
     }//GEN-LAST:event_jTextFieldISBNKeyTyped
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        JMain.getInstancia().popJanelaCRUD();
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     /**
      * Retorna a quantidade de vezes em que o caractere c aparece na String s

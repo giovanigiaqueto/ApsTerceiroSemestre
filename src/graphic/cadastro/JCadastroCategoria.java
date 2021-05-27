@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import model.Categoria;
 
 // suporte
+import internal.JMain;
 import widget.support.IPanelCRUD;
 
 public class JCadastroCategoria extends javax.swing.JPanel implements IPanelCRUD {
@@ -273,27 +274,32 @@ public class JCadastroCategoria extends javax.swing.JPanel implements IPanelCRUD
                         "Categoria \"" + categoria.getNomeCategoria() 
                             + "\" salva com sucesso!", "Categoria salva!",
                             JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(new JFrame(),
-                        "Não foi possível salvar a categoria \"" + 
-                            categoria.getNomeCategoria() + "\"!",
-                            "Algo deu errado!", JOptionPane.ERROR_MESSAGE);   
+                    JMain.getInstancia().popJanelaCRUD();
+                    return;
                 }
+                
+                JOptionPane.showMessageDialog(new JFrame(),
+                    "Não foi possível salvar a categoria \"" + 
+                        categoria.getNomeCategoria() + "\"!",
+                        "Algo deu errado!", JOptionPane.ERROR_MESSAGE);
+                
             } else {
                 if (dao.alterar(categoria)) {
                     JOptionPane.showMessageDialog(new JFrame(), 
                         "Categoria \"" + categoria.getNomeCategoria() 
                             + "\" alterada com sucesso!", "Categoria alterada!",
                             JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(new JFrame(),
-                        "Não foi possível alterar a categoria \"" + 
-                            categoria.getNomeCategoria() + "\"!",
-                            "Algo deu errado!", JOptionPane.ERROR_MESSAGE);   
+                    JMain.getInstancia().popJanelaCRUD();
+                    return;
                 }
+                
+                JOptionPane.showMessageDialog(new JFrame(),
+                    "Não foi possível alterar a categoria \"" + 
+                        categoria.getNomeCategoria() + "\"!",
+                        "Algo deu errado!", JOptionPane.ERROR_MESSAGE);
             }
         }
-
+        
         lembreteCamposEmBranco();
     }//GEN-LAST:event_jButtonConcluirActionPerformed
 

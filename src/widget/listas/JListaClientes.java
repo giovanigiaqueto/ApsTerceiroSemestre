@@ -1,22 +1,31 @@
 package widget.listas;
 
 // awt
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
 import java.awt.Dimension;
+import java.awt.Point;
 
 // swing
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 // java util
 import java.util.List;
 
 // dao
 import dao.ClienteDAO;
+import java.awt.Color;
+import java.awt.event.MouseEvent;
+import java.util.LinkedList;
+import javax.swing.BorderFactory;
 
 // modelos
 import model.Cliente;
 
 // widget
 import widget.dados.JDadosCliente;
+import widget.dados.JDadosEmprestimo;
 
 // model
 import widget.support.IPanelCRUD;
@@ -28,6 +37,22 @@ public class JListaClientes extends javax.swing.JPanel implements IListaDados, I
     
     @Override
     public String getTituloCRUD() { return "Lista de Clientes"; }
+    
+    // se está observando seleções
+    private boolean observarSelecao;
+    
+    // observador de seleção (MouseClick event handler)
+    private MouseAdapter observadorSelecao;
+    
+    private JDadosCliente clienteSelecionado; // cliente selecionado 
+    private Border        bordaSalva;         // borda normal do livro selecionado
+    private Border        bordaSelecao;       // borda do livro selecionado
+    
+    public interface ObservadorSelecao {
+        public void selecao(JDadosCliente cliente);
+    };
+    
+    private List<ObservadorSelecao> observadoresSelecao;
     
     /**
      * Creates new form JListaLivros
@@ -41,6 +66,39 @@ public class JListaClientes extends javax.swing.JPanel implements IListaDados, I
         Dimension dim = jPanelClientes.getPreferredSize();
         dim.height = 0;
         jPanelClientes.setPreferredSize(dim);
+        
+        observadoresSelecao = new LinkedList<ObservadorSelecao>();
+        
+        // borda de seleção
+        bordaSelecao = BorderFactory.createLineBorder(Color.orange);
+        
+        // observador de seleção
+        observadorSelecao = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent ev) {
+                // DEBUG System.out.println("observador executado");
+                JPanel panel = (JPanel) bsearchComponente(ev.getPoint());
+                // verifica se um livro foi selecionado
+                if (panel != null) {
+                    // reseta a borda do livro que estava selecionado
+                    if (clienteSelecionado != null) {
+                        clienteSelecionado.setBorder(bordaSalva);
+                    }
+                    // salva a borda do livro que foi selecionado
+                    // e troca sua borda autal pela borda de seleção
+                    bordaSalva = panel.getBorder();
+                    panel.setBorder(bordaSelecao);
+                    
+                    // salva o exemplar selecionado
+                    clienteSelecionado = (JDadosCliente) panel;
+                    
+                    // executa todos os observadores de selecao
+                    for (ObservadorSelecao obs : observadoresSelecao) {
+                        obs.selecao(clienteSelecionado);
+                    }
+                }
+            }
+        };
     }
     
     public void inserirClientes(List<Cliente> clientes) {
@@ -63,6 +121,74 @@ public class JListaClientes extends javax.swing.JPanel implements IListaDados, I
         }
         jPanelClientes.setPreferredSize(dim);
         jPanelClientes.revalidate();
+    }
+    
+    /**
+     * procura o componente na localização dada, retorna null caso não exista
+     * 
+     * implementação: procura binaria, seguido de procura de colisão
+     * 
+     * @param pt localização relativa a jPanelLivros
+     * @return o exmplar na localização
+     */
+    private Component bsearchComponente(Point pt) {
+        int len = jPanelClientes.getComponentCount();
+        int idx = 0;
+        do {
+            Component comp = jPanelClientes.getComponent(idx);
+            Point pos = comp.getLocation();
+            Dimension dim = comp.getSize();
+            len /= 2;
+            // DEBUG System.out.println("curr line: " + idx);
+            if (pt.y < pos.y) {
+                // falha, procurar na metade de baixo
+                // DEBUG System.out.println("dec");
+                idx -= len;
+            } else if (pt.y >= pos.y + dim.height) {
+                // falha, procurar na metade de cima
+                // DEBUG System.out.println("inc");
+                idx += len;
+            } else {
+                // linha encontrada, retorna o componente dentro da linha que colidir
+                Component p = comp.getComponentAt(
+                    new Point(pt.x - pos.x, pt.y - pos.y)
+                );
+                if (p != comp) {
+                    return p;
+                }
+            }
+        } while (len > 0);
+        return null;
+    }
+    
+    public JDadosCliente getClienteSelecionado() {
+        return clienteSelecionado;
+    }
+    
+    public void setObservarSelecao(boolean observarSelecao) {
+        if (this.observarSelecao == observarSelecao) return;
+        
+        if (observarSelecao) {
+            jPanelClientes.addMouseListener(observadorSelecao);
+        } else {
+            jPanelClientes.removeMouseListener(observadorSelecao);
+        }
+        this.observarSelecao = observarSelecao;
+    }
+    
+    public boolean getObservarSelecao() {
+        return this.observarSelecao;
+    }
+    
+    public void addObservadorSelecao(ObservadorSelecao obs) {
+        if (observadoresSelecao != null && obs != null) {
+            observadoresSelecao.add(obs);
+        }
+    }
+    public void removeObservadorSelecao(ObservadorSelecao obs) {
+        if (observadoresSelecao != null && obs != null) {
+            observadoresSelecao.remove(obs);
+        }
     }
     
     // ==================== implements IListaDados ====================

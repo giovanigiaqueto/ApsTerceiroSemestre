@@ -13,6 +13,7 @@ import java.awt.Color;
 
 // dao
 import dao.UsuarioDAO;
+import internal.JMain;
 
 // modelo
 import model.Usuario;
@@ -573,17 +574,31 @@ public class JCadastroUsuario extends javax.swing.JPanel implements IPanelCRUD {
         if (usuario != null) {
             UsuarioDAO dao = new UsuarioDAO();
             if (usuario.getIdUsuario() == 0) {
-                // TODO: pegar e confirmar senha para cadastro do usuário
-                dao.salvar(usuario);
-            } else {
-                // TODO: pegar senha do usuário para alterar o cadastro
-                dao.alterar(usuario);
+                if (!dao.salvar(usuario)) {
+                    JOptionPane.showMessageDialog(null, 
+                        "não foi possível salvar o usuário", "Erro",
+                        JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            } else if (!dao.alterar(usuario)) {
+                
+                JOptionPane.showMessageDialog(null, 
+                    "não foi possível alterar o usuário", "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+                
+                return;
             }
+            
+            JOptionPane.showMessageDialog(null, 
+                "cliente cadastrado", "Aviso",
+                JOptionPane.PLAIN_MESSAGE);
+            
+            JMain.getInstancia().popJanelaCRUD();
         }
     }//GEN-LAST:event_jButtonConfirmarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
-        // TODO add your handling code here:
+        JMain.getInstancia().popJanelaCRUD();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jComboBoxSexoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxSexoItemStateChanged

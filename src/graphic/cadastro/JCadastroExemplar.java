@@ -7,6 +7,7 @@ package graphic.cadastro;
 
 import dao.ExemplarDAO;
 import dao.LivroDAO;
+import internal.JMain;
 import internal.Main;
 import java.awt.Color;
 import javax.swing.JFrame;
@@ -197,6 +198,11 @@ public class JCadastroExemplar extends javax.swing.JPanel implements IPanelCRUD 
         jPanelButtons.add(jButtonConcluir, gridBagConstraints);
 
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
@@ -281,6 +287,9 @@ public class JCadastroExemplar extends javax.swing.JPanel implements IPanelCRUD 
                 JOptionPane.showMessageDialog(new JFrame(), 
                     "Todos os " + quantidade + " exemplares foram cadastrados com sucesso!",
                         "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+                
+                JMain.getInstancia().popJanelaCRUD();
+                
             } else {
                 JOptionPane.showMessageDialog(new JFrame(), 
                     "Não foi possível salvar os exemplares!",
@@ -297,6 +306,10 @@ public class JCadastroExemplar extends javax.swing.JPanel implements IPanelCRUD 
                 jTextFieldISBN.getText().length() >= 17)//13 números + 4 traçõs no máximo = 17 caracteres
             evt.consume();
     }//GEN-LAST:event_jTextFieldISBNKeyTyped
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        JMain.getInstancia().popJanelaCRUD();
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
     
     /**
      * Coloca a cor dos componentes para uma cor vermelho claro 

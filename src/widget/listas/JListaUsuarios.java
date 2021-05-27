@@ -2,9 +2,11 @@ package widget.listas;
 
 // awt
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
 
 // swing
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 // java util
 import java.util.List;
@@ -28,6 +30,22 @@ public class JListaUsuarios extends javax.swing.JPanel implements IListaDados, I
     
     @Override
     public String getTituloCRUD() { return "Lista de Usuários"; }
+    
+    // se está observando seleções
+    private boolean observarSelecao;
+    
+    // observador de seleção (MouseClick event handler)
+    private MouseAdapter observadorSelecao;
+    
+    private JDadosUsuario usuarioSelecionado; // usuário selecionado 
+    private Border        bordaSalva;         // borda normal do livro selecionado
+    private Border        bordaSelecao;       // borda do livro selecionado
+    
+    public interface ObservadorSelecao {
+        public void selecao(JDadosUsuario usuario);
+    };
+    
+    private List<ObservadorSelecao> observadoresSelecao;
     
     /**
      * Creates new form JListaLivros
@@ -63,6 +81,36 @@ public class JListaUsuarios extends javax.swing.JPanel implements IListaDados, I
         }
         jPanelUsuarios.setPreferredSize(dim);
         jPanelUsuarios.revalidate();
+    }
+    
+    public JDadosUsuario getUsuarioSelecionado() {
+        return usuarioSelecionado;
+    }
+    
+    public void setObservarSelecao(boolean observarSelecao) {
+        if (this.observarSelecao == observarSelecao) return;
+        
+        if (observarSelecao) {
+            jPanelUsuarios.addMouseListener(observadorSelecao);
+        } else {
+            jPanelUsuarios.removeMouseListener(observadorSelecao);
+        }
+        this.observarSelecao = observarSelecao;
+    }
+    
+    public boolean getObservarSelecao() {
+        return this.observarSelecao;
+    }
+    
+    public void addObservadorSelecao(ObservadorSelecao obs) {
+        if (observadoresSelecao != null && obs != null) {
+            observadoresSelecao.add(obs);
+        }
+    }
+    public void removeObservadorSelecao(ObservadorSelecao obs) {
+        if (observadoresSelecao != null && obs != null) {
+            observadoresSelecao.remove(obs);
+        }
     }
     
     // ==================== implements IListaDados ====================
