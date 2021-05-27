@@ -8,11 +8,11 @@ INSERT INTO Usuario(
 	senha_usuario
 )
 VALUES
-('Laura', '05983591096', '3730-9419', 'feminino', 'Rua Tadeu Rangel Pestana, 506, Rio de Janeiro, São Paulo', 'eu.tellus@venenatisvel.edu', 'fc8252c8dc55839967c58b9ad755a59b61b67c13227ddae4bd3f78a38bf394f7'), /* senha=adimin */
-('Mário', '19076557004', '1651-8231', 'masculino', 'Rua Francisco Olandim, 204, São Jose do Rio Preto, São Paulo', 'magna.Lorem@nasceturridiculus.com', '606b7d0891b4db74edb21c241c302f298bf6ca4a6158deca6b58c15c950ab5f2'), /* senha=62 */
-('Renata', '29715931006', '7535-2202', 'feminino', 'Avenida José Antonio de Paula e Silva, 1028, Barretos, São Paulo', 'ut.quam@aliquamarcu.com', 'f33ae3bc9a22cd7564990a794789954409977013966fb1a8f43c35776b833a95'), /* senha=12345 */
-('Paulo', '71871900000', '8447-9066', 'masculino', 'Avenida Jorge Guilherme Senger, 2007, São Paulo, São Paulo', 'a.arcu.Sed@Quisque.com', '606b7d0891b4db74edb21c241c302f298bf6ca4a6158deca6b58c15c950ab5f2'), /* senha=62 */
-('Clarke', '24731104092', '6202-4448', 'masculino', 'Rua João Marcos, 760, Brasília, Distrito Federal', 'metus.In@imperdiet.edu', '654ee9da442fa353f59f11beb688fc7f76c8de62a6c18b2a181fdde2a27cc3ef'); /* senha=48 */
+('Laura', '05983591096', '3730-9419', 'feminino', 'Rua Tadeu Rangel Pestana, 506, Rio de Janeiro, São Paulo', 'eu.tellus@venenatisvel.edu', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918'), /* senha=admin */
+('Mário', '19076557004', '1651-8231', 'masculino', 'Rua Francisco Olandim, 204, São Jose do Rio Preto, São Paulo', 'magna.Lorem@nasceturridiculus.com', '606b7d0891b4db74edb21c241c302f298bf6ca4a6158deca6b58c15c950ab5f2'),
+('Renata', '29715931006', '7535-2202', 'feminino', 'Avenida José Antonio de Paula e Silva, 1028, Barretos, São Paulo', 'ut.quam@aliquamarcu.com', 'f33ae3bc9a22cd7564990a794789954409977013966fb1a8f43c35776b833a95'),
+('Paulo', '71871900000', '8447-9066', 'masculino', 'Avenida Jorge Guilherme Senger, 2007, São Paulo, São Paulo', 'a.arcu.Sed@Quisque.com', '606b7d0891b4db74edb21c241c302f298bf6ca4a6158deca6b58c15c950ab5f2'),
+('Clarke', '24731104092', '6202-4448', 'masculino', 'Rua João Marcos, 760, Brasília, Distrito Federal', 'metus.In@imperdiet.edu', '654ee9da442fa353f59f11beb688fc7f76c8de62a6c18b2a181fdde2a27cc3ef');
 
 INSERT INTO Cliente(
 	nome_cliente,
