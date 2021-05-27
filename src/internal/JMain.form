@@ -34,6 +34,16 @@
                 <Property name="text" type="java.lang.String" value="Exemplar"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemCadastrarEmprestimo">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Empr&#xe9;stimo"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemCadastrarMulta">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Multa"/>
+              </Properties>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuListar">
@@ -106,6 +116,11 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemAlterarExemplar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Exemplar"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemAlterarMulta">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Multa"/>
               </Properties>
             </MenuItem>
           </SubComponents>

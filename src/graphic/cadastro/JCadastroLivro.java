@@ -46,12 +46,16 @@ public class JCadastroLivro extends javax.swing.JPanel implements IPanelCRUD {
     public JCadastroLivro(Livro livro) {
         this();
         if (livro != null) {
+            
+            String[] arrayData = livro.getDataLancamentoLivro().split("-");
+            String data = arrayData[2] + '/' + arrayData[1] + '/' + arrayData[0];
+            
             jTextFieldNomeLivro.setText(livro.getNomeLivro());
             jTextFieldISBN.setText(livro.getISBNLivro());
             jTextFieldNomeAutor.setText(livro.getAutorLivro());
             jTextFieldNomeEditora.setText(livro.getEditoraLivro());
             jFormattedTextFieldEdicao.setText(String.valueOf(livro.getEdicaoLivro()));
-            jFormattedTextFieldDataLancamento.setText(livro.getDataLancamentoLivro());
+            jFormattedTextFieldDataLancamento.setText(data);
             jComboBoxCategoria.setSelectedItem(livro.getNomeLivroCategoria());
             jFormattedTextFieldPaginas.setText(String.valueOf(livro.getPaginasLivro()));
             jFormattedTextFieldPreco.setText(String.valueOf(livro.getPrecoLivro()).replace(".", ","));

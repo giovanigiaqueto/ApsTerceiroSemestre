@@ -118,6 +118,47 @@ public class EmprestimoDAO {
     }
     
     /**
+     * Retorna um Emprestimo dado seu id, gera RuntimeError se esse id não existir
+     * 
+     * @param id o id do emprestimo a ser procurado
+     * 
+     * @return o exemplar com o id
+     */
+    public Emprestimo procurarEmprestimo(int id){
+        String sql = "SELECT * FROM Emprestimo "
+                + "WHERE ativo=? AND id_emprestimo=?";
+        
+        Emprestimo emprestimo = null;
+        try{
+            PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setBoolean(1, true);
+            stmt.setInt(2, id);
+            ResultSet resultado = stmt.executeQuery();
+            
+            if (resultado.next()) {
+                emprestimo = new Emprestimo();
+            
+                emprestimo.setIdEmprestimo(resultado.getInt("id_emprestimo"));
+                emprestimo.setIdEmprestimoCliente(resultado.getInt("id_emprestimo_cliente"));
+                emprestimo.setIdEmprestimoExemplar(resultado.getInt("id_emprestimo_exemplar"));
+                emprestimo.setIdEmprestimoUsuario(resultado.getInt("id_emprestimo_usuario"));
+                emprestimo.setDataEmprestimo(resultado.getString("data_emprestimo"));
+                emprestimo.setDataDevolucao(resultado.getString("data_devolucao"));
+            }
+            
+            resultado.close();
+            stmt.close();
+            
+        } catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            throw new RuntimeException(ex);
+        }
+        
+        return emprestimo;
+    }
+    
+    
+    /**
      * Salva o emprestimo passado pelo parâmetro no banco de dados.
      * 
      * @param emprestimo o emprestimo a ser salvo

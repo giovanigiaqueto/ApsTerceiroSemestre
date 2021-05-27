@@ -1,7 +1,8 @@
 package graphic.cadastro;
 
 // dao
-import dao.CategoriaDAO;
+import dao.MultaDAO;
+import dao.EmprestimoDAO;
 
 // awt
 import java.awt.Color;
@@ -11,32 +12,56 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 // modelo
-import model.Categoria;
+import model.Multa;
+import model.Emprestimo;
 
 // suporte
 import internal.JMain;
 import widget.support.IPanelCRUD;
 
-public class JCadastroCategoria extends javax.swing.JPanel implements IPanelCRUD {
+public class JCadastroMulta extends javax.swing.JPanel implements IPanelCRUD {
     
     @Override
     public boolean mostrarComoPopup() { return true; }
     
     @Override
-    public String getTituloCRUD() { return "Cadastrar Categoria"; }
+    public String getTituloCRUD() { return "Cadastrar Multa"; }
 
-    private int idCategoria;
+    private int idMulta, idCliente, idEmprestimo;
     
     /**
      * Creates new form JCadastroCategoria
      */
-    public JCadastroCategoria() {
+    private JCadastroMulta() {
         initComponents();
     }
     
-    public JCadastroCategoria(Categoria categoria) {
+    public JCadastroMulta(Emprestimo emprestimo) {
         this(); // chama o costrutor padrão
-        setCategoria(categoria);
+        if (emprestimo != null) {
+            this.idCliente = emprestimo.getIdEmprestimoCliente();
+            this.idEmprestimo = emprestimo.getIdEmprestimo();
+        }
+    }
+    
+    public JCadastroMulta(Emprestimo emprestimo, Multa multa) {
+        this(emprestimo); // chama outro costrutor mais simples
+        this.setMulta(multa);
+    }
+    
+    public JCadastroMulta(Multa multa) {
+        
+        if (multa != null) {
+            System.out.println(multa);
+            EmprestimoDAO dao = new EmprestimoDAO();
+            Emprestimo emprestimo = dao.procurarEmprestimo(multa.getIdMultaEmprestimo());
+            
+            if (emprestimo != null) {
+                this.idCliente = emprestimo.getIdEmprestimoCliente();
+                this.idEmprestimo = emprestimo.getIdEmprestimo();
+            }
+            this.setMulta(multa);
+        }
     }
 
     /**
@@ -54,11 +79,11 @@ public class JCadastroCategoria extends javax.swing.JPanel implements IPanelCRUD
         jLabelHeader = new javax.swing.JLabel();
         jPanelForm = new javax.swing.JPanel();
         jScrollPane = new javax.swing.JScrollPane();
-        jTextAreaDescCategoria = new javax.swing.JTextArea();
+        jTextAreaDescMulta = new javax.swing.JTextArea();
         jLabelDescCategoria = new javax.swing.JLabel();
         jLabelNomeCategoria = new javax.swing.JLabel();
-        jTextFieldNomeCategoria = new javax.swing.JTextField();
         fillerEspacamento = new javax.swing.Box.Filler(new java.awt.Dimension(0, 16), new java.awt.Dimension(0, 16), new java.awt.Dimension(32767, 16));
+        jFormattedTextFieldValor = new javax.swing.JFormattedTextField();
         jPanelButtons = new javax.swing.JPanel();
         jButtonConcluir = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
@@ -81,28 +106,31 @@ public class JCadastroCategoria extends javax.swing.JPanel implements IPanelCRUD
 
         jLabelHeader.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabelHeader.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelHeader.setText("Cadastro Categoria");
+        jLabelHeader.setText("Cadastro Multa");
 
         jPanelForm.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanelForm.setMinimumSize(new java.awt.Dimension(344, 305));
 
-        jTextAreaDescCategoria.setColumns(20);
-        jTextAreaDescCategoria.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextAreaDescCategoria.setLineWrap(true);
-        jTextAreaDescCategoria.setRows(5);
-        jTextAreaDescCategoria.setWrapStyleWord(true);
-        jTextAreaDescCategoria.setMargin(new java.awt.Insets(4, 4, 4, 4));
-        jScrollPane.setViewportView(jTextAreaDescCategoria);
+        jTextAreaDescMulta.setColumns(20);
+        jTextAreaDescMulta.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jTextAreaDescMulta.setLineWrap(true);
+        jTextAreaDescMulta.setRows(5);
+        jTextAreaDescMulta.setWrapStyleWord(true);
+        jTextAreaDescMulta.setMargin(new java.awt.Insets(4, 4, 4, 4));
+        jScrollPane.setViewportView(jTextAreaDescMulta);
 
         jLabelDescCategoria.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jLabelDescCategoria.setText("Descrição da Categoria");
+        jLabelDescCategoria.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelDescCategoria.setText("Descrição da Multa");
 
         jLabelNomeCategoria.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jLabelNomeCategoria.setText("Nome da Categoria");
+        jLabelNomeCategoria.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelNomeCategoria.setText("Valor da Multa");
 
-        jTextFieldNomeCategoria.setColumns(30);
-        jTextFieldNomeCategoria.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextFieldNomeCategoria.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        jFormattedTextFieldValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat(""))));
+        jFormattedTextFieldValor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jFormattedTextFieldValor.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jFormattedTextFieldValor.setMargin(new java.awt.Insets(2, 2, 2, 2));
 
         javax.swing.GroupLayout jPanelFormLayout = new javax.swing.GroupLayout(jPanelForm);
         jPanelForm.setLayout(jPanelFormLayout);
@@ -111,11 +139,14 @@ public class JCadastroCategoria extends javax.swing.JPanel implements IPanelCRUD
             .addGroup(jPanelFormLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelDescCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fillerEspacamento, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                     .addComponent(jScrollPane)
-                    .addComponent(jTextFieldNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jLabelDescCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelNomeCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelFormLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jFormattedTextFieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelFormLayout.setVerticalGroup(
@@ -124,7 +155,7 @@ public class JCadastroCategoria extends javax.swing.JPanel implements IPanelCRUD
                 .addContainerGap()
                 .addComponent(jLabelNomeCategoria)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextFieldNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jFormattedTextFieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(fillerEspacamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -151,6 +182,11 @@ public class JCadastroCategoria extends javax.swing.JPanel implements IPanelCRUD
         jPanelButtons.add(jButtonConcluir, gridBagConstraints);
 
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
@@ -222,17 +258,26 @@ public class JCadastroCategoria extends javax.swing.JPanel implements IPanelCRUD
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    public Categoria __innerGetCategoria(boolean mostrarErros) {
-        String nome = jTextFieldNomeCategoria.getText().trim();
-        String desc = jTextAreaDescCategoria.getText().trim();
+    public Multa __innerGetMulta(boolean mostrarErros) {
+        String valor = jFormattedTextFieldValor.getText().trim();
+        String desc  = jTextAreaDescMulta.getText().trim();
         
         String msg;
-        if (nome.isEmpty()) {
-            msg = "o campo \"Nome da Categoria\" não foi preenchido";
+        if (valor.isEmpty()) {
+            msg = "o campo \"Valor da Multa\" não foi preenchido";
         } else if (desc.isEmpty()) {
-            msg = "o campo \"Descrição da Categoria\" não foi preenchido";
+            msg = "o campo \"Descrição da Multa\" não foi preenchido";
         } else {
-            return new Categoria(idCategoria, nome, desc);
+            
+            double valorDbl = Double.parseDouble(valor.replace(",", "."));
+            if (valorDbl <= 0.0) {
+                msg = "o valor da multa deve ser maior do que zero";
+            } else {
+                return new Multa(
+                    idMulta, idCliente, idEmprestimo,
+                        desc, valorDbl, false
+                );
+            }
         }
         
         if (mostrarErros) {
@@ -244,65 +289,74 @@ public class JCadastroCategoria extends javax.swing.JPanel implements IPanelCRUD
     
     // ========== GETTER ==========
     
-    public Categoria getCategoria() {
-        return __innerGetCategoria(false);
+    public Multa getMulta() {
+        return __innerGetMulta(false);
     }
     
     // ========== SETTER ==========
     
-    public final void setCategoria(Categoria categoria) {
+    public final void setMulta(Multa multa) {
         
-        if (categoria != null) {
-            jTextFieldNomeCategoria.setText(categoria.getNomeCategoria().trim());
-            jTextAreaDescCategoria.setText(categoria.getDescricaoCategoria().trim());
+        if (multa != null) {
+            jFormattedTextFieldValor.setText(
+                String.valueOf(multa.getValorMulta()).replace(".", ",")
+            );
+            jTextAreaDescMulta.setText(multa.getDescricaoMulta().trim());
+            
+            this.idMulta = multa.getIdMulta();
+            this.idCliente = multa.getIdMultaCliente();
+            this.idEmprestimo = multa.getIdMultaEmprestimo();
+            
         } else {
-            jTextFieldNomeCategoria.setText("");
-            jTextAreaDescCategoria.setText("");
+            jFormattedTextFieldValor.setText("");
+            jTextAreaDescMulta.setText("");
+            
+            this.idMulta = 0;
+            this.idCliente = 0;
+            this.idEmprestimo = 0;
         }
-        
-        this.idCategoria = categoria.getIdCategoria();
     }
     
     private void jButtonConcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConcluirActionPerformed
         
-        Categoria categoria = this.__innerGetCategoria(true);
-        CategoriaDAO dao = new CategoriaDAO();
-        if (categoria != null) {
+        Multa multa = this.__innerGetMulta(true);
+        MultaDAO dao = new MultaDAO();
+        if (multa != null) {
             
-            if (categoria.getIdCategoria() == 0) {
-                if (dao.salvar(categoria)) {
+            if (multa.getIdMulta() == 0) {
+                if (dao.salvar(multa)) {
                     JOptionPane.showMessageDialog(new JFrame(), 
-                        "Categoria \"" + categoria.getNomeCategoria() 
-                            + "\" salva com sucesso!", "Categoria salva!",
+                        "multa salva com sucesso!", "Multa salva",
                             JOptionPane.INFORMATION_MESSAGE);
                     JMain.getInstancia().popJanelaCRUD();
                     return;
                 }
                 
                 JOptionPane.showMessageDialog(new JFrame(),
-                    "Não foi possível salvar a categoria \"" + 
-                        categoria.getNomeCategoria() + "\"!",
-                        "Algo deu errado!", JOptionPane.ERROR_MESSAGE);
+                    "não foi possível salvar a multa",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
                 
             } else {
-                if (dao.alterar(categoria)) {
+                if (dao.alterar(multa)) {
                     JOptionPane.showMessageDialog(new JFrame(), 
-                        "Categoria \"" + categoria.getNomeCategoria() 
-                            + "\" alterada com sucesso!", "Categoria alterada!",
+                        "multa alterada com sucesso!", "Multa alterada",
                             JOptionPane.INFORMATION_MESSAGE);
                     JMain.getInstancia().popJanelaCRUD();
                     return;
                 }
                 
                 JOptionPane.showMessageDialog(new JFrame(),
-                    "Não foi possível alterar a categoria \"" + 
-                        categoria.getNomeCategoria() + "\"!",
-                        "Algo deu errado!", JOptionPane.ERROR_MESSAGE);
+                    "não foi possível alterar a multa",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
         
         lembreteCamposEmBranco();
     }//GEN-LAST:event_jButtonConcluirActionPerformed
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        JMain.getInstancia().popJanelaCRUD();
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
 
         /**
      * Coloca a cor dos componentes para uma cor vermelho claro 
@@ -311,16 +365,16 @@ public class JCadastroCategoria extends javax.swing.JPanel implements IPanelCRUD
     private void lembreteCamposEmBranco(){
         Color cor = new Color(248, 220, 219);
 
-        if (jTextFieldNomeCategoria.getText().isEmpty()) {
-            jTextFieldNomeCategoria.setBackground(cor);
+        if (jFormattedTextFieldValor.getText().isEmpty()) {
+            jFormattedTextFieldValor.setBackground(cor);
         } else {
-            jTextFieldNomeCategoria.setBackground(Color.WHITE);
+            jFormattedTextFieldValor.setBackground(Color.WHITE);
         }
 
-        if (jTextAreaDescCategoria.getText().isEmpty()) {
-            jTextAreaDescCategoria.setBackground(cor);
+        if (jTextAreaDescMulta.getText().isEmpty()) {
+            jTextAreaDescMulta.setBackground(cor);
         } else {
-            jTextAreaDescCategoria.setBackground(Color.WHITE);
+            jTextAreaDescMulta.setBackground(Color.WHITE);
         }
     }
 
@@ -333,6 +387,7 @@ public class JCadastroCategoria extends javax.swing.JPanel implements IPanelCRUD
     private javax.swing.Box.Filler fillerUpper;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonConcluir;
+    private javax.swing.JFormattedTextField jFormattedTextFieldValor;
     private javax.swing.JLabel jLabelDescCategoria;
     private javax.swing.JLabel jLabelHeader;
     private javax.swing.JLabel jLabelNomeCategoria;
@@ -340,8 +395,7 @@ public class JCadastroCategoria extends javax.swing.JPanel implements IPanelCRUD
     private javax.swing.JPanel jPanelForm;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextAreaDescCategoria;
     private javax.swing.JTextArea jTextAreaDescCategoria1;
-    private javax.swing.JTextField jTextFieldNomeCategoria;
+    private javax.swing.JTextArea jTextAreaDescMulta;
     // End of variables declaration//GEN-END:variables
 }

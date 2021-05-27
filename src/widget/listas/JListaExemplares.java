@@ -228,6 +228,18 @@ public class JListaExemplares extends javax.swing.JPanel implements IListaDados,
                 }
             }
         } while (len > 0);
+        
+        // linha não encontrada, retorna o componente na ultima linha se colidir
+        Component linha = jPanelExemplares.getComponent(jPanelExemplares.getComponentCount() - 1);
+        Point pos = linha.getLocation();
+        
+        Component p = linha.getComponentAt(
+            new Point(pt.x - pos.x, pt.y - pos.y)
+        );
+        if (p != linha) {
+            return p;
+        }
+        
         return null;
     }
     

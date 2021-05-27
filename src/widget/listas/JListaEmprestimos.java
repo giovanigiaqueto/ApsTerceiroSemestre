@@ -211,11 +211,13 @@ public class JListaEmprestimos extends javax.swing.JPanel implements IListaDados
                 // DEBUG System.out.println("inc");
                 idx += len;
             } else {
-                // componente encontrado por procura binaria, teste de colisao
-                if (pt.x >= pos.x && pt.x < pos.x + dim.width) {
-                    return comp;
+                // linha encontrada, retorna o componente dentro da linha que colidir
+                Component p = comp.getComponentAt(
+                    new Point(pt.x - pos.x, pt.y - pos.y)
+                );
+                if (p != comp) {
+                    return p;
                 }
-                return null;
             }
         } while (len > 0);
         return null;

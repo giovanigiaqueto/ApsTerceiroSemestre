@@ -1,10 +1,20 @@
 package widget.dados;
 
+// modelo
 import model.Multa;
+import model.Usuario;
+import model.Cliente;
+import model.Emprestimo;
+
+// dao
 import dao.UsuarioDAO;
+import dao.ClienteDAO;
+import dao.EmprestimoDAO;
 
 public class JDadosMulta extends javax.swing.JPanel {
 
+    private Multa multa;
+    
     /**
      * Creates new form JDadosMulta
      */
@@ -14,20 +24,50 @@ public class JDadosMulta extends javax.swing.JPanel {
     
     public JDadosMulta(Multa multa) {
         this();
-        RuntimeException exception = null;
+        this.setMulta(multa);
+    }
+    
+    // ========== GETTERS ==========
+    
+    public Multa getMulta() {
+        return this.multa;
+    }
+
+    // ========== SETTERS ==========
+    
+    public void setMulta(Multa multa) {
         
-        String usuario = "Usuário Desconhecido";
-        try {
-            UsuarioDAO dao = new UsuarioDAO();
+        if (multa != null) {
+            Usuario usuario = null;
+            try {
+                UsuarioDAO dao = new UsuarioDAO();
+                usuario = dao.procurarUsuario(multa.getIdMulta());
+            } catch(RuntimeException e) {}
             
+            Cliente cliente = null;
+            try {
+                EmprestimoDAO daoEmprestimo = new EmprestimoDAO();
+                ClienteDAO daoCliente = new ClienteDAO();
+                
+                Emprestimo emprestimo =
+                    daoEmprestimo.procurarEmprestimo(multa.getIdMultaEmprestimo());
+                cliente = daoCliente.procurarCliente(emprestimo.getIdEmprestimoCliente());
+                
+            } catch(RuntimeException e) {}
             
-        } catch(RuntimeException e) {
+            jTextFieldCliente.setText(
+                usuario != null ? cliente.getNomeCliente():"cliente desconhecido"
+            );
+            jTextFieldUsuario.setText(
+                usuario != null ? usuario.getNomeUsuario():"usuário desconhecido"
+            );
             
+            jTextFieldValor.setText(String.valueOf(multa.getValorMulta()) + " R$");
+            jTextFieldEstado.setText(multa.getPagamentoMulta() ? "paga":"pendente");
+            jTextAreaDescricao.setText(multa.getDescricaoMulta());
         }
-        jTextFieldUsuario.setText(usuario);
-        jTextFieldValor.setText(String.valueOf(multa.getValorMulta()) + " R$");
-        jTextFieldEstado.setText(multa.getPagamentoMulta() ? "paga":"pendente");
-        jTextAreaDescricao.setText(multa.getDescricaoMulta());
+        
+        this.multa = multa;
     }
 
     /**
@@ -48,11 +88,13 @@ public class JDadosMulta extends javax.swing.JPanel {
         jTextFieldValor = new javax.swing.JTextField();
         jTextFieldEstado = new javax.swing.JTextField();
         jLabelDescricao = new javax.swing.JLabel();
+        jLabelCliente = new javax.swing.JLabel();
+        jTextFieldCliente = new javax.swing.JTextField();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        setMaximumSize(new java.awt.Dimension(400, 281));
-        setMinimumSize(new java.awt.Dimension(400, 281));
-        setPreferredSize(new java.awt.Dimension(400, 281));
+        setMaximumSize(new java.awt.Dimension(400, 356));
+        setMinimumSize(new java.awt.Dimension(400, 356));
+        setPreferredSize(new java.awt.Dimension(400, 356));
 
         jLabelValor.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabelValor.setText("Valor:");
@@ -103,6 +145,14 @@ public class JDadosMulta extends javax.swing.JPanel {
         jLabelDescricao.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabelDescricao.setText("Descrição da Multa:");
 
+        jLabelCliente.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabelCliente.setText("Cliente:");
+
+        jTextFieldCliente.setEditable(false);
+        jTextFieldCliente.setBackground(new java.awt.Color(255, 255, 255));
+        jTextFieldCliente.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jTextFieldCliente.setMargin(new java.awt.Insets(2, 2, 2, 2));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -123,7 +173,9 @@ public class JDadosMulta extends javax.swing.JPanel {
                             .addComponent(jTextFieldEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jLabelUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabelDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextFieldCliente))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -138,6 +190,10 @@ public class JDadosMulta extends javax.swing.JPanel {
                     .addComponent(jTextFieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
+                .addComponent(jLabelCliente)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabelUsuario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -145,18 +201,20 @@ public class JDadosMulta extends javax.swing.JPanel {
                 .addComponent(jLabelDescricao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabelCliente;
     private javax.swing.JLabel jLabelDescricao;
     private javax.swing.JLabel jLabelEstado;
     private javax.swing.JLabel jLabelUsuario;
     private javax.swing.JLabel jLabelValor;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextArea jTextAreaDescricao;
+    private javax.swing.JTextField jTextFieldCliente;
     private javax.swing.JTextField jTextFieldEstado;
     private javax.swing.JTextField jTextFieldUsuario;
     private javax.swing.JTextField jTextFieldValor;

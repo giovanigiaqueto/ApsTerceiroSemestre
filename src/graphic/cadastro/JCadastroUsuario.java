@@ -7,9 +7,16 @@ import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 // awt
 import java.awt.Color;
+
+// java security
+import java.security.NoSuchAlgorithmException;
 
 // dao
 import dao.UsuarioDAO;
@@ -20,6 +27,8 @@ import model.Usuario;
 
 // suporte
 import widget.support.IPanelCRUD;
+import static internal.JMain.sha256;
+import static internal.JMain.bytesToHex;
 
 public class JCadastroUsuario extends javax.swing.JPanel implements IPanelCRUD {
     
@@ -192,36 +201,36 @@ public class JCadastroUsuario extends javax.swing.JPanel implements IPanelCRUD {
             
             boolean sucesso;
             switch (endereco.length) {
-            case 4:
-                jTextFieldComplemento.setText(endereco[0]);
-                jTextFieldRua.setText(endereco[1]);
-                jTextFieldNumero.setText(endereco[2]);
-                jTextFieldCidade.setText(endereco[3]);
+            case 5:
+                jTextFieldComplemento.setText(endereco[0].strip());
+                jTextFieldRua.setText(endereco[1].strip());
+                jTextFieldNumero.setText(endereco[2].strip());
+                jTextFieldCidade.setText(endereco[3].strip());
                 sucesso = false;
                 for (int i = 0; i < jComboBoxEstado.getItemCount(); ++i) {
-                    if (endereco.equals(jComboBoxEstado.getItemAt(WIDTH))) {
+                    if (endereco[4].strip().equals(jComboBoxEstado.getItemAt(WIDTH))) {
                         jComboBoxEstado.setSelectedIndex(i);
                         sucesso = true;
                     }
                 }
                 if (!sucesso) {
-                    jComboBoxEstado.setSelectedItem("");
+                    jComboBoxEstado.setSelectedItem(endereco[4].strip());
                 }
                 break;
-            case 3:
+            case 4:
                 jTextFieldComplemento.setText("");
-                jTextFieldRua.setText(endereco[0]);
-                jTextFieldNumero.setText(endereco[1]);
-                jTextFieldCidade.setText(endereco[2]);
+                jTextFieldRua.setText(endereco[0].strip());
+                jTextFieldNumero.setText(endereco[1].strip());
+                jTextFieldCidade.setText(endereco[2].strip());
                 sucesso = false;
                 for (int i = 0; i < jComboBoxEstado.getItemCount(); ++i) {
-                    if (endereco.equals(jComboBoxEstado.getItemAt(WIDTH))) {
+                    if (endereco[3].strip().equals(jComboBoxEstado.getItemAt(WIDTH))) {
                         jComboBoxEstado.setSelectedIndex(i);
                         sucesso = true;
                     }
                 }
                 if (!sucesso) {
-                    jComboBoxEstado.setSelectedItem("");
+                    jComboBoxEstado.setSelectedItem(endereco[3].strip());
                 }
                 break;
             default:
@@ -570,8 +579,48 @@ public class JCadastroUsuario extends javax.swing.JPanel implements IPanelCRUD {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmarActionPerformed
+        
         Usuario usuario = this.__innerGetUsuario(true);
         if (usuario != null) {
+            
+            final JComponent[] inputs = new JComponent[] {
+                new JLabel("Senha"), new JPasswordField(),
+                new JLabel("Senha (confirmar)"), new JPasswordField()
+            };
+            
+            while (true) {
+                // ler senha
+                int resultado =
+                    JOptionPane.showConfirmDialog(null, inputs,
+                        "Senha", JOptionPane.PLAIN_MESSAGE);    
+
+                // cancelamento
+                if (resultado != JOptionPane.OK_OPTION) return;
+                
+                // senha errada
+                if ((new String(((JPasswordField) inputs[1]).getPassword())).trim().equals(
+                    (new String(((JPasswordField) inputs[3]).getPassword())).trim())) {
+                    break;
+                }
+                
+                JOptionPane.showMessageDialog(null, "as senhas diferem",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+
+            String nome = ((JTextField) inputs[1]).getText();
+            String senhaHash = "";
+
+            try {
+                senhaHash = bytesToHex(sha256(
+                    new String(((JPasswordField) inputs[3]).getPassword())
+                ));
+            } catch(NoSuchAlgorithmException e) {
+                JOptionPane.showMessageDialog(null, "SHA-256 não suportado",
+                    "Erro", JOptionPane.PLAIN_MESSAGE);    
+            }
+            
+            usuario.setSenhaUsuario(senhaHash);
+            
             UsuarioDAO dao = new UsuarioDAO();
             if (usuario.getIdUsuario() == 0) {
                 if (!dao.salvar(usuario)) {
@@ -579,6 +628,10 @@ public class JCadastroUsuario extends javax.swing.JPanel implements IPanelCRUD {
                         "não foi possível salvar o usuário", "Erro",
                         JOptionPane.ERROR_MESSAGE);
                     return;
+                } else {
+                    JOptionPane.showMessageDialog(null, 
+                        "usuário cadastrado", "Aviso",
+                        JOptionPane.PLAIN_MESSAGE);
                 }
             } else if (!dao.alterar(usuario)) {
                 
@@ -587,11 +640,11 @@ public class JCadastroUsuario extends javax.swing.JPanel implements IPanelCRUD {
                     JOptionPane.ERROR_MESSAGE);
                 
                 return;
+            } else {
+                JOptionPane.showMessageDialog(null, 
+                    "usuário alterado", "Aviso",
+                    JOptionPane.PLAIN_MESSAGE);
             }
-            
-            JOptionPane.showMessageDialog(null, 
-                "cliente cadastrado", "Aviso",
-                JOptionPane.PLAIN_MESSAGE);
             
             JMain.getInstancia().popJanelaCRUD();
         }

@@ -27,18 +27,17 @@ import java.security.NoSuchAlgorithmException;
 import java.nio.charset.StandardCharsets;
 
 // dao
-import dao.UsuarioDAO;
+import dao.*;
 
 // modelo
-import model.Usuario;
-import model.Cliente;
-import model.Livro;
+import model.*;
 
 // dados
 import widget.dados.*;
 
 // suporte
 import widget.support.IPanelCRUD;
+import widget.support.IComponenteLivro;
 
 // cadastro
 import graphic.cadastro.*;
@@ -57,7 +56,7 @@ import graphic.ContaJCliente;
 public class JMain extends javax.swing.JFrame {
     
     // sauce: https://www.baeldung.com/sha-256-hashing-java
-    private static String bytesToHex(byte[] hash) {
+    public static String bytesToHex(byte[] hash) {
         StringBuilder hexString = new StringBuilder(2 * hash.length);
         for (int i = 0; i < hash.length; i++) {
             String hex = Integer.toHexString(0xff & hash[i]);
@@ -119,12 +118,6 @@ public class JMain extends javax.swing.JFrame {
         RemoverLivro,
         RemoverEmprestimo,
         RemoverMulta,
-        
-        // ========== Extras ==========
-        
-        ContaCliente,
-        ContaUsuario,
-        Checkout
     }
     
     private class MessageDialogPrimer {
@@ -192,6 +185,8 @@ public class JMain extends javax.swing.JFrame {
         jMenuItemCadastrarCategoria.addActionListener(listenerCadastrar);
         jMenuItemCadastrarLivro.addActionListener(listenerCadastrar);
         jMenuItemCadastrarExemplar.addActionListener(listenerCadastrar);
+        jMenuItemCadastrarEmprestimo.addActionListener(listenerCadastrar);
+        jMenuItemCadastrarMulta.addActionListener(listenerCadastrar);
         
         // -------------------- Listagem --------------------
         
@@ -208,7 +203,7 @@ public class JMain extends javax.swing.JFrame {
         jMenuItemListarEmprestimo.addActionListener(listenerListagem);
         jMenuItemListarMulta.addActionListener(listenerListagem);
         
-        // -------------------- Listagem --------------------
+        // -------------------- Alterar --------------------
         
         ActionListener alterarListagem = new ActionListener() {
             @Override
@@ -220,6 +215,7 @@ public class JMain extends javax.swing.JFrame {
         jMenuItemAlterarCategoria.addActionListener(alterarListagem);
         jMenuItemAlterarLivro.addActionListener(alterarListagem);
         jMenuItemAlterarExemplar.addActionListener(alterarListagem);
+        jMenuItemAlterarMulta.addActionListener(alterarListagem);
         
         // -------------------- Remoção --------------------
         
@@ -260,6 +256,8 @@ public class JMain extends javax.swing.JFrame {
         jMenuItemCadastrarCategoria = new javax.swing.JMenuItem();
         jMenuItemCadastrarLivro = new javax.swing.JMenuItem();
         jMenuItemCadastrarExemplar = new javax.swing.JMenuItem();
+        jMenuItemCadastrarEmprestimo = new javax.swing.JMenuItem();
+        jMenuItemCadastrarMulta = new javax.swing.JMenuItem();
         jMenuListar = new javax.swing.JMenu();
         jMenuItemListarUsuario = new javax.swing.JMenuItem();
         jMenuItemListarCliente = new javax.swing.JMenuItem();
@@ -274,6 +272,7 @@ public class JMain extends javax.swing.JFrame {
         jMenuItemAlterarCategoria = new javax.swing.JMenuItem();
         jMenuItemAlterarLivro = new javax.swing.JMenuItem();
         jMenuItemAlterarExemplar = new javax.swing.JMenuItem();
+        jMenuItemAlterarMulta = new javax.swing.JMenuItem();
         jMenuRemover = new javax.swing.JMenu();
         jMenuItemRemoverUsuario = new javax.swing.JMenuItem();
         jMenuItemRemoverCliente = new javax.swing.JMenuItem();
@@ -304,6 +303,12 @@ public class JMain extends javax.swing.JFrame {
 
         jMenuItemCadastrarExemplar.setText("Exemplar");
         jMenuCadastrar.add(jMenuItemCadastrarExemplar);
+
+        jMenuItemCadastrarEmprestimo.setText("Empréstimo");
+        jMenuCadastrar.add(jMenuItemCadastrarEmprestimo);
+
+        jMenuItemCadastrarMulta.setText("Multa");
+        jMenuCadastrar.add(jMenuItemCadastrarMulta);
 
         jMenuBar.add(jMenuCadastrar);
 
@@ -348,6 +353,9 @@ public class JMain extends javax.swing.JFrame {
 
         jMenuItemAlterarExemplar.setText("Exemplar");
         jMenuAlterar.add(jMenuItemAlterarExemplar);
+
+        jMenuItemAlterarMulta.setText("Multa");
+        jMenuAlterar.add(jMenuItemAlterarMulta);
 
         jMenuBar.add(jMenuAlterar);
 
@@ -431,6 +439,12 @@ public class JMain extends javax.swing.JFrame {
             case "exemplar":
                 setJanela(JanelaCRUD.CadastroExemplar);
                 break;
+            case "empréstimo":
+                setJanela(JanelaCRUD.CadastroEmprestimo);
+                break;
+            case "multa":
+                setJanela(JanelaCRUD.CadastroMulta);
+                break;
         }
         
     }
@@ -461,6 +475,29 @@ public class JMain extends javax.swing.JFrame {
         }
         
     }
+    private void AlterarCRUD(ActionEvent evt) {
+        
+        switch (evt.getActionCommand().toLowerCase()) {
+            case "usuário":
+                setJanela(JanelaCRUD.AlterarUsuario);
+                break;
+            case "cliente":
+                setJanela(JanelaCRUD.AlterarCliente);
+                break;
+            case "categoria":
+                setJanela(JanelaCRUD.AlterarCategoria);
+                break;
+            case "livro":
+                setJanela(JanelaCRUD.AlterarLivro);
+                break;
+            case "exemplar":
+                setJanela(JanelaCRUD.AlterarExemplar);
+                break;
+            case "multa":
+                setJanela(JanelaCRUD.AlterarMulta);
+                break;
+        }
+    }
     private void RemoverCRUD(ActionEvent evt) {
         
         switch (evt.getActionCommand().toLowerCase()) {
@@ -479,25 +516,11 @@ public class JMain extends javax.swing.JFrame {
             case "exemplar":
                 setJanela(JanelaCRUD.RemoverExemplar);
                 break;
-        }
-    }
-    private void AlterarCRUD(ActionEvent evt) {
-        
-        switch (evt.getActionCommand().toLowerCase()) {
-            case "usuário":
-                setJanela(JanelaCRUD.AlterarUsuario);
+            case "empréstimo":
+                setJanela(JanelaCRUD.RemoverEmprestimo);
                 break;
-            case "cliente":
-                setJanela(JanelaCRUD.AlterarCliente);
-                break;
-            case "categoria":
-                setJanela(JanelaCRUD.AlterarCategoria);
-                break;
-            case "livro":
-                setJanela(JanelaCRUD.AlterarLivro);
-                break;
-            case "exemplar":
-                setJanela(JanelaCRUD.AlterarExemplar);
+            case "multa":
+                setJanela(JanelaCRUD.RemoverMulta);
                 break;
         }
     }
@@ -597,15 +620,45 @@ public class JMain extends javax.swing.JFrame {
             case CadastroExemplar:
                 return new JCadastroExemplar();
             case CadastroEmprestimo:
-            case Checkout:
-                panel = new CheckoutJPanel();
-                ((CheckoutJPanel) panel).inserirLivros(livros);
+                panel = new JListaClientes();
+                ((JListaClientes) panel).addObservadorSelecao(
+                    new JListaClientes.ObservadorSelecao() {
+                        @Override
+                        public void selecao(JDadosCliente cliente) {
+                            if (cliente != null) {
+                                IPanelCRUD panel = new CheckoutJPanel(cliente.getCliente());
+                                ((CheckoutJPanel) panel).inserirLivros(livros);
+                                setJanelaCRUD(panel);
+                            }
+                        }
+                    }
+                );
+                ((JListaClientes) panel).setObservarSelecao(true);
+                ((JListaClientes) panel).carregar();
+                this.mensagemCRUD = new MessageDialogPrimer(
+                    "selecione o cliente do emprestimo", "Aviso");
                 return panel;
-            // vindo da janela de conta do usuário ou da lista de emprestimos
             case CadastroMulta:
-                // TODO: adicionar código
-                break;
-            
+                panel = new JListaEmprestimos();
+                ((JListaEmprestimos) panel).addObservadorSelecao(
+                    new JListaEmprestimos.ObservadorSelecao() {
+                        @Override
+                        public void selecao(JDadosEmprestimo emprestimo) {
+                            if (emprestimo != null) {
+                                IPanelCRUD panel =
+                                    new JCadastroMulta(emprestimo.getEmprestimo()
+                                );
+                                setJanelaCRUD(panel);
+                            }
+                        }
+                    }
+                );
+                ((JListaEmprestimos) panel).setObservarSelecao(true);
+                ((JListaEmprestimos) panel).carregar();
+                this.mensagemCRUD = new MessageDialogPrimer(
+                    "selecione um emprestimo para multar", "Aviso");
+                return panel;
+                
             case ListarUsuario:
                 panel = new JListaUsuarios();
                 ((JListaUsuarios) panel).carregar();
@@ -651,7 +704,8 @@ public class JMain extends javax.swing.JFrame {
                 );
                 ((JListaUsuarios) panel).setObservarSelecao(true);
                 ((JListaUsuarios) panel).carregar();
-                this.mensagemCRUD = new MessageDialogPrimer("selecione um usuário", "Aviso");
+                this.mensagemCRUD = new MessageDialogPrimer(
+                    "selecione um usuário para alterar", "Aviso");
                 return panel;
             case AlterarCliente:
                 panel = new JListaClientes();
@@ -668,7 +722,8 @@ public class JMain extends javax.swing.JFrame {
                 );
                 ((JListaClientes) panel).setObservarSelecao(true);
                 ((JListaClientes) panel).carregar();
-                this.mensagemCRUD = new MessageDialogPrimer("selecione um cliente", "Aviso");
+                this.mensagemCRUD = new MessageDialogPrimer(
+                    "selecione um cliente para alterar", "Aviso");
                 return panel;
             case AlterarCategoria:
                 panel = new JListaCategorias();
@@ -676,28 +731,381 @@ public class JMain extends javax.swing.JFrame {
                     new JListaCategorias.ObservadorSelecao() {
                         @Override
                         public void selecao(JDadosCategoria categoria) {
-                            if (cliente != null) {
+                            if (categoria != null) {
                                 IPanelCRUD panel = new JCadastroCategoria(categoria.getCategoria());
                                 setJanelaCRUD(panel);
                             }
                         }
                     }
                 );
-                ((JListaCategoria) panel).setObservarSelecao(true);
-                ((JListaCategoria) panel).carregar();
-                this.mensagemCRUD = new MessageDialogPrimer("selecione uma categoria", "Aviso");
+                ((JListaCategorias) panel).setObservarSelecao(true);
+                ((JListaCategorias) panel).carregar();
+                this.mensagemCRUD = new MessageDialogPrimer(
+                    "selecione uma categoria para alterar", "Aviso");
                 return panel;
             case AlterarExemplar:
+                // não faz sentido ser possível, pois só seria possível
+                // mentir sobre sua data de compra ou do livro que pertence
                 return null;
             case AlterarLivro:
-                return null;
+                panel = new JListaLivros();
+                ((JListaLivros) panel).addObservadorSelecao(
+                    new JListaLivros.ObservadorSelecao() {
+                        @Override
+                        public void selecao(IComponenteLivro iLivro) {
+                            if (iLivro != null) {
+                                IPanelCRUD panel = new JCadastroLivro(iLivro.getLivro());
+                                setJanelaCRUD(panel);
+                            }
+                        }
+                    }
+                );
+                ((JListaLivros) panel).setObservarSelecao(true);
+                ((JListaLivros) panel).carregar();
+                this.mensagemCRUD = new MessageDialogPrimer(
+                    "selecione um livro para alterar", "Aviso");
+                return panel;
             case AlterarEmprestimo:
+                // não faz sentido ser possível, mas pode ser substituido
+                // por remoção do emprestimos e criação de novos
                 return null;
             case AlterarMulta:
-                return null;
+                panel = new JListaMultas();
+                ((JListaMultas) panel).addObservadorSelecao(
+                    new JListaMultas.ObservadorSelecao() {
+                        @Override
+                        public void selecao(JDadosMulta multa) {
+                            if (multa != null) {
+                                IPanelCRUD panel = new JCadastroMulta(null, multa.getMulta());
+                                setJanelaCRUD(panel);
+                            }
+                        }
+                    }
+                );
+                ((JListaMultas) panel).setObservarSelecao(true);
+                ((JListaMultas) panel).carregar();
+                this.mensagemCRUD = new MessageDialogPrimer(
+                    "selecione uma multa para alterar", "Aviso");
+                return panel;
+                
+            case RemoverUsuario:
+                panel = new JListaUsuarios();
+                ((JListaUsuarios) panel).addObservadorSelecao(
+                    new JListaUsuarios.ObservadorSelecao() {
+                        @Override
+                        public void selecao(JDadosUsuario usuario) {
+                            if (usuario != null) {
+                                if (removerUsuario(usuario.getUsuario())) {
+                                    popJanelaCRUD();
+                                }
+                            }
+                        }
+                    }
+                );
+                ((JListaUsuarios) panel).setObservarSelecao(true);
+                ((JListaUsuarios) panel).carregar();
+                this.mensagemCRUD = new MessageDialogPrimer(
+                    "selecione um usuário para remover", "Aviso");
+                return panel;
+            case RemoverCliente:
+                panel = new JListaClientes();
+                ((JListaClientes) panel).addObservadorSelecao(
+                    new JListaClientes.ObservadorSelecao() {
+                        @Override
+                        public void selecao(JDadosCliente cliente) {
+                            if (cliente != null) {
+                                if (removerCliente(cliente.getCliente())) {
+                                    popJanelaCRUD();
+                                }
+                            }
+                        }
+                    }
+                );
+                ((JListaClientes) panel).setObservarSelecao(true);
+                ((JListaClientes) panel).carregar();
+                this.mensagemCRUD = new MessageDialogPrimer(
+                    "selecione um cliente para remover", "Aviso");
+                return panel;
+            case RemoverCategoria:
+                panel = new JListaCategorias();
+                ((JListaCategorias) panel).addObservadorSelecao(
+                    new JListaCategorias.ObservadorSelecao() {
+                        @Override
+                        public void selecao(JDadosCategoria categoria) {
+                            if (categoria != null) {
+                                if (removerCategoria(categoria.getCategoria())) {
+                                    popJanelaCRUD();
+                                }
+                            }
+                        }
+                    }
+                );
+                ((JListaCategorias) panel).setObservarSelecao(true);
+                ((JListaCategorias) panel).carregar();
+                this.mensagemCRUD = new MessageDialogPrimer(
+                    "selecione uma categoria para remover", "Aviso");
+                return panel;
+            case RemoverExemplar:
+                panel = new JListaExemplares();
+                ((JListaExemplares) panel).addObservadorSelecao(
+                    new JListaExemplares.ObservadorSelecao() {
+                        @Override
+                        public void selecao(JDadosExemplar exemplar) {
+                            if (exemplar != null) {
+                                if (removerExemplar(exemplar.getExemplar())) {
+                                    popJanelaCRUD();
+                                }
+                            }
+                        }
+                    }
+                );
+                ((JListaExemplares) panel).setObservarSelecao(true);
+                ((JListaExemplares) panel).carregar();
+                this.mensagemCRUD = new MessageDialogPrimer(
+                    "selecione um exemplar para remover", "Aviso");
+                return panel;
+            case RemoverLivro:
+                panel = new JListaLivros();
+                ((JListaLivros) panel).addObservadorSelecao(
+                    new JListaLivros.ObservadorSelecao() {
+                        @Override
+                        public void selecao(IComponenteLivro iLivro) {
+                            if (iLivro != null) {
+                                if (removerLivro(iLivro.getLivro())) {
+                                    popJanelaCRUD();
+                                }
+                            }
+                        }
+                    }
+                );
+                ((JListaLivros) panel).setObservarSelecao(true);
+                ((JListaLivros) panel).carregar();
+                this.mensagemCRUD = new MessageDialogPrimer(
+                    "selecione um livro para remover", "Aviso");
+                return panel;
+            case RemoverEmprestimo:
+                panel = new JListaEmprestimos();
+                ((JListaEmprestimos) panel).addObservadorSelecao(
+                    new JListaEmprestimos.ObservadorSelecao() {
+                        @Override
+                        public void selecao(JDadosEmprestimo emprestimo) {
+                            if (emprestimo != null) {
+                                if (removerEmprestimo(emprestimo.getEmprestimo())) {
+                                    popJanelaCRUD();
+                                }
+                            }
+                        }
+                    }
+                );
+                ((JListaEmprestimos) panel).setObservarSelecao(true);
+                ((JListaEmprestimos) panel).carregar();
+                this.mensagemCRUD = new MessageDialogPrimer(
+                    "selecione um empréstimo para remover", "Aviso");
+                return panel;
+            case RemoverMulta:
+                panel = new JListaMultas();
+                ((JListaMultas) panel).addObservadorSelecao(
+                    new JListaMultas.ObservadorSelecao() {
+                        @Override
+                        public void selecao(JDadosMulta multa) {
+                            if (multa != null) {
+                                if (removerMulta(multa.getMulta())) {
+                                    popJanelaCRUD();
+                                }
+                            }
+                        }
+                    }
+                );
+                ((JListaMultas) panel).setObservarSelecao(true);
+                ((JListaMultas) panel).carregar();
+                this.mensagemCRUD = new MessageDialogPrimer(
+                    "selecione uma multa para remover", "Aviso");
+                return panel;
         }
         
         return null;
+    }
+    
+    // não reporta erros porque os triggers não foram implementados no BD
+    public boolean removerUsuario(Usuario usuario) {
+        
+        int v = JOptionPane.showConfirmDialog(null,
+            "tem certeza que deseja remover esse usuário?",
+            "Confirmação", JOptionPane.PLAIN_MESSAGE);
+        
+        if (v == JOptionPane.YES_OPTION ||
+            v == JOptionPane.OK_OPTION) {
+            
+            UsuarioDAO dao = new UsuarioDAO();
+            if (!dao.desativar(usuario)) {
+                JOptionPane.showMessageDialog(null,
+                    "não foi possivel remover o usuário pois" +
+                    "ele provavelmente possui um cliente com emprestimos ou multas ativas",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+                
+            } else return true;
+        }
+        
+        return false;
+    }
+    
+    // não reporta erros porque os triggers não foram implementados no BD
+    public boolean removerCliente(Cliente cliente) {
+        
+        int v = JOptionPane.showConfirmDialog(null,
+            "tem certeza que deseja remover esse cliente?",
+            "Confirmação", JOptionPane.PLAIN_MESSAGE);
+        
+        if (v == JOptionPane.YES_OPTION ||
+            v == JOptionPane.OK_OPTION) {
+            
+            ClienteDAO dao = new ClienteDAO();
+            if (!dao.desativar(cliente)) {
+                JOptionPane.showMessageDialog(null,
+                    "não foi possivel remover o cliente pois" +
+                    "ele provavelmente possui empréstimos ou multas ativas",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+                
+            } else return true;
+        }
+        
+        return false;
+    }
+    
+    // não reporta erros porque os triggers não foram implementados no BD
+    public boolean removerCategoria(Categoria categoria) {
+        
+        int v = JOptionPane.showConfirmDialog(null,
+            "tem certeza que deseja remover essa categoria?",
+            "Confirmação", JOptionPane.PLAIN_MESSAGE);
+        
+        if (v == JOptionPane.YES_OPTION ||
+            v == JOptionPane.OK_OPTION) {
+            
+            CategoriaDAO dao = new CategoriaDAO();
+            if (!dao.desativar(categoria)) {
+                JOptionPane.showMessageDialog(null,
+                    "não foi possivel remover a categoria pois" +
+                    "ela provavelmente possui livros que pertencem a ela",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+                
+            } else return true;
+        }
+        
+        return false;
+    }
+    
+    // não reporta erros porque os triggers não foram implementados no BD
+    public boolean removerLivro(Livro livro) {
+        
+        int v = JOptionPane.showConfirmDialog(null,
+            "tem certeza que deseja remover esse livro?",
+            "Confirmação", JOptionPane.PLAIN_MESSAGE);
+        
+        if (v == JOptionPane.YES_OPTION ||
+            v == JOptionPane.OK_OPTION) {
+            
+            LivroDAO dao = new LivroDAO();
+            if (!dao.desativar(livro)) {
+                JOptionPane.showMessageDialog(null,
+                    "não foi possivel remover o livro pois" +
+                    "ele provavelmente possui exemplares ativos",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+                
+            } else return true;
+        }
+        
+        return false;
+    }
+    
+    // não reporta erros porque os triggers não foram implementados no BD
+    public boolean removerExemplar(Exemplar exemplar) {
+        
+        int v = JOptionPane.showConfirmDialog(null,
+            "tem certeza que deseja remover esse exemplar?",
+            "Confirmação", JOptionPane.PLAIN_MESSAGE);
+        
+        if (v == JOptionPane.YES_OPTION ||
+            v == JOptionPane.OK_OPTION) {
+            
+            ExemplarDAO daoExemplar = new ExemplarDAO();
+            if (!daoExemplar.desativar(exemplar.getIdExemplar())) {
+                JOptionPane.showMessageDialog(null,
+                    "não foi possivel remover o exemplar pois " + 
+                    "ele provavelmente está emprestado",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+                
+            } else return true;
+        }
+        
+        return false;
+    }
+    
+    // não reporta erros porque os triggers não foram implementados no BD
+    public boolean removerEmprestimo(Emprestimo emprestimo) {
+        
+        int v = JOptionPane.showConfirmDialog(null,
+            "tem certeza que deseja remover esse emprestimo?",
+            "Confirmação", JOptionPane.PLAIN_MESSAGE);
+        
+        if (v == JOptionPane.YES_OPTION ||
+            v == JOptionPane.OK_OPTION) {
+            
+            EmprestimoDAO daoEmprestimo = new EmprestimoDAO();
+            ExemplarDAO daoExemplar = new ExemplarDAO();
+
+            if (!daoExemplar.ativar(emprestimo.getIdEmprestimoExemplar())) {
+                JOptionPane.showMessageDialog(null,
+                    "não foi possivel remover o emprestimo pois " + 
+                    "seu exemplar não pode ser retornado corretamente",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+
+            } else if (!daoEmprestimo.desativar(emprestimo)) {
+                
+                JOptionPane.showMessageDialog(null,
+                    "não foi possivel remover o emprestimo pois " + 
+                    "ele provavelmente tem multas não pagas",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+                
+                if (!daoExemplar.desativar(emprestimo.getIdEmprestimoExemplar())) {
+                    JOptionPane.showMessageDialog(null,
+                        "o banco entrou em um estado inconsistente",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+                    
+                } else return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    // não reporta erros porque os triggers não foram implementados no BD
+    public boolean removerMulta(Multa multa) {
+        
+        if (!multa.getPagamentoMulta()) {
+            JOptionPane.showMessageDialog(null,
+                "a multa precisa ser paga primeiro",
+                "Erro", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        int v = JOptionPane.showConfirmDialog(null,
+            "tem certeza que deseja remover a multa?",
+            "Confirmação", JOptionPane.PLAIN_MESSAGE);
+        
+        if (v == JOptionPane.YES_OPTION ||
+            v == JOptionPane.OK_OPTION) {
+            
+            MultaDAO dao = new MultaDAO();
+            if (!dao.desativar(multa)) {
+                JOptionPane.showMessageDialog(null,
+                    "não foi possivel remover a multa",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+                
+            } else return true;
+        }
+        
+        return false;
     }
     
     public boolean setJanela(JanelaCRUD janela) {
@@ -848,11 +1256,14 @@ public class JMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemAlterarCliente;
     private javax.swing.JMenuItem jMenuItemAlterarExemplar;
     private javax.swing.JMenuItem jMenuItemAlterarLivro;
+    private javax.swing.JMenuItem jMenuItemAlterarMulta;
     private javax.swing.JMenuItem jMenuItemAlterarUsuario;
     private javax.swing.JMenuItem jMenuItemCadastrarCategoria;
     private javax.swing.JMenuItem jMenuItemCadastrarCliente;
+    private javax.swing.JMenuItem jMenuItemCadastrarEmprestimo;
     private javax.swing.JMenuItem jMenuItemCadastrarExemplar;
     private javax.swing.JMenuItem jMenuItemCadastrarLivro;
+    private javax.swing.JMenuItem jMenuItemCadastrarMulta;
     private javax.swing.JMenuItem jMenuItemCadastrarUsuario;
     private javax.swing.JMenuItem jMenuItemListarCategoria;
     private javax.swing.JMenuItem jMenuItemListarCliente;

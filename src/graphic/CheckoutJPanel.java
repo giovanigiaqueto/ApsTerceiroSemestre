@@ -51,12 +51,17 @@ public class CheckoutJPanel extends javax.swing.JPanel implements IPanelCRUD {
     private IComponenteLivro iLivroSelecionado;
     private Map<Integer, Exemplar> exemplares;
     
+    private Cliente cliente;
+    
     /**
      * Creates new form CheckoutJPanel
+     * 
+     * @cliente o cliente do empréstimo
      */
-    public CheckoutJPanel() {
+    public CheckoutJPanel(Cliente cliente) {
         initComponents();
         init();
+        this.cliente = cliente;
     }
     
     {
@@ -370,7 +375,7 @@ public class CheckoutJPanel extends javax.swing.JPanel implements IPanelCRUD {
             }
             
             Usuario usuario = main.usuario;
-            Cliente cliente = main.cliente;
+            Cliente cliente = this.cliente;
             if (usuario == null) {
                 
                 JOptionPane.showMessageDialog(new JFrame(),
